@@ -24,6 +24,11 @@ jobs:
       - run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
+      - name: Cleanup old artifacts
+        uses: actions/delete-package-versions@v5
+        with:
+          package-name: 'otyacraft.engine'
+          package-type: 'maven'
       - name: Upload Build Artifacts forge
         uses: actions/upload-artifact@v4
         with:
