@@ -24,11 +24,6 @@ jobs:
       - run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Cleanup old artifacts
-        uses: actions/delete-package-versions@v5
-        with:
-          package-name: 'otyacraft.engine'
-          package-type: 'maven'
       - name: Upload Build Artifacts forge
         uses: actions/upload-artifact@v4
         with:
@@ -41,3 +36,7 @@ jobs:
           name: OtaycraftEngineRenewedFabric
           path: fabric/build/libs
           compression-level: 9
+      - name: Publish to Github Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./gradlew publish
