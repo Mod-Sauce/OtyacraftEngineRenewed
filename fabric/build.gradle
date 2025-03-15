@@ -92,12 +92,12 @@ components.java {
 
 publishing {
     publications {
-        mavenFabric(MavenPublication) {
-            artifactId = rootProject.archives_base_name + "-" + project.name
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archives_base_name
             from components.java
             pom {
-                name = 'OtyacraftEngine'
-                description = 'My mod integration library.'
+                name = 'OtyacraftEngineRenewed'
+                description = 'A mod integration library.'
                 licenses {
                     license {
                         name = 'GNU Lesser General Public License v3.0'
@@ -106,13 +106,17 @@ publishing {
                 }
                 developers {
                     developer {
-                        id = 'MORIMORI0317'
-                        name = 'MORIMORI0317'
+                        id = 'shadowbee27'
+                        name = 'Shadowbee'
                     }
                     developer {
-                        id = 'FelNull'
-                        name = 'TeamFelNull'
-                        email = 'teamfelnull@felnull.dev'
+                        id = 'Mooo0042'
+                        name = 'Us3r0'
+                    }
+                    developer {
+                        id = 'Mod-Sauce'
+                        name = 'ModSauce'
+                        email = 'ModSauce@disroot.org'
                     }
                 }
             }
