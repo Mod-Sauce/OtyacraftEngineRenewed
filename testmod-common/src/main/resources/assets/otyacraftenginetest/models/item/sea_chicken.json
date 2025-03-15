@@ -1,6 +1,0 @@
-{
-  "loader": "forge:obj",
-  "model": "otyacraftenginetest:models/item/sea_chicken.obj",
-  "flip_v": true,
-  "emissive_ambient": false
-}
