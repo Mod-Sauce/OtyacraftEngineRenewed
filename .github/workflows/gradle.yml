@@ -36,7 +36,3 @@ jobs:
           name: OtaycraftEngineRenewedFabric
           path: fabric/build/libs
           compression-level: 9
-      - name: Publish to Github Packages
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: ./gradlew publish
