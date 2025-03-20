@@ -24,7 +24,7 @@ public class OtyacraftEngine {
     public static void init() {
         CommonHandler.init();
         OEPackets.init();
-        OECriteriaTriggers.init();
+        OECriteriaTriggers.registerModInvolvementTrigger();
         PlayerItemLocations.init();
         
         if (!OEDataGenUtils.isDataGenerating())
