@@ -8,11 +8,8 @@ loom {
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-
     modApi "dev.architectury:architectury:${rootProject.architectury_version}"
-
     modApi "me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}"
-
     implementation "dev.felnull:felnull-java-library:${rootProject.felnull_version}"
     implementation 'com.madgag:animated-gif-lib:1.4'
 }
@@ -33,5 +30,4 @@ publishing {
             from(components.java)
         }
     }
-}
 }
