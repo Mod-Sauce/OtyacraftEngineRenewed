@@ -93,17 +93,17 @@ components.java {
 publishing {
     repositories {
         maven {
-            name = "RepsyMaven"
-            url = "https://repo.repsy.io/mvn/mod-sauce/otyacraftenginerenewed"
+            url repsyUrl
             credentials {
-                username = "Mooo0042" // replace if different for Repsy
-                password = project.findProperty("repsy.password") ?: System.getenv("REPSY_PASSWORD") // or whatever env variable you choose
+                username repsyUsername
+                password repsyPassword
             }
         }
     }
+
     publications {
-        gpr(MavenPublication) {
-            from(components.java)
+        maven(MavenPublication) {
+            from components.java
         }
     }
 }
