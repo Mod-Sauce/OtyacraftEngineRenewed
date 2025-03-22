@@ -20,4 +20,4 @@ jobs:
           arguments: publish
         env:
           TOKEN: ${{ secrets.JAVA_TOKEN }}
-          USERNAME: 'shadowbee27'
+          USERNAME: 'Shadowbee27'
