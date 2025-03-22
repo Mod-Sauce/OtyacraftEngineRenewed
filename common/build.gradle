@@ -24,7 +24,6 @@ publishing {
             }
         }
     }
-
     publications {
         gpr(MavenPublication) {
             from(components.java)
@@ -33,3 +32,4 @@ publishing {
             version = rootProject.version
         }
     }
+}
