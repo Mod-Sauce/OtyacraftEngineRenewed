@@ -19,5 +19,5 @@ jobs:
         with:
           arguments: publish
         env:
-          GITHUB_TOKEN: ${{ secrets.JAVA_TOKEN }}
-          USER_NAME: 'shadowbee27'
+          TOKEN: ${{ secrets.JAVA_TOKEN }}
+          USERNAME: 'shadowbee27'
