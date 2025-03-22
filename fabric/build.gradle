@@ -100,7 +100,6 @@ publishing {
             }
         }
     }
-
     publications {
         maven(MavenPublication) {
             from(components.java)
@@ -109,6 +108,7 @@ publishing {
             version = rootProject.version
         }
     }
+}
 /*
 curseforge {
     if (System.getenv('curesforgeapikey') != null && "${project.curesforge_id}" != '') {
