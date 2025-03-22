@@ -93,11 +93,11 @@ components.java {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Mod-Sauce/OtyacraftEngineRenewed")
+            name = "RepsyMaven"
+            url = "https://repsy.io/mod-sauce/maven/otyacraftenginerenewed"
             credentials {
-                username = "Mooo0042"
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                username = "Mooo0042" // replace if different for Repsy
+                password = project.findProperty("repsy.password") ?: System.getenv("REPSY_PASSWORD") // or whatever env variable you choose
             }
         }
     }
