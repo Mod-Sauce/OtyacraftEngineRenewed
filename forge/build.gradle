@@ -92,7 +92,7 @@ components.java {
 }
 
 publishing {
-    repositories {
+/*    repositories {
         maven {
             name = "GitHubPackages"
             url = uri("https://maven.pkg.github.com/Mod-Sauce/otyacraftEngineRenewed")
@@ -102,6 +102,7 @@ publishing {
             }
         }
     }
+    */
     publications {
         gpr(MavenPublication) {
             from(components.java)
