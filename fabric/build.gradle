@@ -92,48 +92,22 @@ components.java {
 
 publishing {
     publications {
-        mavenCommon(MavenPublication) {
-            artifactId = rootProject.archives_base_name
+        maven(MavenPublication) {
             from components.java
-            pom {
-                name = 'OtyacraftEngineRenewed'
-                description = 'A mod integration library.'
-                licenses {
-                    license {
-                        name = 'GNU Lesser General Public License v3.0'
-                        url = 'https://www.gnu.org/licenses/lgpl-3.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'shadowbee27'
-                        name = 'Shadowbee'
-                    }
-                    developer {
-                        id = 'Mooo0042'
-                        name = 'Us3r0'
-                    }
-                    developer {
-                        id = 'Mod-Sauce'
-                        name = 'ModSauce'
-                        email = 'ModSauce@disroot.org'
-                    }
-                }
-            }
         }
     }
-
     repositories {
         maven {
-            url "${project.maven_put_url}"
+            name = "GitHubPackages"
+            url = "https://maven.pkg.github.com/Mod-Sauce/otyacraftEngineRenewed"
             credentials {
-                username = "felnull"
-                password = "${project.maven_put_pass}" != '' ? "${project.maven_put_pass}" : System.getenv('mavenpassword')
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
 }
-
+/*
 curseforge {
     if (System.getenv('curesforgeapikey') != null && "${project.curesforge_id}" != '') {
         apiKey = System.getenv('curesforgeapikey')
@@ -193,4 +167,4 @@ if (System.getenv('modrinthapikey') != null && "${modrinth_id}" != '') {
         }
         changelog = file('../LATEST_CHANGELOG.md').text
     }
-}
+}*/

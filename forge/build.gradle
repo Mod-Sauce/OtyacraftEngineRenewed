@@ -94,33 +94,7 @@ components.java {
 publishing {
     publications {
         mavenCommon(MavenPublication) {
-            artifactId = rootProject.archives_base_name
             from components.java
-            pom {
-                name = 'OtyacraftEngineRenewed'
-                description = 'A mod integration library.'
-                licenses {
-                    license {
-                        name = 'GNU Lesser General Public License v3.0'
-                        url = 'https://www.gnu.org/licenses/lgpl-3.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'shadowbee27'
-                        name = 'Shadowbee'
-                    }
-                    developer {
-                        id = 'Mooo0042'
-                        name = 'Us3r0'
-                    }
-                    developer {
-                        id = 'Mod-Sauce'
-                        name = 'ModSauce'
-                        email = 'ModSauce@disroot.org'
-                    }
-                }
-            }
         }
     }
 }
