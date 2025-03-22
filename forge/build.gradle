@@ -104,7 +104,9 @@ publishing {
 
     publications {
         maven(MavenPublication) {
-            from components.java
+            from(components.java)
+            groupId = "dev" // or whatever you want
+            artifactId = "otyacraftengine-forge" // fabric, forge, or nothing
+            version = rootProject.version
         }
     }
-}
