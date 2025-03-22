@@ -104,8 +104,8 @@ publishing {
     publications {
         maven(MavenPublication) {
             from(components.java)
-            groupId = "dev/felnull" // or whatever you want
-            artifactId = "otyacraftengine-forge" // fabric, forge, or nothing
+            groupId = "dev" // or whatever you want
+            artifactId = "felnull/otyacraftengine-forge" // fabric, forge, or nothing
             version = rootProject.version
         }
     }
