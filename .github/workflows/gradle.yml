@@ -36,3 +36,5 @@ jobs:
           name: OtaycraftEngineRenewedFabric
           path: fabric/build/libs
           compression-level: 9
+        env:
+          TOKEN: ${{ secrets.JAVA_TOKEN1 }}
