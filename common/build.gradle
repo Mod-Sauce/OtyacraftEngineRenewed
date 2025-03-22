@@ -21,7 +21,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Mod-Sauce/otyacraftEngineRenewed")
+            url = uri("https://maven.pkg.github.com/Mod-Sauce/OtyacraftEngineRenewed")
             credentials {
                 username = "Mooo0042"
                 password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
