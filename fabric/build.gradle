@@ -103,10 +103,12 @@ publishing {
 
     publications {
         maven(MavenPublication) {
-            from components.java
+            from(components.java)
+            groupId = "dev" // or whatever you want
+            artifactId = "otyacraftengine-fabric" // fabric, forge, or nothing
+            version = rootProject.version
         }
     }
-}
 /*
 curseforge {
     if (System.getenv('curesforgeapikey') != null && "${project.curesforge_id}" != '') {
