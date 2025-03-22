@@ -15,19 +15,20 @@ dependencies {
 }
 
 publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+
     repositories {
         maven {
-            name = "RepsyMaven"
-            url = "https://repo.repsy.io/mvn/mod-sauce/otyacraftenginerenewed"
+            url repsyUrl
             credentials {
-                username = "Mod-Sauce" // replace if different for Repsy
-                password = project.findProperty("repsy.password") ?: System.getenv("REPSY_PASSWORD") // or whatever env variable you choose
+                username repsyUsername
+                password repsyPassword
             }
         }
     }
-    publications {
-        gpr(MavenPublication) {
-            from(components.java)
-        }
-    }
 }
+
