@@ -101,7 +101,6 @@ publishing {
             }
         }
     }
-
     publications {
         maven(MavenPublication) {
             from(components.java)
@@ -110,3 +109,4 @@ publishing {
             version = rootProject.version
         }
     }
+}
