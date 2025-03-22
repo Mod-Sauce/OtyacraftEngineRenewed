@@ -27,8 +27,8 @@ publishing {
     publications {
         gpr(MavenPublication) {
             from(components.java)
-            groupId = "dev" // or whatever you want
-            artifactId = "felnull/otyacraftengine" // fabric, forge, or nothing
+            groupId = "dev.felnull" // or whatever you want
+            artifactId = "otyacraftengine" // fabric, forge, or nothing
             version = rootProject.version
         }
     }
