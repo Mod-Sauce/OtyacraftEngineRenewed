@@ -94,7 +94,7 @@ publishing {
     repositories {
         maven {
             name = "RepsyMaven"
-            url = "https://repsy.io/mod-sauce/maven/otyacraftenginerenewed"
+            url = "https://repo.repsy.io/mvn/mod-sauce/otyacraftenginerenewed"
             credentials {
                 username = "Mooo0042" // replace if different for Repsy
                 password = project.findProperty("repsy.password") ?: System.getenv("REPSY_PASSWORD") // or whatever env variable you choose
