@@ -34,7 +34,7 @@ configurations {
 dependencies {
     forge "net.minecraftforge:forge:${rootProject.forge_version}"
     
-    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version}"
+    modApi "dev.architectury:architectury-forge:${rootProject.architectury_version_forge}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
@@ -94,95 +94,7 @@ components.java {
 publishing {
     publications {
         mavenCommon(MavenPublication) {
-            artifactId = rootProject.archives_base_name
             from components.java
-            pom {
-                name = 'OtyacraftEngineRenewed'
-                description = 'A mod integration library.'
-                licenses {
-                    license {
-                        name = 'GNU Lesser General Public License v3.0'
-                        url = 'https://www.gnu.org/licenses/lgpl-3.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id = 'shadowbee27'
-                        name = 'Shadowbee'
-                    }
-                    developer {
-                        id = 'Mooo0042'
-                        name = 'Us3r0'
-                    }
-                    developer {
-                        id = 'Mod-Sauce'
-                        name = 'ModSauce'
-                        email = 'ModSauce@disroot.org'
-                    }
-                }
-            }
         }
-    }
-
-    repositories {
-        maven {
-            url "${project.maven_put_url}"
-            credentials {
-                username = "felnull"
-                password = "${project.maven_put_pass}" != '' ? "${project.maven_put_pass}" : System.getenv('mavenpassword')
-            }
-        }
-    }
-}
-
-curseforge {
-    if (System.getenv('curesforgeapikey') != null && "${project.curesforge_id}" != '') {
-        apiKey = System.getenv('curesforgeapikey')
-        project {
-            id = "${rootProject.curesforge_id}"
-
-            changelogType = 'markdown'
-            changelog = file('../LATEST_CHANGELOG.md')
-
-            releaseType = "${rootProject.release_type}"
-            addGameVersion "${rootProject.minecraft_version}"
-            addGameVersion 'Java 17'
-            addGameVersion "Forge"
-
-            project.support_versions.split(",").each {
-                String version -> addGameVersion version
-            }
-
-            relations {
-                requiredDependency "cloth-config"
-                requiredDependency "architectury-api"
-            }
-
-            mainArtifact(file("${project.buildDir}/libs/${rootProject.archives_base_name}-${project.name}-mc${rootProject.minecraft_version}-${project.mod_version}.jar")) {
-                displayName = "${rootProject.mod_display_name}-${rootProject.minecraft_version}-${project.mod_version}-Forge"
-            }
-
-            addArtifact(file("${project.buildDir}/libs/${rootProject.archives_base_name}-${project.name}-mc${rootProject.minecraft_version}-${project.mod_version}-sources.jar")) {
-                displayName = "${rootProject.mod_display_name}-${rootProject.minecraft_version}-${project.mod_version}-Forge-sources"
-            }
-        }
-    }
-}
-
-if (System.getenv('modrinthapikey') != null && "${modrinth_id}" != '') {
-    modrinth {
-        token = System.getenv('modrinthapikey')
-        projectId = "${rootProject.modrinth_id}"
-        versionName = "${rootProject.mod_display_name}-${rootProject.minecraft_version}-${project.mod_version}-Forge"
-        versionNumber = "${rootProject.minecraft_version}-${project.mod_version}-Forge"
-        versionType = "${project.release_type}"
-        uploadFile = file("${project.buildDir}/libs/${rootProject.archives_base_name}-${project.name}-mc${rootProject.minecraft_version}-${project.mod_version}.jar")
-        gameVersions = List.of(project.support_versions.split(","))
-        loaders = ["forge"]
-        dependencies {
-            required.project("9s6osm5g")//Cloth Config API
-            required.project("lhGA9TYQ")//Architectury API
-        }
-        changelog = file('../LATEST_CHANGELOG.md').text
     }
 }
