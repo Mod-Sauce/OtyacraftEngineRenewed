@@ -24,7 +24,7 @@ publishing {
             url = "https://maven.pkg.github.com/Mod-Sauce/OtyacraftEngineRenewed"
             credentials {
                 username = "Mooo0042"
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                password = project.findProperty("gpr.key") ?: System.getenv(TOKEN)
             }
         }
     }
