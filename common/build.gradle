@@ -15,12 +15,6 @@ dependencies {
 }
 
 publishing {
-    publications {
-        maven(MavenPublication) {
-            from components.java
-        }
-    }
-
     repositories {
         maven {
             url repsyUrl
@@ -30,5 +24,10 @@ publishing {
             }
         }
     }
-}
 
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
