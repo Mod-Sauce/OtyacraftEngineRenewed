@@ -2,19 +2,20 @@
   "schemaVersion": 1,
   "id": "otyacraftengine",
   "version": "${version}",
-  "name": "Otyacraft Engine",
+  "name": "Otyacraft Engine Renewed",
   "description": "Integrated library used by felnull developers.\nThe ikisugi dependency mod...",
   "authors": [
-    "MORIMORI0317"
+    "Shadowbee27",
+    "Mooo0042"
   ],
   "contributors": [
-    "FelNull developers"
+    "Mod Sauce & contributors"
   ],
   "contact": {
-    "email": "teamfelnull@felnull.dev",
-    "homepage": "https://www.curseforge.com/minecraft/mc-mods/otyacraft-engine",
-    "sources": "https://github.com/TeamFelnull/OtyacraftEngine",
-    "issues": "https://github.com/TeamFelnull/OtyacraftEngine/issues"
+    "email": "ModSauce@disroot.org",
+    "homepage": "mod-sauce.github.io/oer.html",
+    "sources": "https://github.com/Mod-Sauce/OtyacraftEngineRenewed/",
+    "issues": "https://github.com/Mod-Sauce/OtyacraftEngineRenewed/issues"
   },
   "license": "GNU LGPLv3",
   "icon": "assets/otyacraftengine/icon.png",
@@ -33,9 +34,9 @@
   ],
   "depends": {
     "fabric": "*",
-    "minecraft": ">=1.20",
-    "architectury": ">=9.0.8",
-    "cloth-config2": ">=11.0.99"
+    "minecraft": "=1.20.1",
+    "architectury": ">=9.2.14",
+    "cloth-config2": ">=11.1.136"
   },
   "custom": {
     "modmenu": {

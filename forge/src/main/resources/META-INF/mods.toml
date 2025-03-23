@@ -1,16 +1,16 @@
 modLoader = "javafml"
-loaderVersion = "[46,)"
-issueTrackerURL = "https://github.com/TeamFelnull/OtyacraftEngine/issues"
+loaderVersion = "47.4.0"
+issueTrackerURL = "https://github.com/Mod-Sauce/OtyacraftEngineRenewed/issues"
 license = "GNU LGPLv3"
 
 [[mods]]
 modId = "otyacraftengine"
 version = "${version}"
 displayName = "Otyacraft Engine"
-displayURL = "https://www.curseforge.com/minecraft/mc-mods/otyacraft-engine"
-updateJSONURL = "https://raw.githubusercontent.com/TeamFelnull/OtyacraftEngine/master/version_check.json"
-authors = "MORIMORI0317"
-credits = "FelNull developers"
+displayURL = "mod-sauce.github.io/oer.html"
+updateJSONURL = ""
+authors = "Shadowbe27, Mooo0042"
+credits = "Mod Sauce & contributers"
 description = '''
 Integrated library used by felnull developers.
 The ikisugi dependency mod...
@@ -23,27 +23,27 @@ catalogueImageIcon = "icon.png"
 [[dependencies.otyacraftengine]]
 modId = "forge"
 mandatory = true
-versionRange = "[46,)"
+versionRange = "47.4.0"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.otyacraftengine]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20,)"
+versionRange = "1.20.1
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.otyacraftengine]]
 modId = "architectury"
 mandatory = true
-versionRange = "[9.0.8,)"
+versionRange = "9.2.14"
 ordering = "AFTER"
 side = "BOTH"
 
 [[dependencies.otyacraftengine]]
 modId = "cloth_config"
 mandatory = true
-versionRange = "[11.0.99,)"
+versionRange = "11.1.136"
 ordering = "NONE"
 side = "BOTH"
