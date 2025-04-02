@@ -23,4 +23,4 @@ jobs:
         env:
           TOKEN: ${{ secrets.JAVA_TOKEN1 }}
           USERNAME: ${{ secrets.USERNAME }}
-          REPSY_PASSWORD: ${{ secrets.PASSWORD }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
