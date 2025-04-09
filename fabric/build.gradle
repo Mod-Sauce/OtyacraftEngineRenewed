@@ -95,8 +95,8 @@ publishing {
         maven {
             url repsyUrl
             credentials {
-                username repsyUsername
-                password repsyPassword
+                username "${rootProject.repsyPassword}"
+                password "${rootProject.repsyUsername}"
             }
         }
     }
