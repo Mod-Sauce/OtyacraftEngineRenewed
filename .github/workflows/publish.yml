@@ -21,6 +21,5 @@ jobs:
         with:
           arguments: publish
         env:
-          TOKEN: ${{ secrets.JAVA_TOKEN1 }}
           USERNAME: ${{ secrets.USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
+          MAVEN_PASSWORD: ${{ secrets.PASSWORD }}
