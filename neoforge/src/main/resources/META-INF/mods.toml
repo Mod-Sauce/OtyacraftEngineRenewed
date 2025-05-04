@@ -3,6 +3,9 @@ loaderVersion = "47.4.0"
 issueTrackerURL = "https://github.com/Mod-Sauce/OtyacraftEngineRenewed/issues"
 license = "GNU LGPLv3"
 
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
 [[mixins]]
 config = "otyacraftengine-common.mixins.json"
 [[mixins]]
