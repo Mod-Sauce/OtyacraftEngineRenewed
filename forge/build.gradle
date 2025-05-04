@@ -94,17 +94,19 @@ components.java {
 publishing {
     repositories {
         maven {
-            name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/Mod-Sauce/otyacraftEngineRenewed")
+            url repsyUrl
             credentials {
-                username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
-                password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+                username "${System.getenv("USERNAME")}"
+                password "${System.getenv("MAVEN_PASSWORD")}"
             }
         }
     }
     publications {
-        gpr(MavenPublication) {
+        maven(MavenPublication) {
             from(components.java)
+            groupId = "dev.felnull" // or whatever you want
+            artifactId = "otyacraftengine-forge" // fabric, forge, or nothing
+            version = rootProject.version
         }
     }
 }
