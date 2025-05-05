@@ -1,7 +1,7 @@
 package dev.felnull.otyacraftengine.explatform.neoforge;
 
 import dev.felnull.fnjl.util.FNReflectionUtil;
-import dev.felnull.otyacraftengine.forge.mixin.MobBucketItemInvoker;
+import dev.felnull.otyacraftengine.neoforge.mixin.MobBucketItemInvoker;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

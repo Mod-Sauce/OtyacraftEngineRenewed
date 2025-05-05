@@ -4,8 +4,7 @@ import dev.felnull.otyacraftengine.data.provider.AdvancementProviderWrapper;
 import dev.felnull.otyacraftengine.data.provider.AdvancementSubProviderWrapper;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
-import net.minecraft.advancements.Advancement;
-import net.minecraft.data.registries.RegistriesDatapackGenerator;
+import net.minecraft.advancements.AdvancementHolder;
 
 import java.util.List;
 import java.util.function.Consumer;
@@ -22,7 +21,7 @@ public class WrappedFabricAdvancementProvider extends FabricAdvancementProvider 
     }
 
     @Override
-    public void generateAdvancement(Consumer<Advancement> consumer) {
+    public void generateAdvancement(Consumer<AdvancementHolder> consumer) {
         for (AdvancementSubProviderWrapper subProviderWrapper : subProviderWrappers) {
             subProviderWrapper.generate(consumer);
         }

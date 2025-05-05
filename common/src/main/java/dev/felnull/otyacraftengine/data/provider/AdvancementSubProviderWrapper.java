@@ -1,7 +1,7 @@
 package dev.felnull.otyacraftengine.data.provider;
 
 import dev.felnull.otyacraftengine.data.CrossDataGeneratorAccess;
-import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.network.chat.Component;
 
 import java.util.function.Consumer;
@@ -13,7 +13,7 @@ public abstract class AdvancementSubProviderWrapper implements DataProviderWrapp
         this.crossDataGeneratorAccess = crossDataGeneratorAccess;
     }
 
-    public abstract void generate(Consumer<Advancement> consumer);
+    public abstract void generate(Consumer<AdvancementHolder> consumer);
 
     protected Component modTitle(String name) {
         return title(getCrossGeneratorAccess().getMod().getModId(), name);

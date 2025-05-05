@@ -2,7 +2,7 @@ package dev.felnull.otyacraftengine.explatform.client.forge;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.felnull.otyacraftengine.client.renderer.item.BEWLItemRenderer;
-import dev.felnull.otyacraftengine.forge.client.renderer.item.ItemRendererRegisterForge;
+import dev.felnull.otyacraftengine.neoforge.client.renderer.item.ItemRendererRegisterNeoForge;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.BakedModel;
@@ -25,6 +25,6 @@ public class OEClientExpectPlatformImpl {
     }
 
     public static void registerItemRenderer(ItemLike item, BEWLItemRenderer renderer) {
-        ItemRendererRegisterForge.register(item, renderer);
+        ItemRendererRegisterNeoForge.register(item, renderer);
     }
 }

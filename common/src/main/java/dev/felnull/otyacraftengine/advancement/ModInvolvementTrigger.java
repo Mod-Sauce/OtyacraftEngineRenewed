@@ -9,10 +9,10 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-public class ModInvolvementTrigger extends SimpleCriterionTrigger<ModInvolvementTrigger.TriggerInstance> {
+public abstract class ModInvolvementTrigger extends SimpleCriterionTrigger<ModInvolvementTrigger.TriggerInstance> {
     static final ResourceLocation ID = new ResourceLocation(OtyacraftEngine.MODID, "mod_involvement");
 
-//    @Override
+    @Override
     public ResourceLocation getId() {
         return ID;
     }

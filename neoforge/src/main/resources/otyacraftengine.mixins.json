@@ -1,9 +1,9 @@
 {
   "required": true,
-  "package": "dev.felnull.otyacraftengine.forge.mixin",
+  "package": "dev.felnull.otyacraftengine.neoforge.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "plugin": "dev.felnull.otyacraftengine.forge.mixin.OEMixinPluginNeoforge",
+  "plugin": "dev.felnull.otyacraftengine.neoforge.mixin.OEMixinPluginNeoforge",
   "client": [
     "client.BlockEntityWithoutLevelRendererMixin"
   ],

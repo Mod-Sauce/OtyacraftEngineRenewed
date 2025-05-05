@@ -1,7 +1,7 @@
 package dev.felnull.otyacraftengine.explatform.neoforge;
 
 import com.google.common.collect.ImmutableList;
-import dev.felnull.otyacraftengine.forge.tag.OEForgeItemTags;
+import dev.felnull.otyacraftengine.neoforge.tag.OEForgeItemTags;
 import dev.felnull.otyacraftengine.tag.ManualTagHolder;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
