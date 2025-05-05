@@ -26,7 +26,7 @@ configurations {
     shadowCommon
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
-    developmentneoForge.extendsFrom common
+    developmentNeoforge.extendsFrom common
     neoforgeDependencies.extendsFrom shadowIn
     shadowCommon.extendsFrom shadowIn
 }
@@ -37,7 +37,7 @@ dependencies {
     modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionneoForge")) { transitive = false }
+//    shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     modApi "me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}"
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${rootProject.rei_version}"
