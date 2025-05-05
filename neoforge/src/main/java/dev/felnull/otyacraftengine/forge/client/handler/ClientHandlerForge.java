@@ -5,10 +5,10 @@ import dev.felnull.otyacraftengine.client.event.ClientCameraEvent;
 import dev.felnull.otyacraftengine.client.event.OEClientEventHooks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraftforge.client.event.InputEvent;
-import net.minecraftforge.client.event.ViewportEvent;
-import net.minecraftforge.event.level.LevelEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.InputEvent;
+import net.neoforged.neoforge.client.event.ViewportEvent;
+import net.neoforged.neoforge.event.level.LevelEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 public class ClientHandlerForge {
     private static final Minecraft mc = Minecraft.getInstance();

@@ -2,7 +2,7 @@ package dev.felnull.otyacraftengine.forge.data.model;
 
 import dev.felnull.otyacraftengine.data.model.FileModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
 import org.jetbrains.annotations.NotNull;
 
 public class FileModelImpl implements FileModel {

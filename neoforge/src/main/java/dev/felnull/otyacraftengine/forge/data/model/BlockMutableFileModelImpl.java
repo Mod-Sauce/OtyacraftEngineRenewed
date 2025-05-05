@@ -3,7 +3,7 @@ package dev.felnull.otyacraftengine.forge.data.model;
 import dev.felnull.otyacraftengine.data.model.FileModel;
 import dev.felnull.otyacraftengine.data.model.MutableFileModel;
 import dev.felnull.otyacraftengine.data.model.OverridePredicate;
-import net.minecraftforge.client.model.generators.BlockModelBuilder;
+import net.neoforged.neoforge.client.model.generators.BlockModelBuilder;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;

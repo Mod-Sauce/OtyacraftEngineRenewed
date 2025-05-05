@@ -3,7 +3,7 @@ package dev.felnull.otyacraftengine.forge.client.renderer.item;
 import dev.felnull.otyacraftengine.client.renderer.item.BEWLItemRenderer;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.ItemLike;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -18,7 +18,8 @@ public class ItemRendererRegisterForge {
         Objects.requireNonNull(renderer, "renderer is null");
 
         if (RENDERERS.putIfAbsent(item.asItem(), renderer) != null)
-            throw new IllegalArgumentException("Item " + ForgeRegistries.ITEMS.getKey(item.asItem()) + " already has a builtin renderer!");
+            //Fix Me
+            throw new IllegalArgumentException("Item " + NeoForgeRegistries.ITEMS.getKey(item.asItem()) + " already has a builtin renderer!");
     }
 
     public static BEWLItemRenderer getRenderer(Item item) {

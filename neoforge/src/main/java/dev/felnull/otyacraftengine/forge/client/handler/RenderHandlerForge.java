@@ -1,8 +1,8 @@
 package dev.felnull.otyacraftengine.forge.client.handler;
 
 import dev.felnull.otyacraftengine.client.event.OEClientEventHooks;
-import net.minecraftforge.client.event.RenderHandEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.neoforge.client.event.RenderHandEvent;
+import net.neoforged.bus.api.SubscribeEvent;
 
 public class RenderHandlerForge {
     @SubscribeEvent

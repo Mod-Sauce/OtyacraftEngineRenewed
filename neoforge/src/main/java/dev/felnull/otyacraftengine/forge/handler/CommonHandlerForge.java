@@ -1,9 +1,9 @@
 package dev.felnull.otyacraftengine.forge.handler;
 
 import dev.felnull.otyacraftengine.event.OECommonEventHooks;
-import net.minecraftforge.event.entity.EntityEvent;
-import net.minecraftforge.event.entity.living.LivingEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.neoforge.event.entity.EntityEvent;
+import net.neoforged.neoforge.event.entity.living.LivingEvent;
 
 public class CommonHandlerForge {
     @SubscribeEvent

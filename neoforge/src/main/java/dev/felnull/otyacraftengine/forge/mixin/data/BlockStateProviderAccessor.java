@@ -1,8 +1,8 @@
 package dev.felnull.otyacraftengine.forge.mixin.data;
 
 import net.minecraft.world.level.block.Block;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.client.model.generators.IGeneratedBlockState;
+import net.neoforged.neoforge.client.model.generators.IGeneratedBlockState;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 

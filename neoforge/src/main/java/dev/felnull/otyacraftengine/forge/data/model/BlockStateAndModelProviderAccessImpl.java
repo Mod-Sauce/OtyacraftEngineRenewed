@@ -13,9 +13,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
 import net.minecraft.world.level.block.StairBlock;
-import net.minecraftforge.client.model.generators.*;
-import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.client.model.generators.*;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -219,7 +219,8 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
 
     @Override
     public void parentedBlockItemModel(@NotNull Block block, @NotNull ResourceLocation parentLocation) {
-        var name = Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(block.asItem()));
+        //Fix Me
+        var name = Objects.requireNonNull(NeoForgeRegistries.ITEMS.getKey(block.asItem()));
         this.blockStateProvider.itemModels().getBuilder(name.toString()).parent(new ModelFile.UncheckedModelFile(parentLocation));
     }
 
@@ -242,7 +243,8 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     private ResourceLocation key(Block block) {
-        return ForgeRegistries.BLOCKS.getKey(block);
+        // Fix Me
+        return NeoForgeRegistries.BLOCKS.getKey(block);
     }
 
     private BlockModelBuilder setTexture(BlockModelBuilder blockModelBuilder, String key, FileTexture fileTexture) {

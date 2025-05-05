@@ -3,8 +3,8 @@ package dev.felnull.otyacraftengine.forge.data.provider;
 import dev.felnull.otyacraftengine.data.provider.BlockStateAndModelProviderWrapper;
 import dev.felnull.otyacraftengine.forge.data.model.BlockStateAndModelProviderAccessImpl;
 import net.minecraft.data.PackOutput;
-import net.minecraftforge.client.model.generators.BlockStateProvider;
-import net.minecraftforge.common.data.ExistingFileHelper;
+import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
+import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
 public class WrappedBlockStateProvider extends BlockStateProvider {
     private final BlockStateAndModelProviderWrapper blockStateAndModelProviderWrapper;

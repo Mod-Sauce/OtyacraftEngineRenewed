@@ -10,19 +10,19 @@ import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.neoforge.client.event.EntityRenderersEvent;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 
 @Mod.EventBusSubscriber(modid = OtyacraftEngine.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class ClientBusHandler {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
-        MinecraftForge.EVENT_BUS.register(ClientHandlerForge.class);
-        MinecraftForge.EVENT_BUS.register(RenderHandlerForge.class);
+        NeoForge.EVENT_BUS.register(ClientHandlerForge.class);
+        NeoForge.EVENT_BUS.register(RenderHandlerForge.class);
         OtyacraftEngineClient.init();
     }
 
@@ -32,6 +32,7 @@ public class ClientBusHandler {
             @Override
             public <T extends LivingEntity, M extends EntityModel<T>> void addLayerV2(EntityType<T> entityType, LayerFactory<T, M> layer) {
                 if (entityType == EntityType.PLAYER) {
+                    // Fix me
                     for (String skin : e.getSkins()) {
                         var renderer = e.getSkin(skin);
                         if (renderer != null) {

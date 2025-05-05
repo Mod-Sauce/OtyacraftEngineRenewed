@@ -2,7 +2,7 @@ package dev.felnull.otyacraftengine.forge.data.model;
 
 import dev.felnull.otyacraftengine.data.model.MutableFileModel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraftforge.client.model.generators.ModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ModelBuilder;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class MutableFileModelImpl extends FileModelImpl implements MutableFileModel {

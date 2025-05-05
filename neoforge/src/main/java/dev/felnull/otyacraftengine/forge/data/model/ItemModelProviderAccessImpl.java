@@ -6,10 +6,10 @@ import dev.felnull.otyacraftengine.data.model.ItemModelProviderAccess;
 import dev.felnull.otyacraftengine.data.model.MutableFileModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
-import net.minecraftforge.client.model.generators.ItemModelBuilder;
-import net.minecraftforge.client.model.generators.ItemModelProvider;
-import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
+import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
+import net.neoforged.neoforge.client.model.generators.ModelFile;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
@@ -46,12 +46,13 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
     @Override
     public @NotNull MutableFileModel basicFlatItem(@NotNull Item item, @NotNull ResourceLocation texture) {
-        return basicFlatItem(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)), texture);
+        //Fix Me
+        return basicFlatItem(Objects.requireNonNull(NeoForgeRegistries.ITEMS.getKey(item)), texture);
     }
 
     @Override
     public @NotNull MutableFileModel basicFlatItem(@NotNull Item item, @NotNull FileTexture itemTexture) {
-        return basicFlatItem(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)), itemTexture);
+        return basicFlatItem(Objects.requireNonNull(NeoForgeRegistries.ITEMS.getKey(item)), itemTexture);
     }
 
     @Override
@@ -71,7 +72,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
     @Override
     public @NotNull MutableFileModel handheldFlatItem(@NotNull Item item) {
-        return handheldFlatItem(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)));
+        return handheldFlatItem(Objects.requireNonNull(NeoForgeRegistries.ITEMS.getKey(item)));
     }
 
     @Override
@@ -92,7 +93,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
     @Override
     public @NotNull MutableFileModel parentedItem(@NotNull Item item, @NotNull ResourceLocation parentLocation) {
-        return parentedItem(Objects.requireNonNull(ForgeRegistries.ITEMS.getKey(item)), parentLocation);
+        return parentedItem(Objects.requireNonNull(NeoForgeRegistries.ITEMS.getKey(item)), parentLocation);
     }
 
     @Override

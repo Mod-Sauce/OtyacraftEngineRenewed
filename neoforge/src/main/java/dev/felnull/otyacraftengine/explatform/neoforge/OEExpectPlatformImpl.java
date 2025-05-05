@@ -1,4 +1,4 @@
-package dev.felnull.otyacraftengine.explatform.forge;
+package dev.felnull.otyacraftengine.explatform.neoforge;
 
 import dev.felnull.fnjl.util.FNReflectionUtil;
 import dev.felnull.otyacraftengine.forge.mixin.MobBucketItemInvoker;
@@ -8,8 +8,8 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.MobBucketItem;
-import net.minecraftforge.fml.ModList;
-import net.minecraftforge.forgespi.language.ModFileScanData;
+import net.neoforged.fml.ModList;
+import net.neoforged.neoforgespi.language.ModFileScanData;
 import org.objectweb.asm.Type;
 
 import java.util.ArrayList;

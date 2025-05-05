@@ -1,4 +1,4 @@
-package dev.felnull.otyacraftengine.explatform.forge;
+package dev.felnull.otyacraftengine.explatform.neoforge;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 import dev.felnull.otyacraftengine.blockentity.BlockEntityCreateSupplier;
@@ -9,8 +9,9 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.common.ForgeTier;
-import net.minecraftforge.common.TierSortingRegistry;
+import net.neoforged.neoforge.common.SimpleTier;
+
+
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Supplier;
@@ -27,6 +28,6 @@ public class OERegisterExpectPlatformImpl {
 
     public static Tier createTier(int level, int uses, float speed, float attackDamageBonus, int enchantmentValue, @NotNull TagKey<Block> tag, @NotNull Supplier<Ingredient> repairIngredient) {
      //   TierSortingRegistry.registerTier()
-        return new ForgeTier(level, uses, speed, attackDamageBonus, enchantmentValue, tag, repairIngredient);
+        return new SimpleTier(level, uses, speed, attackDamageBonus, enchantmentValue, tag, repairIngredient);
     }
 }

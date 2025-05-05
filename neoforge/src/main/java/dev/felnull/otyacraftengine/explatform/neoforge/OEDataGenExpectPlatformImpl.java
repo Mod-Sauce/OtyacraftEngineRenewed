@@ -1,6 +1,6 @@
-package dev.felnull.otyacraftengine.explatform.forge;
+package dev.felnull.otyacraftengine.explatform.neoforge;
 
-import net.minecraftforge.data.loading.DatagenModLoader;
+import net.neoforged.neoforge.data.loading.DatagenModLoader;
 
 public class OEDataGenExpectPlatformImpl {
     public static boolean isDataGenerating() {

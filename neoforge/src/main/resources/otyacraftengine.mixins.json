@@ -3,7 +3,7 @@
   "package": "dev.felnull.otyacraftengine.forge.mixin",
   "compatibilityLevel": "JAVA_17",
   "minVersion": "0.8",
-  "plugin": "dev.felnull.otyacraftengine.forge.mixin.OEMixinPluginForge",
+  "plugin": "dev.felnull.otyacraftengine.forge.mixin.OEMixinPluginNeoforge",
   "client": [
     "client.BlockEntityWithoutLevelRendererMixin"
   ],
