@@ -59,6 +59,8 @@ public abstract class OEBasedWidget extends AbstractWidget implements OEBaseComp
         this.onFocusedClick();
     }
 
+    public abstract boolean mouseScrolled(double d, double e, double f);
+
     @Override
     public boolean keyPressed(int i, int j, int k) {
         if (this.active && this.visible) {

@@ -1,6 +1,5 @@
 package dev.felnull.otyacraftengine.client.gui.components;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import dev.felnull.otyacraftengine.client.gui.TextureRegion;
 import dev.felnull.otyacraftengine.client.gui.components.base.OEBasedWidget;
@@ -135,6 +134,7 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
         blitNineSliced(poseStack, bX, bY, this.getIndividualWidth(), this.getIndividualHeight(), 20, 4, 200, 20, 0, this.getTextureY(this.isEntryHovered(bnum)));*/
 
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
+        //Fix me
         guiGraphics.blitNineSliced(WIDGETS_LOCATION, bX, bY, this.getIndividualWidth(), this.getIndividualHeight(), 20, 4, 200, 20, 0, this.getTextureY(this.isEntryHovered(bnum)));
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 

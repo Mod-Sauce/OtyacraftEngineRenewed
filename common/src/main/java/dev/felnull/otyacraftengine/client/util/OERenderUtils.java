@@ -450,6 +450,7 @@ public final class OERenderUtils {
         if (mc.player.isInvisible()) return;
         boolean bl = arm != HumanoidArm.LEFT;
         var pr = (PlayerRenderer) mc.getEntityRenderDispatcher().getRenderer(mc.player);
+        //fix me
         RenderSystem.setShaderTexture(0, mc.player.getSkinTextureLocation());
         if (bl) {
             pr.renderRightHand(poseStack, multiBufferSource, light, mc.player);

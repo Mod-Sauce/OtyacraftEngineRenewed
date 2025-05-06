@@ -164,9 +164,9 @@ public class ClientPlayerInfoManager {
         }
 
         var gp = getLackProfileTolerance(name);
-        var tex = mc.getSkinManager().getInsecureSkinInformation(gp).get(type);
+        var tex = mc.getSkinManager().lookupInsecure(gp).get();
         if (tex != null) {
-            var hr = SKIN_TEXTURE_LOCATION_CACHE.apply(tex.getUrl());
+            var hr = SKIN_TEXTURE_LOCATION_CACHE.apply(tex.textureUrl());
             var mt = MissingTextureAtlasSprite.getTexture();
             var at = mc.getTextureManager().getTexture(hr, mt);
             if (at == mt)
@@ -191,9 +191,9 @@ public class ClientPlayerInfoManager {
 
     private ResourceLocation getTexture(PlayerInfo playerInfo, MinecraftProfileTexture.Type type) {
         return switch (type) {
-            case SKIN -> playerInfo.getSkinLocation();
-            case CAPE -> playerInfo.getCapeLocation();
-            case ELYTRA -> playerInfo.getElytraLocation();
+            case SKIN -> playerInfo.getSkin().texture();
+            case CAPE -> playerInfo.getSkin().capeTexture();
+            case ELYTRA -> playerInfo.getSkin().elytraTexture();
         };
     }
 }

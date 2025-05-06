@@ -30,7 +30,8 @@ public abstract class OEContainerBasedScreen<T extends OEBaseMenu> extends Abstr
 
     @Override
     public void render(GuiGraphics guiGraphics, int i, int j, float f) {
-        this.renderBackground(guiGraphics);
+        //Will this work?
+        this.renderBackground(guiGraphics, i, j, f);
         super.render(guiGraphics, i, j, f);
         this.renderTooltip(guiGraphics, i, j);
     }
@@ -61,7 +62,8 @@ public abstract class OEContainerBasedScreen<T extends OEBaseMenu> extends Abstr
         super.containerTick();
         for (GuiEventListener child : children()) {
             if (child instanceof EditBox editBox) {
-                editBox.tick();
+                //Does this work?
+                editBox.isActive();
             }
         }
     }
