@@ -4,9 +4,9 @@ issueTrackerURL = "https://github.com/Mod-Sauce/OtyacraftEngineRenewed/issues"
 license = "GNU LGPLv3"
 
 [[mods]]
-modId = "otyacraftengine"
+modId = "otyacraftenginerenewed"
 version = "${version}"
-displayName = "Otyacraft Engine"
+displayName = "Otyacraft Engine Renewed"
 displayURL = "mod-sauce.github.io/oer.html"
 updateJSONURL = ""
 authors = "Shadowbe27, Mooo0042"
@@ -20,28 +20,28 @@ logoFile = "logo.png"
 [modproperties.otyacraftengine]
 catalogueImageIcon = "icon.png"
 
-[[dependencies.otyacraftengine]]
+[[dependencies.otyacraftenginerenewed]]
 modId = "forge"
 mandatory = true
 versionRange = "47.4.0"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.otyacraftengine]]
+[[dependencies.otyacraftenginerenewed]]
 modId = "minecraft"
 mandatory = true
-versionRange = "1.20.1"
+versionRange = "1.20.2"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.otyacraftengine]]
+[[dependencies.otyacraftenginerenewed]]
 modId = "architectury"
 mandatory = true
 versionRange = "9.2.14"
 ordering = "AFTER"
 side = "BOTH"
 
-[[dependencies.otyacraftengine]]
+[[dependencies.otyacraftenginerenewed]]
 modId = "cloth_config"
 mandatory = true
 versionRange = "11.1.136"

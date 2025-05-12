@@ -1,0 +1,23 @@
+{
+  "required": true,
+  "package": "dev.felnull.otyacraftengine.forge.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "minVersion": "0.8",
+  "plugin": "org.modsauce.otyacraftenginerenewed.forge.mixin.OEMixinPluginForge",
+  "client": [
+    "org.felnull.otyacraftengine.forge.mixin.client.BlockEntityWithoutLevelRendererMixin"
+  ],
+  "mixins": [
+    "org.felnull.otyacraftengine.forge.mixin.MobBucketItemInvoker",
+    "org.felnull.otyacraftengine.forge.mixin.data.BlockStateProviderAccessor",
+    "org.felnull.otyacraftengine.forge.mixin.data.DataMainMixin",
+    "org.felnull.otyacraftengine.forge.mixin.data.ModelBuilderMixin",
+    "org.felnull.otyacraftengine.forge.mixin.self.EquipmentItemExtender",
+    "org.felnull.otyacraftengine.forge.mixin.self.OEBaseBlockEntityMixin",
+    "org.felnull.otyacraftengine.forge.mixin.self.OEBaseContainerBlockEntityMixin",
+    "org.felnull.otyacraftengine.forge.mixin.self.StackAttributeModifierItemExtender"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

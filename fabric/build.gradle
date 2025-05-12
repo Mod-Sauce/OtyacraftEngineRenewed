@@ -55,15 +55,15 @@ processResources {
 
 shadowJar {
     configurations = [project.configurations.shadowIn]
-    relocate('dev.felnull.fnjl', 'dev.felnull.otyacraftengine.include.dev.felnull.fnjl')
-    relocate 'com.madgag', 'dev.felnull.otyacraftengine.include.com.madgag'
+    relocate('dev.felnull.fnjl', 'org.modsauce.otyacraftenginerenewed.include.dev.felnull.fnjl')
+    relocate 'com.madgag', 'org.modsauce.otyacraftenginerenewed.include.com.madgag'
 }
 
 shadowJar {
     exclude "architectury.common.json"
 
     configurations = [project.configurations.shadowCommon]
-    archiveClassifier.set("dev-shadow")
+    archiveClassifier.set("org-shadow")
 }
 
 remapJar {
@@ -75,7 +75,7 @@ remapJar {
 }
 
 jar {
-    archiveClassifier.set("dev")
+    archiveClassifier.set("org")
 }
 
 sourcesJar {
@@ -103,8 +103,8 @@ publishing {
     publications {
         maven(MavenPublication) {
             from(components.java)
-            groupId = "dev.felnull" // or whatever you want
-            artifactId = "otyacraftengine-fabric" // fabric, forge, or nothing
+            groupId = "org.modsauce" // or whatever you want
+            artifactId = "otyacraftenginerenewed-fabric" // fabric, forge, or nothing
             version = rootProject.version
         }
     }
