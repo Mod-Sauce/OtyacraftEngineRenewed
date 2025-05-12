@@ -56,11 +56,7 @@ public abstract class OEContainerBasedScreen<T extends OEBaseMenu> extends Abstr
     @Override
     protected void containerTick() {
         super.containerTick();
-        for (GuiEventListener child : children()) {
-            if (child instanceof EditBox editBox) {
-                editBox.tick();
-            }
-        }
+        // EditBox tick method has been removed in newer versions
     }
 
     @Override

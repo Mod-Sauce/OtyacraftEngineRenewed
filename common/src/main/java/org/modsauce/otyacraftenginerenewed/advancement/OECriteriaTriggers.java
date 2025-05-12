@@ -6,6 +6,6 @@ public class OECriteriaTriggers {
     public static final ModInvolvementTrigger MOD_INVOLVEMENT_TRIGGER = new ModInvolvementTrigger();
 
     public static void init() {
-        CriteriaTriggers.register(MOD_INVOLVEMENT_TRIGGER);
+        CriteriaTriggers.register(MOD_INVOLVEMENT_TRIGGER.getId().toString(), MOD_INVOLVEMENT_TRIGGER);
     }
 }

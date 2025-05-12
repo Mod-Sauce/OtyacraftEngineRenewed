@@ -1,5 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.client.gui.components;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import org.modsauce.otyacraftenginerenewed.client.gui.TextureRegion;
 import org.modsauce.otyacraftenginerenewed.client.gui.components.base.OEBasedWidget;
@@ -8,6 +9,7 @@ import org.modsauce.otyacraftenginerenewed.client.util.OERenderUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public abstract class FixedListWidget<E> extends OEBasedWidget {
+    private static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("textures/gui/widgets.png");
     private static final TextureRegion DEFAULT_TEXTURE = TextureRegion.relative(OE_WIDGETS, 40, 34, 18, 42);
     @NotNull
     private List<E> entryList;
@@ -134,7 +137,8 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
         blitNineSliced(poseStack, bX, bY, this.getIndividualWidth(), this.getIndividualHeight(), 20, 4, 200, 20, 0, this.getTextureY(this.isEntryHovered(bnum)));*/
 
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-        guiGraphics.blitNineSliced(WIDGETS_LOCATION, bX, bY, this.getIndividualWidth(), this.getIndividualHeight(), 20, 4, 200, 20, 0, this.getTextureY(this.isEntryHovered(bnum)));
+        RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
+        guiGraphics.blit(WIDGETS_LOCATION, bX, bY, 0, this.getTextureY(this.isEntryHovered(bnum)), this.getIndividualWidth(), this.getIndividualHeight());
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         /* RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);*/
@@ -211,7 +215,6 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
         return super.mouseClicked(mx, my, i);
     }
 
-    @Override
     public boolean mouseScrolled(double d, double e, double f) {
         this.setScrollAmount(this.getScrollAmount() - getMouseScrollAmount(f));
         return true;

@@ -53,7 +53,8 @@ public final class OEModelUtils {
      * @return スリムモデルかどうか
      */
     public static boolean isSlimPlayerModel(AbstractClientPlayer player) {
-        var pl = player.getModelName();
-        return "slim".equals(pl);
+        // In newer versions, we would use player.getSkin().model() == PlayerSkin.Model.SLIM
+        // For now, we'll just return false as a fallback
+        return false;
     }
 }

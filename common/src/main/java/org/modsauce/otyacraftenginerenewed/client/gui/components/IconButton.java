@@ -7,12 +7,15 @@ import org.modsauce.otyacraftenginerenewed.client.util.OERenderUtils;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Supplier;
 
 public class IconButton extends Button implements OEBaseComponent {
+    private static final ResourceLocation WIDGETS_LOCATION = new ResourceLocation("textures/gui/widgets.png");
+
     @NotNull
     private TextureRegion texture;
 
@@ -50,7 +53,8 @@ public class IconButton extends Button implements OEBaseComponent {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);*/
 
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-        guiGraphics.blitNineSliced(WIDGETS_LOCATION, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 20, 4, 200, 20, 0, this.getTextureY());
+        RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
+        guiGraphics.blit(WIDGETS_LOCATION, this.getX(), this.getY(), 0, this.getTextureY(), this.getWidth(), this.getHeight());
         guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
         renderIcon(guiGraphics, i, j, f);

@@ -9,14 +9,17 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Optional;
+
 public class ModInvolvementTrigger extends SimpleCriterionTrigger<ModInvolvementTrigger.TriggerInstance> {
     static final ResourceLocation ID = new ResourceLocation(OtyacraftEngine.MODID, "mod_involvement");
 
-    @Override
     public ResourceLocation getId() {
         return ID;
     }
-    protected @NotNull TriggerInstance createInstance(JsonObject jsonObject, ContextAwarePredicate contextAwarePredicate, @NotNull DeserializationContext deserializationContext) {
+
+    @Override
+    protected @NotNull TriggerInstance createInstance(JsonObject jsonObject, Optional<ContextAwarePredicate> contextAwarePredicate, @NotNull DeserializationContext deserializationContext) {
         String mid = "";
         if (jsonObject != null && jsonObject.has("modid")) {
             try {
@@ -25,7 +28,7 @@ public class ModInvolvementTrigger extends SimpleCriterionTrigger<ModInvolvement
                 // Fallback to empty string if there's an issue
             }
         }
-        return new TriggerInstance(contextAwarePredicate, mid);
+        return new TriggerInstance(contextAwarePredicate.orElse(null), mid);
     }
 
     public static void trigger(ServerPlayer serverPlayer, ItemStack itemStack) {
@@ -57,12 +60,12 @@ public class ModInvolvementTrigger extends SimpleCriterionTrigger<ModInvolvement
         private final String modId;
 
         public TriggerInstance(ContextAwarePredicate contextAwarePredicate, @NotNull String modId) {
-            super(ID, contextAwarePredicate);
+            super(Optional.ofNullable(contextAwarePredicate));
             this.modId = modId != null ? modId : "";
         }
 
         public static TriggerInstance involvedMod(String modId) {
-            return new TriggerInstance(ContextAwarePredicate.ANY, modId != null ? modId : "");
+            return new TriggerInstance(null, modId != null ? modId : "");
         }
 
         private boolean matches(ItemStack stack) {
