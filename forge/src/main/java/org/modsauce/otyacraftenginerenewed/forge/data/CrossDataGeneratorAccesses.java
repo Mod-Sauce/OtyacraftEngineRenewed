@@ -1,8 +1,9 @@
 package org.modsauce.otyacraftenginerenewed.forge.data;
 
-import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
+
 import net.minecraftforge.data.event.GatherDataEvent;
 import org.jetbrains.annotations.NotNull;
+import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
 
 public interface CrossDataGeneratorAccesses {
     @NotNull

@@ -2,7 +2,6 @@ package org.modsauce.otyacraftenginerenewed.fabric.data.model;
 
 import com.google.gson.JsonElement;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
-import dev.modsauce.otyacraftengine.data.model.*;
 import net.minecraft.data.models.BlockModelGenerators;
 import net.minecraft.data.models.blockstates.BlockStateGenerator;
 import net.minecraft.data.models.blockstates.MultiVariantGenerator;

@@ -1,5 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.data.provider;
 
+import net.minecraft.advancements.AdvancementHolder;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.network.chat.Component;
@@ -14,6 +15,11 @@ public abstract class AdvancementSubProviderWrapper implements DataProviderWrapp
     }
 
     public abstract void generate(Consumer<Advancement> consumer);
+
+    public void generateAdvancementHolder(Consumer<AdvancementHolder> consumer) {
+        // Implementation depends on your specific needs
+        // This might involve adapting between different advancement types
+    }
 
     protected Component modTitle(String name) {
         return title(getCrossGeneratorAccess().getMod().getModId(), name);

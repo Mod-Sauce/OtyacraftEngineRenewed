@@ -6,8 +6,6 @@ import dev.architectury.platform.Mod;
 import dev.architectury.platform.Platform;
 import org.modsauce.otyacraftenginerenewed.forge.data.provider.*;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
-import dev.felnull.otyacraftengine.forge.data.provider.*;
-import dev.modsauce.otyacraftengine.data.provider.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.DataGenerator;

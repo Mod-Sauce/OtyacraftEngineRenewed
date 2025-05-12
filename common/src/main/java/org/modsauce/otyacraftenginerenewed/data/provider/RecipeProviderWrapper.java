@@ -1,5 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.data.provider;
 
+import net.minecraft.data.recipes.RecipeOutput;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.MinMaxBounds;
@@ -37,5 +38,11 @@ public abstract class RecipeProviderWrapper extends DataProviderWrapper<RecipePr
         String getHasName(ItemLike itemLike);
 
         String getItemName(ItemLike itemLike);
+    }
+
+    // Add this method to handle the new RecipeOutput type
+    public void generateRecipesOutput(RecipeOutput recipeOutput) {
+        // Implementation depends on your specific needs
+        // This might involve adapting between different recipe output formats
     }
 }

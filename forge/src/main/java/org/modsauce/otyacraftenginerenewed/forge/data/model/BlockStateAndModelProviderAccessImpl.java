@@ -4,7 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.modsauce.otyacraftenginerenewed.forge.data.WrappedBlockStateBuilder;
 import org.modsauce.otyacraftenginerenewed.forge.mixin.data.BlockStateProviderAccessor;
-import dev.modsauce.otyacraftengine.data.model.*;
 import net.minecraft.data.models.blockstates.BlockStateGenerator;
 import net.minecraft.data.models.model.ModelLocationUtils;
 import net.minecraft.resources.ResourceLocation;

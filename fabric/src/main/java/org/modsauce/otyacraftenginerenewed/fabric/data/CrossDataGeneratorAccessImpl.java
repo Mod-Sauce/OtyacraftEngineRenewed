@@ -5,8 +5,6 @@ import dev.architectury.platform.Mod;
 import dev.architectury.platform.Platform;
 import org.modsauce.otyacraftenginerenewed.fabric.data.provider.*;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
-import dev.felnull.otyacraftengine.fabric.data.provider.*;
-import dev.modsauce.otyacraftengine.data.provider.*;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;

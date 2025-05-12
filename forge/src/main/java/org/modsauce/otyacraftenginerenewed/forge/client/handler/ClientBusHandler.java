@@ -32,18 +32,21 @@ public class ClientBusHandler {
             @Override
             public <T extends LivingEntity, M extends EntityModel<T>> void addLayerV2(EntityType<T> entityType, LayerFactory<T, M> layer) {
                 if (entityType == EntityType.PLAYER) {
-                    for (String skin : e.getSkins()) {
-                        var renderer = e.getSkin(skin);
+                    // The API has changed - getSkins() now returns Models instead of Strings
+                    for (var model : e.getSkins()) {
+                        var renderer = e.getSkin(model);
                         if (renderer != null) {
                             RenderLayer theLayer = layer.create((RenderLayerParent<T, M>) renderer, e.getEntityModels());
                             renderer.addLayer(theLayer);
                         }
                     }
                 } else {
-                    LivingEntityRenderer<T, M> renderer = e.getRenderer(entityType);
-                    if (renderer != null) {
-                        RenderLayer<T, M> theLayer = layer.create(renderer, e.getEntityModels());
-                        renderer.addLayer(theLayer);
+                    // Use the non-deprecated method to get the renderer
+                    var renderer = e.getEntityRenderer(entityType);
+                    if (renderer instanceof LivingEntityRenderer) {
+                        LivingEntityRenderer<T, M> livingRenderer = (LivingEntityRenderer<T, M>) renderer;
+                        RenderLayer<T, M> theLayer = layer.create(livingRenderer, e.getEntityModels());
+                        livingRenderer.addLayer(theLayer);
                     }
                 }
             }

@@ -1,30 +1,37 @@
 package org.modsauce.otyacraftenginerenewed.fabric.data.provider;
 
-import org.modsauce.otyacraftenginerenewed.data.provider.AdvancementProviderWrapper;
-import org.modsauce.otyacraftenginerenewed.data.provider.AdvancementSubProviderWrapper;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
-import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
+import org.modsauce.otyacraftenginerenewed.data.provider.AdvancementProviderWrapper;
+import org.modsauce.otyacraftenginerenewed.data.provider.AdvancementSubProviderWrapper;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-
 public class WrappedFabricAdvancementProvider extends FabricAdvancementProvider {
-    private final AdvancementProviderWrapper advancementProviderWrapper;
-    private final List<AdvancementSubProviderWrapper> subProviderWrappers;
+    private final AdvancementProviderWrapper wrapper;
+    private final List<AdvancementSubProviderWrapper> subProviders;
 
-    public WrappedFabricAdvancementProvider(FabricDataOutput output, AdvancementProviderWrapper advancementProviderWrapper, List<AdvancementSubProviderWrapper> subProviderWrappers) {
+    public WrappedFabricAdvancementProvider(FabricDataOutput output, AdvancementProviderWrapper wrapper, List<AdvancementSubProviderWrapper> subProviders) {
         super(output);
-        this.advancementProviderWrapper = advancementProviderWrapper;
-        this.subProviderWrappers = subProviderWrappers;
+        this.wrapper = wrapper;
+        this.subProviders = subProviders;
     }
 
     @Override
-    public void generateAdvancement(Consumer<Advancement> consumer) {
-        for (AdvancementSubProviderWrapper subProviderWrapper : subProviderWrappers) {
-            subProviderWrapper.generate(consumer);
+    public void generateAdvancement(Consumer<AdvancementHolder> consumer) {
+        // Call the appropriate method on the wrapper
+        // Assuming the wrapper has a method to handle AdvancementHolder
+        if (wrapper != null) {
+            wrapper.generateAdvancementHolder(consumer);
+        }
+        
+        // Process sub-providers if needed
+        if (subProviders != null) {
+            for (AdvancementSubProviderWrapper subProvider : subProviders) {
+                subProvider.generateAdvancementHolder(consumer);
+            }
         }
     }
 }
-

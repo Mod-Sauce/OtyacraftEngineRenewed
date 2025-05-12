@@ -30,7 +30,7 @@ public class MinecraftMixin {
             OEClientEventHooks.onLevelUnload(level);
     }
 
-    @Inject(method = "clearLevel(Lnet/minecraft/client/gui/screens/Screen;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;updateScreenAndTick(Lnet/minecraft/client/gui/screens/Screen;)V", ordinal = 0, shift = At.Shift.AFTER))
+    @Inject(method = "setScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;updateScreenAndTick(Lnet/minecraft/client/gui/screens/Screen;)V", ordinal = 0, shift = At.Shift.AFTER))
     private void clearLevel(Screen screen, CallbackInfo ci) {
         if (this.level != null)
             OEClientEventHooks.onLevelUnload(level);
