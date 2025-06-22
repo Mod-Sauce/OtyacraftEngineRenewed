@@ -17,10 +17,10 @@ dependencies {
 publishing {
     repositories {
         maven {
-            url repsyUrl
+            url = repsyUrl
             credentials {
-                username "${System.getenv("USERNAME")}"
-                password "${System.getenv("MAVEN_PASSWORD")}"
+                username = "${System.getenv("USERNAME")}"
+                password = "${System.getenv("MAVEN_PASSWORD")}"
             }
         }
     }

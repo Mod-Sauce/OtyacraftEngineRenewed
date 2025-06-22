@@ -12,31 +12,31 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.concurrent.CompletableFuture;
 
-
 public class WrappedFabricItemTagProvider extends FabricTagProvider.ItemTagProvider {
-    private final ItemTagProviderWrapper tagProviderWrapper;
+  private final ItemTagProviderWrapper tagProviderWrapper;
 
-    public WrappedFabricItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture, @Nullable BlockTagProvider blockTagProvider, ItemTagProviderWrapper tagProviderWrapper) {
-        super(output, completableFuture, blockTagProvider);
-        this.tagProviderWrapper = tagProviderWrapper;
+  public WrappedFabricItemTagProvider(FabricDataOutput output,
+      CompletableFuture<HolderLookup.Provider> completableFuture, @Nullable BlockTagProvider blockTagProvider,
+      ItemTagProviderWrapper tagProviderWrapper) {
+    super(output, completableFuture, blockTagProvider);
+    this.tagProviderWrapper = tagProviderWrapper;
+  }
+
+  @Override
+  protected void addTags(HolderLookup.Provider arg) {
+    this.tagProviderWrapper.generateTag(new ItemTagProviderAccessImpl());
+  }
+
+  private class ItemTagProviderAccessImpl implements ItemTagProviderWrapper.ItemTagProviderAccess {
+    @Override
+    public void copy(TagKey<Block> blockTag, TagKey<Item> itemTag) {
+      WrappedFabricItemTagProvider.this.copy(blockTag, itemTag);
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider arg) {
-        this.tagProviderWrapper.generateTag(new ItemTagProviderAccessImpl());
+    public IntrinsicHolderTagsProviderWrapper.IntrinsicTagAppenderWrapper<Item> tag(TagKey<Item> tagKey) {
+      return new WrappedFabricIntrinsicHolderTagsProvider.IntrinsicHolderTagAppenderWrapperImpl<>(
+          WrappedFabricItemTagProvider.this.tag(tagKey), tagProviderWrapper);
     }
-
-
-    private class ItemTagProviderAccessImpl implements ItemTagProviderWrapper.ItemTagProviderAccess {
-        @Override
-        public void copy(TagKey<Block> blockTag, TagKey<Item> itemTag) {
-            WrappedFabricItemTagProvider.this.copy(blockTag, itemTag);
-        }
-
-        @Override
-        public IntrinsicHolderTagsProviderWrapper.IntrinsicTagAppenderWrapper<Item> tag(TagKey<Item> tagKey) {
-            return new WrappedFabricIntrinsicHolderTagsProvider.IntrinsicHolderTagAppenderWrapperImpl<>(WrappedFabricItemTagProvider.this.tag(tagKey), tagProviderWrapper);
-        }
-    }
+  }
 }
-
