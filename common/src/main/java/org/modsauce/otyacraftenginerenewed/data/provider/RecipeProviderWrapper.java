@@ -3,6 +3,7 @@ package org.modsauce.otyacraftenginerenewed.data.provider;
 import net.minecraft.data.recipes.RecipeOutput;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.advancements.critereon.MinMaxBounds;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.FinishedRecipe;
@@ -40,9 +41,42 @@ public abstract class RecipeProviderWrapper extends DataProviderWrapper<RecipePr
         String getItemName(ItemLike itemLike);
     }
 
-    // Add this method to handle the new RecipeOutput type
+    // Bridge method to handle the new RecipeOutput type in 1.20.2
     public void generateRecipesOutput(RecipeOutput recipeOutput) {
-        // Implementation depends on your specific needs
-        // This might involve adapting between different recipe output formats
+        // Create a RecipeProviderAccess implementation
+        RecipeProviderAccess providerAccess = new RecipeProviderAccess() {
+            @Override
+            public InventoryChangeTrigger.TriggerInstance has(MinMaxBounds.Ints ints, ItemLike itemLike) {
+                return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(itemLike).withCount(ints).build());
+            }
+
+            @Override
+            public InventoryChangeTrigger.TriggerInstance has(ItemLike itemLike) {
+                return InventoryChangeTrigger.TriggerInstance.hasItems(itemLike);
+            }
+
+            @Override
+            public InventoryChangeTrigger.TriggerInstance has(TagKey<Item> tagKey) {
+                return InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(tagKey).build());
+            }
+
+            @Override
+            public String getHasName(ItemLike itemLike) {
+                return "has_" + getItemName(itemLike);
+            }
+
+            @Override
+            public String getItemName(ItemLike itemLike) {
+                return RecipeProvider.getItemName(itemLike);
+            }
+        };
+
+        // Convert RecipeOutput to Consumer<FinishedRecipe> for backward compatibility
+        Consumer<FinishedRecipe> finishedRecipeConsumer = finishedRecipe -> {
+            recipeOutput.accept(finishedRecipe.getId(), finishedRecipe.serializeRecipe(), finishedRecipe.serializeAdvancement());
+        };
+
+        // Call the abstract method with the converted consumer
+        generateRecipe(finishedRecipeConsumer, providerAccess);
     }
 }
