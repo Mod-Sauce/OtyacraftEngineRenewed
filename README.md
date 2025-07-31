@@ -1,9 +1,9 @@
 # OtyacraftEngine(minecraft mod)
 
-Felnull integration mod library.
+Felnull integration mod library, that was updated by Mod Sauce's Developers 
 
-[CurseForge](https://www.curseforge.com/minecraft/mc-mods/otyacraft-engine)  
-[Modrinth](https://modrinth.com/mod/otyacraft-engine)
+[CurseForge](https://www.curseforge.com/minecraft/mc-mods/otyacraft-engine-renewed)  
+[Modrinth](https://modrinth.com/mod/otyacraft-engine-renewed)
 
 # Using libraries
 
