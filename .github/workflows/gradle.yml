@@ -24,11 +24,11 @@ jobs:
       - run: chmod +x ./gradlew
       - name: Build with Gradle
         run: ./gradlew build
-      - name: Upload Build Artifacts forge
+      - name: Upload Build Artifacts neoforge
         uses: actions/upload-artifact@v4
         with:
           name: OtaycraftEngineRenewedForge
-          path: forge/build/libs
+          path: neoforge/build/libs
           compression-level: 9
       - name: Upload Build Artifacts fabric
         uses: actions/upload-artifact@v4

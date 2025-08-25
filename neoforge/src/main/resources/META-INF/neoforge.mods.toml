@@ -1,0 +1,49 @@
+modLoader = "javafml"
+loaderVersion = "21.1.200"
+issueTrackerURL = "https://github.com/Mod-Sauce/OtyacraftEngineRenewed/issues"
+license = "GNU LGPLv3"
+
+[[mods]]
+modId = "otyacraftenginerenewed"
+version = "${version}"
+displayName = "Otyacraft Engine Renewed"
+displayURL = "mod-sauce.github.io/oer.html"
+updateJSONURL = ""
+authors = "Shadowbe27, Mooo0042"
+credits = "Mod Sauce & contributers"
+description = '''
+Integrated library used by felnull developers.
+The ikisugi dependency mod...
+'''
+logoFile = "logo.png"
+
+[modproperties.otyacraftenginerenewed]
+catalogueImageIcon = "icon.png"
+
+[[dependencies.otyacraftenginerenewed]]
+modId = "neoforge"
+mandatory = true
+versionRange = "21.1.200"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.otyacraftenginerenewed]]
+modId = "minecraft"
+mandatory = true
+versionRange = "1.21.1"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.otyacraftenginerenewed]]
+modId = "architectury"
+mandatory = true
+versionRange = "13.0.8"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.otyacraftenginerenewed]]
+modId = "cloth_config"
+mandatory = true
+versionRange = "15.0.140"
+ordering = "NONE"
+side = "BOTH"

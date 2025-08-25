@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "id": "otyacraftengine",
+  "id": "otyacraftenginerenewed",
   "version": "${version}",
   "name": "Otyacraft Engine Renewed",
   "description": "Integrated library used by felnull developers.\nThe ikisugi dependency mod...",
@@ -22,10 +22,10 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "dev.felnull.otyacraftengine.fabric.OtyacraftEngineFabric"
+      "org.modsauce.otyacraftenginerenewed.fabric.OtyacraftEngineFabric"
     ],
     "client": [
-      "dev.felnull.otyacraftengine.fabric.client.OtyacraftEngineClientFabric"
+      "org.modsauce.otyacraftenginerenewed.fabric.client.OtyacraftEngineClientFabric"
     ]
   },
   "mixins": [
@@ -33,10 +33,10 @@
     "otyacraftengine-common.mixins.json"
   ],
   "depends": {
-    "fabric": ">=0.16.13",
-    "minecraft": "1.20.1",
-    "architectury": ">=9.2.14",
-    "cloth-config2": ">=11.1.136"
+    "fabric": ">=0.17.2",
+    "minecraft": "1.21.1",
+    "architectury": ">=13.0.8",
+    "cloth-config2": ">=15.0.140"
   },
   "custom": {
     "modmenu": {

@@ -1,0 +1,24 @@
+{
+  "required": true,
+  "package": "org.modsauce.otyacraftenginerenewed.neoforge.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "minVersion": "0.8",
+  "plugin": "org.modsauce.otyacraftenginerenewed.neoforge.mixin.OEMixinPluginForge",
+  "client": [
+    "org.modsauce.otyacraftenginerenewed.forge.mixin.client.BlockEntityWithoutLevelRendererMixin"
+  ],
+  "mixins": [
+    "org.modsauce.otyacraftenginerenewed.forge.mixin.MobBucketItemInvoker",
+    "org.modsauce.otyacraftenginerenewed.forge.mixin.data.BlockStateProviderAccessor",
+    "org.modsauce.otyacraftenginerenewed.forge.mixin.data.DataMainMixin",
+    "org.modsauce.otyacraftenginerenewed.forge.mixin.data.ModelBuilderMixin",
+    "org.modsauce.otyacraftenginerenewed.forge.mixin.self.EquipmentItemExtender",
+    "org.modsauce.otyacraftenginerenewed.forge.mixin.self.OEBaseBlockEntityMixin",
+    "org.modsauce.otyacraftenginerenewed.forge.mixin.self.OEBaseContainerBlockEntityMixin",
+    "org.modsauce.otyacraftenginerenewed.forge.mixin.self.StackAttributeModifierItemExtender",
+    "self.OEBaseContainerBlockEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

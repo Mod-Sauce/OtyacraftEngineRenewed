@@ -3,7 +3,7 @@ architectury {
 }
 
 loom {
-    accessWidenerPath = file("src/main/resources/otyacraftengine.accesswidener")
+    accessWidenerPath = file("src/main/resources/otyacraftenginerenewed.accesswidener")
 }
 
 dependencies {
@@ -27,8 +27,8 @@ publishing {
     publications {
         gpr(MavenPublication) {
             from(components.java)
-            groupId = "dev.felnull" // or whatever you want
-            artifactId = "otyacraftengine" // fabric, forge, or nothing
+            groupId = "org.modsauce" // or whatever you want
+            artifactId = "otyacraftenginerenewed" // fabric, neoforge, or nothing
             version = rootProject.version
         }
     }

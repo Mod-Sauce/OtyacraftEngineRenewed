@@ -1,0 +1,115 @@
+plugins {
+    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id "com.modrinth.minotaur" version "2.8.0"
+}
+
+architectury {
+    platformSetupLoomIde()
+    neoForge()
+}
+repositories {
+    mavenCentral()
+    maven {
+        url = uri("https://maven.neoforged.net/releases/#/")
+    }
+}
+
+/*
+    neoForge {
+        convertAccessWideners = true
+        extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
+
+        mixinConfig "otyacraftenginerenewed-common.mixins.json"
+        mixinConfig "otyacraftenginerenewed.mixins.json"
+    }*/
+
+configurations {
+    common
+    shadowCommon
+    compileClasspath.extendsFrom common
+    runtimeClasspath.extendsFrom common
+    developmentNeoForge.extendsFrom common
+    neoforgeDependencies.extendsFrom shadowIn
+    shadowCommon.extendsFrom shadowIn
+}
+
+dependencies {
+    neoForge "net.neoforged:neoforge:${rootProject.neoforge_version}"
+    
+    modApi "dev.architectury:architectury-neoforge:${rootProject.architectury_version}"
+
+    common(project(path: ":common", configuration: "namedElements")) { transitive false }
+    shadowCommon(project(path: ":common", configuration: "transformProductionNeoForge")) { transitive = false }
+
+    modApi "me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}"
+    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${rootProject.rei_version}"
+
+    shadowIn "dev.felnull:felnull-java-library:${rootProject.felnull_version}"
+    shadowIn 'com.madgag:animated-gif-lib:1.4'
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("META-INF/neoforge.mods.toml") {
+        expand "version": project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowIn]
+    relocate('dev.felnull.fnjl', 'org.modsauce.otyacraftenginerenewed.include.dev.felnull.fnjl')
+    relocate 'com.madgag', 'org.modsauce.otyacraftenginerenewed.include.com.madgag'
+}
+
+shadowJar {
+    exclude "fabric.mod.json"
+    exclude "architectury.common.json"
+
+    configurations = [project.configurations.shadowCommon]
+    archiveClassifier.set("dev-shadow")
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    archiveClassifier.set(null)
+    setArchivesBaseName("${rootProject.archives_base_name}-${project.name}-mc${rootProject.minecraft_version}")
+}
+
+jar {
+    archiveClassifier.set("org")
+}
+
+sourcesJar {
+    def commonSources = project(":common").sourcesJar
+    dependsOn commonSources
+    from commonSources.archiveFile.map { zipTree(it) }
+}
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            url repsyUrl
+            credentials {
+                username "${System.getenv("USERNAME")}"
+                password "${System.getenv("MAVEN_PASSWORD")}"
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from(components.java)
+            groupId = "org.modsauce" // or whatever you want
+            artifactId = "otyacraftenginerenewed-neoforge" // fabric, neoforge, or nothing
+            version = rootProject.version
+        }
+    }
+}

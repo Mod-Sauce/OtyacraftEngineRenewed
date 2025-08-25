@@ -1,0 +1,12 @@
+package org.modsauce.otyacraftenginerenewed.neoforge.data;
+
+import com.google.gson.JsonObject;
+import net.minecraft.data.models.blockstates.BlockStateGenerator;
+import net.neoforged.neoforge.client.model.generators.IGeneratedBlockState;
+
+public record WrappedBlockStateBuilder(BlockStateGenerator blockStateGenerator) implements IGeneratedBlockState {
+    @Override
+    public JsonObject toJson() {
+        return blockStateGenerator.get().getAsJsonObject();
+    }
+}

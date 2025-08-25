@@ -55,8 +55,8 @@ processResources {
 
 shadowJar {
     configurations = [project.configurations.shadowIn]
-    relocate('dev.felnull.fnjl', 'dev.felnull.otyacraftengine.include.dev.felnull.fnjl')
-    relocate 'com.madgag', 'dev.felnull.otyacraftengine.include.com.madgag'
+    relocate('dev.felnull.fnjl', 'dev.felnull.otyacraftenginerenewed.include.dev.felnull.fnjl')
+    relocate 'com.madgag', 'dev.felnull.otyacraftenginerenewed.include.com.madgag'
 }
 
 shadowJar {
@@ -104,7 +104,7 @@ publishing {
         maven(MavenPublication) {
             from(components.java)
             groupId = "dev.felnull" // or whatever you want
-            artifactId = "otyacraftengine-fabric" // fabric, forge, or nothing
+            artifactId = "otyacraftenginerenewed-fabric" // fabric, neoforge, or nothing
             version = rootProject.version
         }
     }
