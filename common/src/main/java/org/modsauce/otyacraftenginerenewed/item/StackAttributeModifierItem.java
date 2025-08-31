@@ -7,5 +7,5 @@ import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 
 public interface StackAttributeModifierItem {
-    Multimap<Attribute, AttributeModifier> getStackAttributeModifiers(EquipmentSlot slot, ItemStack stack);
+  Multimap<Attribute, AttributeModifier> getStackAttributeModifiers(EquipmentSlot slot, ItemStack stack);
 }

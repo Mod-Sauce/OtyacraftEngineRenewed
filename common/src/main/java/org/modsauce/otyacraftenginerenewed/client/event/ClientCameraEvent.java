@@ -12,30 +12,30 @@ import net.minecraft.world.level.material.FogType;
  * カメラ関係のイベント
  */
 public interface ClientCameraEvent {
-    Event<RenderFog> RENDER_FOG = EventFactory.createEventResult();
-    Event<ComputeFogColor> COMPUTE_FOG_COLOR = EventFactory.createEventResult();
+  Event<RenderFog> RENDER_FOG = EventFactory.createEventResult();
+  Event<ComputeFogColor> COMPUTE_FOG_COLOR = EventFactory.createEventResult();
 
-    interface RenderFog {
-        EventResult onRenderFog(Camera camera, FogRenderer.FogMode fogMode, FogType fogType, float startDistance, float endDistance, FogShape fogShape, double delta, RenderFogSetter setter);
-    }
+  interface RenderFog {
+    EventResult onRenderFog(Camera camera, FogRenderer.FogMode fogMode, FogType fogType, float startDistance, float endDistance, FogShape fogShape, double delta, RenderFogSetter setter);
+  }
 
-    interface ComputeFogColor {
-        EventResult onComputeFogColor(Camera camera, float red, float green, float blue, double delta, FogColorSetter fogColorSetter);
-    }
+  interface ComputeFogColor {
+    EventResult onComputeFogColor(Camera camera, float red, float green, float blue, double delta, FogColorSetter fogColorSetter);
+  }
 
-    interface RenderFogSetter {
-        void setStartDistance(float startDistance);
+  interface RenderFogSetter {
+    void setStartDistance(float startDistance);
 
-        void setEndDistance(float endDistance);
+    void setEndDistance(float endDistance);
 
-        void setFogShape(FogShape fogShape);
-    }
+    void setFogShape(FogShape fogShape);
+  }
 
-    interface FogColorSetter {
-        void setRed(float red);
+  interface FogColorSetter {
+    void setRed(float red);
 
-        void setGreen(float green);
+    void setGreen(float green);
 
-        void setBlue(float blue);
-    }
+    void setBlue(float blue);
+  }
 }

@@ -4,5 +4,5 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public class ClientMixinTemp {
-    public static ThreadLocal<Boolean> SKIP_TRANSANDROT_MODELPART = ThreadLocal.withInitial(() -> false);
+  public static ThreadLocal<Boolean> SKIP_TRANSANDROT_MODELPART = ThreadLocal.withInitial(() -> false);
 }

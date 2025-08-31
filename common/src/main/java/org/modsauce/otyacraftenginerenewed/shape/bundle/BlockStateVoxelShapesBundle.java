@@ -8,22 +8,22 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 public class BlockStateVoxelShapesBundle extends AbstractVoxelShapeBundle<BlockState> {
-    private final Block block;
-    private final Function<BlockState, VoxelShape> shapeGen;
+  private final Block block;
+  private final Function<BlockState, VoxelShape> shapeGen;
 
-    public BlockStateVoxelShapesBundle(Block block, Function<BlockState, VoxelShape> shapeGen, boolean preGen) {
-        this.block = block;
-        this.shapeGen = shapeGen;
-        if (preGen) preGen();
-    }
+  public BlockStateVoxelShapesBundle(Block block, Function<BlockState, VoxelShape> shapeGen, boolean preGen) {
+    this.block = block;
+    this.shapeGen = shapeGen;
+    if (preGen) preGen();
+  }
 
-    @Override
-    void forAssumption(Consumer<BlockState> consumer) {
-        block.getStateDefinition().getPossibleStates().forEach(consumer);
-    }
+  @Override
+  void forAssumption(Consumer<BlockState> consumer) {
+    block.getStateDefinition().getPossibleStates().forEach(consumer);
+  }
 
-    @Override
-    VoxelShape generate(BlockState value) {
-        return shapeGen.apply(value);
-    }
+  @Override
+  VoxelShape generate(BlockState value) {
+    return shapeGen.apply(value);
+  }
 }

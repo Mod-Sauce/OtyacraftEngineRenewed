@@ -12,28 +12,28 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class OEExpectPlatform {
-    @ExpectPlatform
-    public static EntityType<?> getMobBucketEntity(MobBucketItem mobBucketItem) {
-        throw new AssertionError();
-    }
+  @ExpectPlatform
+  public static EntityType<?> getMobBucketEntity(MobBucketItem mobBucketItem) {
+    throw new AssertionError();
+  }
 
-    @ExpectPlatform
-    public static Stream<TagKey<EntityType<?>>> getTags(EntityType<?> entityType) {
-        throw new AssertionError();
-    }
+  @ExpectPlatform
+  public static Stream<TagKey<EntityType<?>>> getTags(EntityType<?> entityType) {
+    throw new AssertionError();
+  }
 
-    @ExpectPlatform
-    public static String getItemCreatorModId(ItemStack item) {
-        throw new AssertionError();
-    }
+  @ExpectPlatform
+  public static String getItemCreatorModId(ItemStack item) {
+    throw new AssertionError();
+  }
 
-    @ExpectPlatform
-    public static <T> List<T> getCallPoints(String name, Class<?> annotationClass, Class<T> interfaceClass) {
-        throw new AssertionError();
-    }
+  @ExpectPlatform
+  public static <T> List<T> getCallPoints(String name, Class<?> annotationClass, Class<T> interfaceClass) {
+    throw new AssertionError();
+  }
 
-    @ExpectPlatform
-    public static FoodProperties getFoodProperties(ItemStack stack, LivingEntity livingEntity) {
-        throw new AssertionError();
-    }
+  @ExpectPlatform
+  public static FoodProperties getFoodProperties(ItemStack stack, LivingEntity livingEntity) {
+    throw new AssertionError();
+  }
 }

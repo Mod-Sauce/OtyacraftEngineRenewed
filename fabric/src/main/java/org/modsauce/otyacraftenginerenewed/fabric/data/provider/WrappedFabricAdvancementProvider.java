@@ -1,5 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.fabric.data.provider;
 
+import net.minecraft.advancements.AdvancementHolder;
 import org.modsauce.otyacraftenginerenewed.data.provider.AdvancementProviderWrapper;
 import org.modsauce.otyacraftenginerenewed.data.provider.AdvancementSubProviderWrapper;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
@@ -21,7 +22,7 @@ public class WrappedFabricAdvancementProvider extends FabricAdvancementProvider 
     }
 
     @Override
-    public void generateAdvancement(Consumer<Advancement> consumer) {
+    public void generateAdvancement(Consumer<AdvancementHolder> consumer) {
         for (AdvancementSubProviderWrapper subProviderWrapper : subProviderWrappers) {
             subProviderWrapper.generate(consumer);
         }

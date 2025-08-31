@@ -5,5 +5,5 @@ import dev.architectury.event.EventFactory;
 import dev.architectury.event.events.common.LifecycleEvent;
 
 public interface ServerEvent {
-    Event<LifecycleEvent.ServerState> SERVER_SAVING = EventFactory.createLoop();
+  Event<LifecycleEvent.ServerState> SERVER_SAVING = EventFactory.createLoop();
 }

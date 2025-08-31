@@ -1,7 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.data;
 
 import dev.architectury.platform.Mod;
-import org.modsauce.otyacraftenginerenewed.data.provider.*;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.data.DataGenerator;
@@ -27,71 +26,71 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.function.BiFunction;
 
 public interface CrossDataGeneratorAccess {
-    @NotNull DataGenerator getVanillaGenerator();
+  @NotNull DataGenerator getVanillaGenerator();
 
-    <T extends DataProvider> T addProvider(@NotNull DataProvider.Factory<T> factory);
+  <T extends DataProvider> T addProvider(@NotNull DataProvider.Factory<T> factory);
 
-    <T extends DataProvider> T addProvider(@NotNull BiFunction<PackOutput, CompletableFuture<HolderLookup.Provider>, T> dataProviderSupplier);
+  <T extends DataProvider> T addProvider(@NotNull BiFunction<PackOutput, CompletableFuture<HolderLookup.Provider>, T> dataProviderSupplier);
 
-    default <T extends DataProviderWrapper<?>> T addProviderWrapper(@NotNull DataProviderWrapper.GeneratorAccessedFactory<T> factory) {
-        return addProviderWrapper(packOutput -> factory.create(packOutput, CrossDataGeneratorAccess.this));
-    }
+  default <T extends DataProviderWrapper<?>> T addProviderWrapper(@NotNull DataProviderWrapper.GeneratorAccessedFactory<T> factory) {
+    return addProviderWrapper(packOutput -> factory.create(packOutput, CrossDataGeneratorAccess.this));
+  }
 
-    default <T extends DataProviderWrapper<?>> T addProviderWrapper(@NotNull DataProviderWrapper.Factory<T> factory) {
-        AtomicReference<T> providerWrapper = new AtomicReference<>();
+  default <T extends DataProviderWrapper<?>> T addProviderWrapper(@NotNull DataProviderWrapper.Factory<T> factory) {
+    AtomicReference<T> providerWrapper = new AtomicReference<>();
 
-        addProvider(packOutput -> {
-            providerWrapper.set(factory.create(packOutput));
-            return providerWrapper.get().getProvider();
-        });
+    addProvider(packOutput -> {
+      providerWrapper.set(factory.create(packOutput));
+      return providerWrapper.get().getProvider();
+    });
 
-        return providerWrapper.get();
-    }
+    return providerWrapper.get();
+  }
 
-    default <T extends DataProviderWrapper<?>> T addProviderWrapper(@NotNull DataProviderWrapper.LookupGeneratorAccessedFactory<T> factory) {
-        return addProviderWrapper((DataProviderWrapper.LookupFactory<T>) (packOutput, lookup) -> factory.create(packOutput, lookup, CrossDataGeneratorAccess.this));
-    }
+  default <T extends DataProviderWrapper<?>> T addProviderWrapper(@NotNull DataProviderWrapper.LookupGeneratorAccessedFactory<T> factory) {
+    return addProviderWrapper((DataProviderWrapper.LookupFactory<T>) (packOutput, lookup) -> factory.create(packOutput, lookup, CrossDataGeneratorAccess.this));
+  }
 
-    default <T extends DataProviderWrapper<?>> T addProviderWrapper(@NotNull DataProviderWrapper.LookupFactory<T> factory) {
-        AtomicReference<T> providerWrapper = new AtomicReference<>();
+  default <T extends DataProviderWrapper<?>> T addProviderWrapper(@NotNull DataProviderWrapper.LookupFactory<T> factory) {
+    AtomicReference<T> providerWrapper = new AtomicReference<>();
 
-        addProvider((packOutput, lookup) -> {
-            providerWrapper.set(factory.create(packOutput, lookup));
-            return providerWrapper.get().getProvider();
-        });
+    addProvider((packOutput, lookup) -> {
+      providerWrapper.set(factory.create(packOutput, lookup));
+      return providerWrapper.get().getProvider();
+    });
 
-        return providerWrapper.get();
-    }
+    return providerWrapper.get();
+  }
 
-    Mod getMod();
+  Mod getMod();
 
-    RecipeProvider createRecipeProvider(PackOutput packOutput, RecipeProviderWrapper recipeProviderWrapper);
+  RecipeProvider createRecipeProvider(PackOutput packOutput, RecipeProviderWrapper recipeProviderWrapper);
 
-    TagsProvider<Item> createItemTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, ItemTagProviderWrapper itemTagProviderWrapper, @NotNull BlockTagProviderWrapper blockTagProviderWrapper);
+  TagsProvider<Item> createItemTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, ItemTagProviderWrapper itemTagProviderWrapper, @NotNull BlockTagProviderWrapper blockTagProviderWrapper);
 
-    TagsProvider<Fluid> createFluidTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, FluidTagProviderWrapper fluidTagProviderWrapper);
+  TagsProvider<Fluid> createFluidTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, FluidTagProviderWrapper fluidTagProviderWrapper);
 
-    TagsProvider<Block> createBlockTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, BlockTagProviderWrapper blockTagProviderWrapper);
+  TagsProvider<Block> createBlockTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, BlockTagProviderWrapper blockTagProviderWrapper);
 
-    TagsProvider<PoiType> createPoiTypeTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, PoiTypeTagProviderWrapper poiTypeTagProviderWrapper);
+  TagsProvider<PoiType> createPoiTypeTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, PoiTypeTagProviderWrapper poiTypeTagProviderWrapper);
 
-    TagsProvider<DamageType> createDamageTypeTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, DamageTypeTagsProviderWrapper damageTypeTagsProviderWrapper);
+  TagsProvider<DamageType> createDamageTypeTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, DamageTypeTagsProviderWrapper damageTypeTagsProviderWrapper);
 
-    TagsProvider<Biome> createBiomeTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, BiomeTagsProviderWrapper biomeTagsProviderWrapper);
+  TagsProvider<Biome> createBiomeTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, BiomeTagsProviderWrapper biomeTagsProviderWrapper);
 
-    DataProvider createBasicProvider(BasicProviderWrapper basicProviderWrapper);
+  DataProvider createBasicProvider(BasicProviderWrapper basicProviderWrapper);
 
-    DataProvider createBlockLootTableProvider(PackOutput packOutput, BlockLootTableProviderWrapper blockLootTableProviderWrapper);
+  DataProvider createBlockLootTableProvider(PackOutput packOutput, BlockLootTableProviderWrapper blockLootTableProviderWrapper);
 
-    DataProvider createAdvancementProvider(PackOutput packOutput, AdvancementProviderWrapper advancementProviderWrapper, List<AdvancementSubProviderWrapper> subProviderWrappers);
+  DataProvider createAdvancementProvider(PackOutput packOutput, AdvancementProviderWrapper advancementProviderWrapper, List<AdvancementSubProviderWrapper> subProviderWrappers);
 
-    DataProvider createItemModelProvider(PackOutput packOutput, ItemModelProviderWrapper itemModelProviderWrapper);
+  DataProvider createItemModelProvider(PackOutput packOutput, ItemModelProviderWrapper itemModelProviderWrapper);
 
-    DataProvider createBlockStateAndModelProvider(PackOutput packOutput, BlockStateAndModelProviderWrapper blockStateAndModelProviderWrapper);
+  DataProvider createBlockStateAndModelProvider(PackOutput packOutput, BlockStateAndModelProviderWrapper blockStateAndModelProviderWrapper);
 
-    RegistriesDatapackGenerator createRegistriesDatapackGenerator(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, RegistrySetBuilder registrySetBuilder);
+  RegistriesDatapackGenerator createRegistriesDatapackGenerator(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, RegistrySetBuilder registrySetBuilder);
 
-    Collection<Path> getResourceInputFolders();
+  Collection<Path> getResourceInputFolders();
 
-    void addResourceInputFolders(Path path);
+  void addResourceInputFolders(Path path);
 }

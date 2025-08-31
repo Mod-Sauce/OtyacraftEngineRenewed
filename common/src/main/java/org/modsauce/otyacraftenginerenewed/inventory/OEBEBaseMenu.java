@@ -7,19 +7,19 @@ import net.minecraft.world.inventory.MenuType;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class OEBEBaseMenu extends OEBaseMenu {
-    private final BlockPos pos;
+  private final BlockPos pos;
 
-    protected OEBEBaseMenu(@Nullable MenuType<?> menuType, int windowId, Inventory playerInventory, Container container, BlockPos pos, int playerSlotX, int playerSlotY) {
-        super(menuType, windowId, playerInventory, container, playerSlotX, playerSlotY);
-        this.pos = pos;
-    }
+  protected OEBEBaseMenu(@Nullable MenuType<?> menuType, int windowId, Inventory playerInventory, Container container, BlockPos pos, int playerSlotX, int playerSlotY) {
+    super(menuType, windowId, playerInventory, container, playerSlotX, playerSlotY);
+    this.pos = pos;
+  }
 
-    public BlockPos getPos() {
-        return pos;
-    }
+  public BlockPos getPos() {
+    return pos;
+  }
 
-    @Override
-    public boolean isBlock() {
-        return true;
-    }
+  @Override
+  public boolean isBlock() {
+    return true;
+  }
 }

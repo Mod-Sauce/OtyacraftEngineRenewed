@@ -12,52 +12,52 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class OEBaseBlockEntity extends BlockEntity implements IOEBaseFuncBlockEntity {
-    private boolean updateMark;
+  private boolean updateMark;
 
-    public OEBaseBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
-        super(blockEntityType, blockPos, blockState);
-    }
+  public OEBaseBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
+    super(blockEntityType, blockPos, blockState);
+  }
 
-    @Override
-    public void setUpdateMarked(boolean marked) {
-        this.updateMark = marked;
-    }
+  @Override
+  public void setUpdateMarked(boolean marked) {
+    this.updateMark = marked;
+  }
 
-    @Override
-    public boolean isUpdateMarked() {
-        return updateMark;
-    }
+  @Override
+  public boolean isUpdateMarked() {
+    return updateMark;
+  }
 
-    @Override
-    public boolean isSyncUpdate() {
-        return false;
-    }
+  @Override
+  public boolean isSyncUpdate() {
+    return false;
+  }
 
-    @Override
-    public void saveToUpdateTag(CompoundTag tag) {
-    }
+  @Override
+  public void saveToUpdateTag(CompoundTag tag) {
+  }
 
-    @Override
-    public void loadToUpdateTag(CompoundTag tag) {
-    }
+  @Override
+  public void loadToUpdateTag(CompoundTag tag) {
+  }
 
-    @Override
-    public CompoundTag getUpdateTag() {
-        var tag = super.getUpdateTag();
-        saveToUpdateTag(tag);
-        return tag;
-    }
+  @Override
+  public CompoundTag getUpdateTag() {
+    var tag = super.getUpdateTag();
+    saveToUpdateTag(tag);
+    return tag;
+  }
 
-    @Nullable
-    @Override
-    public Packet<ClientGamePacketListener> getUpdatePacket() {
-        if (!isSyncUpdate()) return null;
-        return ClientboundBlockEntityDataPacket.create(this);
-    }
+  @Nullable
+  @Override
+  public Packet<ClientGamePacketListener> getUpdatePacket() {
+    if (!isSyncUpdate()) return null;
+    return ClientboundBlockEntityDataPacket.create(this);
+  }
 
-    @Override
-    public void setChanged() {
-        super.setChanged();
-        updateMarked();
-    }
+  @Override
+  public void setChanged() {
+    super.setChanged();
+    updateMarked();
+  }
 }

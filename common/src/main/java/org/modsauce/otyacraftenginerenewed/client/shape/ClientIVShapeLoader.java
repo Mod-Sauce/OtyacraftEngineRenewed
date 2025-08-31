@@ -17,35 +17,35 @@ import java.util.Map;
  * Client Ikisugi Voxel Shape Loader
  */
 public class ClientIVShapeLoader {
-    public static final Logger LOGGER = LogManager.getLogger(ClientIVShapeLoader.class);
-    private static final Gson GSON = new Gson();
-    private final Map<ResourceLocation, VoxelClientShape> voxelClientShapes;
+  public static final Logger LOGGER = LogManager.getLogger(ClientIVShapeLoader.class);
+  private static final Gson GSON = new Gson();
+  private final Map<ResourceLocation, VoxelClientShape> voxelClientShapes;
 
-    protected ClientIVShapeLoader(@NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller) {
-        profilerFiller.startTick();
+  protected ClientIVShapeLoader(@NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller) {
+    profilerFiller.startTick();
 
-        ImmutableMap.Builder<ResourceLocation, VoxelClientShape> builder = ImmutableMap.builder();
+    ImmutableMap.Builder<ResourceLocation, VoxelClientShape> builder = ImmutableMap.builder();
 
-        resourceManager.listResources("voxel_shape", loc -> loc.getPath().endsWith(".json")).forEach(((location, resource) -> {
-            profilerFiller.push(location.toString());
-            try (Reader reader = resource.openAsReader()) {
-                JsonObject jo = GSON.fromJson(reader, JsonObject.class);
-                var p = location.getPath();
-                var vs = VoxelClientShape.parse(jo);
-                if (vs != null)
-                    builder.put(ResourceLocation.fromNamespaceAndPath(location.getNamespace(), p.substring("voxel_shape/".length(), p.length() - ".json".length())), vs);
-            } catch (Exception e) {
-                LOGGER.error("Error occurred while loading shape resource json " + location, e);
-            }
-            profilerFiller.pop();
-        }));
+    resourceManager.listResources("voxel_shape", loc -> loc.getPath().endsWith(".json")).forEach(((location, resource) -> {
+      profilerFiller.push(location.toString());
+      try (Reader reader = resource.openAsReader()) {
+        JsonObject jo = GSON.fromJson(reader, JsonObject.class);
+        var p = location.getPath();
+        var vs = VoxelClientShape.parse(jo);
+        if (vs != null)
+          builder.put(ResourceLocation.fromNamespaceAndPath(location.getNamespace(), p.substring("voxel_shape/".length(), p.length() - ".json".length())), vs);
+      } catch (Exception e) {
+        LOGGER.error("Error occurred while loading shape resource json " + location, e);
+      }
+      profilerFiller.pop();
+    }));
 
-        profilerFiller.endTick();
+    profilerFiller.endTick();
 
-        voxelClientShapes = builder.build();
-    }
+    voxelClientShapes = builder.build();
+  }
 
-    public Map<ResourceLocation, VoxelClientShape> getVoxelClientShapes() {
-        return voxelClientShapes;
-    }
+  public Map<ResourceLocation, VoxelClientShape> getVoxelClientShapes() {
+    return voxelClientShapes;
+  }
 }

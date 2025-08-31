@@ -3,17 +3,17 @@ package org.modsauce.otyacraftenginerenewed.client.renderer.texture;
 import org.modsauce.otyacraftenginerenewed.client.renderer.texture.impl.URLTextureManagerImpl;
 
 public interface URLTextureManager {
-    static URLTextureManager getInstance() {
-        return URLTextureManagerImpl.INSTANCE;
-    }
+  static URLTextureManager getInstance() {
+    return URLTextureManagerImpl.INSTANCE;
+  }
 
-    TextureLoadResult getAndAsyncLoad(String url, boolean cached);
+  TextureLoadResult getAndAsyncLoad(String url, boolean cached);
 
-    void init();
+  void init();
 
-    void save();
+  void save();
 
-    void release();
+  void release();
 
-    void tick();
+  void tick();
 }

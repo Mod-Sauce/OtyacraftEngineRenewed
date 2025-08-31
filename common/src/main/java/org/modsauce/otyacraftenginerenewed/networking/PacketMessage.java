@@ -1,12 +1,12 @@
 package org.modsauce.otyacraftenginerenewed.networking;
 
 import io.netty.buffer.Unpooled;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 
 public interface PacketMessage {
-    default FriendlyByteBuf toFBB() {
-        return toFBB(new FriendlyByteBuf(Unpooled.buffer()));
-    }
+  default RegistryFriendlyByteBuf toRFBB() {
+    return toRFBB(new RegistryFriendlyByteBuf(Unpooled.buffer()));
+  }
 
-    FriendlyByteBuf toFBB(FriendlyByteBuf buf);
+  RegistryFriendlyByteBuf toRFBB(RegistryFriendlyByteBuf buf);
 }

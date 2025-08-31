@@ -5,9 +5,9 @@ import net.minecraft.nbt.CompoundTag;
 import java.util.UUID;
 
 public interface InstructionScreen {
-    UUID getInstructionID();
+  UUID getInstructionID();
 
-    void instruction(String name, CompoundTag data);
+  void instruction(String name, CompoundTag data);
 
-    void onInstructionReturn(String name, CompoundTag data);
+  void onInstructionReturn(String name, CompoundTag data);
 }

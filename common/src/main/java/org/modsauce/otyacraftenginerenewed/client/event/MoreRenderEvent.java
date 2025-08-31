@@ -14,14 +14,14 @@ import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 
 public interface MoreRenderEvent {
-    Event<RenderItemInHand> RENDER_ITEM_IN_HAND = EventFactory.createEventResult();
-    Event<RenderArmWithItem> RENDER_ARM_WITH_ITEM = EventFactory.createEventResult();
+  Event<RenderItemInHand> RENDER_ITEM_IN_HAND = EventFactory.createEventResult();
+  Event<RenderArmWithItem> RENDER_ARM_WITH_ITEM = EventFactory.createEventResult();
 
-    interface RenderItemInHand {
-        EventResult renderItemInHand(PoseStack poseStack, MultiBufferSource multiBufferSource, InteractionHand hand, int packedLight, float partialTicks, float interpolatedPitch, float swingProgress, float equipProgress, ItemStack stack);
-    }
+  interface RenderItemInHand {
+    EventResult renderItemInHand(PoseStack poseStack, MultiBufferSource multiBufferSource, InteractionHand hand, int packedLight, float partialTicks, float interpolatedPitch, float swingProgress, float equipProgress, ItemStack stack);
+  }
 
-    interface RenderArmWithItem {
-        EventResult renderArmWithItem(ItemInHandLayer<? extends LivingEntity, ? extends EntityModel<?>> layer, LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext displayContext, HumanoidArm humanoidArm, PoseStack poseStack, MultiBufferSource multiBufferSource, int i);
-    }
+  interface RenderArmWithItem {
+    EventResult renderArmWithItem(ItemInHandLayer<? extends LivingEntity, ? extends EntityModel<?>> layer, LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext displayContext, HumanoidArm humanoidArm, PoseStack poseStack, MultiBufferSource multiBufferSource, int i);
+  }
 }

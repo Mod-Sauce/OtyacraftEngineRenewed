@@ -4,13 +4,13 @@ import net.minecraft.util.Mth;
 
 public interface TextureLoadProgress {
 
-    int getTotal();
+  int getTotal();
 
-    int getComplete();
+  int getComplete();
 
-    default float getParent() {
-        return Mth.clamp((float) getComplete() / (float) getTotal(), 0f, 1f);
-    }
+  default float getParent() {
+    return Mth.clamp((float) getComplete() / (float) getTotal(), 0f, 1f);
+  }
 
-    String getStateName();
+  String getStateName();
 }

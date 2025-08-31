@@ -1,7 +1,7 @@
 package org.modsauce.otyacraftenginerenewed.shape;
 
 public interface IkisugiVoxelShape {
-    VoxelEntry[] getRenderEdges();
+  VoxelEntry[] getRenderEdges();
 
-    void setRenderEdges(VoxelEntry... edges);
+  void setRenderEdges(VoxelEntry... edges);
 }
