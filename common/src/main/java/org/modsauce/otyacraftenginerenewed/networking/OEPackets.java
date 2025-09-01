@@ -93,7 +93,7 @@ public class OEPackets {
     }
 
     @Override
-    public FriendlyByteBuf toFBB(FriendlyByteBuf buf) {
+    public RegistryFriendlyByteBuf toRFBB(RegistryFriendlyByteBuf buf) {
       buf.writeUUID(instructionScreenID);
       blockEntityExistence.write(buf);
       buf.writeUtf(name);
@@ -113,7 +113,7 @@ public class OEPackets {
     }
 
     @Override
-    public RegistryFriendlyByteBuf toFBB(RegistryFriendlyByteBuf buf) {
+    public RegistryFriendlyByteBuf toRFBB(RegistryFriendlyByteBuf buf) {
       buf.writeUUID(instructionScreenID);
       itemExistence.write(buf);
       buf.writeUtf(name);

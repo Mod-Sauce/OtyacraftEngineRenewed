@@ -1,5 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.blockentity;
 
+import java.util.Collection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -16,12 +17,18 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
+public abstract class OEBaseContainerBlockEntity
+  extends BaseContainerBlockEntity
+  implements
+    IDroppedBlockEntity, IInstructionBlockEntity, IOEBaseFuncBlockEntity {
 
-public abstract class OEBaseContainerBlockEntity extends BaseContainerBlockEntity implements IDroppedBlockEntity, IInstructionBlockEntity, IOEBaseFuncBlockEntity {
   private boolean updateMark;
 
-  protected OEBaseContainerBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
+  protected OEBaseContainerBlockEntity(
+    BlockEntityType<?> blockEntityType,
+    BlockPos blockPos,
+    BlockState blockState
+  ) {
     super(blockEntityType, blockPos, blockState);
   }
 
@@ -36,7 +43,7 @@ public abstract class OEBaseContainerBlockEntity extends BaseContainerBlockEntit
   }
 
   @NotNull
-  abstract public NonNullList<ItemStack> getItems();
+  public abstract NonNullList<ItemStack> getItems();
 
   @Override
   public int getContainerSize() {
@@ -105,8 +112,7 @@ public abstract class OEBaseContainerBlockEntity extends BaseContainerBlockEntit
 
   @Override
   public boolean stillValid(@NotNull Player player) {
-    if (this.level.getBlockEntity(this.worldPosition) != this)
-      return false;
+    if (this.level.getBlockEntity(this.worldPosition) != this) return false;
     return isUsableByPlayer(player);
   }
 
@@ -116,7 +122,15 @@ public abstract class OEBaseContainerBlockEntity extends BaseContainerBlockEntit
   }
 
   public boolean isUsableByPlayer(Player player) {
-    return getLevel().getBlockEntity(getBlockPos()) == this && player.distanceToSqr((double) getBlockPos().getX() + 0.5D, (double) getBlockPos().getY() + 0.5D, (double) getBlockPos().getZ() + 0.5D) <= 64.0D;
+    return (
+      getLevel().getBlockEntity(getBlockPos()) == this &&
+      player.distanceToSqr(
+        (double) getBlockPos().getX() + 0.5D,
+        (double) getBlockPos().getY() + 0.5D,
+        (double) getBlockPos().getZ() + 0.5D
+      ) <=
+      64.0D
+    );
   }
 
   @Override
@@ -151,12 +165,20 @@ public abstract class OEBaseContainerBlockEntity extends BaseContainerBlockEntit
   }
 
   @Override
-  public CompoundTag onInstruction(ServerPlayer player, String name, CompoundTag data) {
+  public CompoundTag onInstruction(
+    ServerPlayer player,
+    String name,
+    CompoundTag data
+  ) {
     return null;
   }
 
   @Override
-  public boolean canInstructionWith(ServerPlayer player, String name, CompoundTag data) {
+  public boolean canInstructionWith(
+    ServerPlayer player,
+    String name,
+    CompoundTag data
+  ) {
     return stillValid(player);
   }
 

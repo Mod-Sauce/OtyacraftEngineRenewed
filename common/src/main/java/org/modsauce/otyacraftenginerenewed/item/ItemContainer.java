@@ -1,5 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.item;
 
+import java.util.function.Function;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
@@ -13,16 +14,21 @@ import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import org.modsauce.otyacraftenginerenewed.item.location.PlayerItemLocation;
 
-import java.util.function.Function;
-
 public class ItemContainer implements Container {
+
   private final ItemStack itemStack;
   private final PlayerItemLocation location;
   private final NonNullList<ItemStack> items;
   private final String tagName;
   private final Function<Player, Boolean> valid;
 
-  public ItemContainer(ItemStack itemStack, PlayerItemLocation location, int size, String tagName, Function<Player, Boolean> valid) {
+  public ItemContainer(
+    ItemStack itemStack,
+    PlayerItemLocation location,
+    int size,
+    String tagName,
+    Function<Player, Boolean> valid
+  ) {
     this.itemStack = itemStack;
     this.items = NonNullList.withSize(size, ItemStack.EMPTY);
     this.location = location;
@@ -68,7 +74,7 @@ public class ItemContainer implements Container {
     if (stack.getCount() > this.getMaxStackSize()) {
       stack.setCount(this.getMaxStackSize());
     }
-//        if (flag)
+    //        if (flag)
     this.setChanged();
   }
 
@@ -87,7 +93,11 @@ public class ItemContainer implements Container {
 
   @Override
   public boolean stillValid(Player player) {
-    return !itemStack.isEmpty() && valid.apply(player) && location.getItem(player) == itemStack;
+    return (
+      !itemStack.isEmpty() &&
+      valid.apply(player) &&
+      location.getItem(player) == itemStack
+    );
   }
 
   @Override
@@ -113,16 +123,25 @@ public class ItemContainer implements Container {
     saveItemList(itemStack, items, tagName);
   }
 
-  public static void loadItemList(ItemStack itemStack, NonNullList<ItemStack> items, String tagName) {
-    var tag = itemStack.getTag();
-    if (tag != null)
-      ContainerHelper.loadAllItems(tag.getCompound(tagName), items);
+  public static void loadItemList(
+    ItemStack itemStack,
+    NonNullList<ItemStack> items,
+    String tagName
+  ) {
+    var tag = itemStack.getTags();
+    if (tag != null) ContainerHelper.loadAllItems(
+      tag.getCompound(tagName),
+      items
+    );
   }
 
-  public static void saveItemList(ItemStack itemStack, NonNullList<ItemStack> items, String tagName) {
+  public static void saveItemList(
+    ItemStack itemStack,
+    NonNullList<ItemStack> items,
+    String tagName
+  ) {
     var tag = itemStack.getOrCreateTag();
-    if (!tag.contains(tagName))
-      tag.put(tagName, new CompoundTag());
+    if (!tag.contains(tagName)) tag.put(tagName, new CompoundTag());
     ContainerHelper.saveAllItems(tag.getCompound(tagName), items);
   }
 
@@ -130,16 +149,32 @@ public class ItemContainer implements Container {
     return itemStack;
   }
 
-  public static MenuProvider createMenuProvider(ItemStack stack, PlayerItemLocation location, int size, String tagName, MenuFactory factory) {
+  public static MenuProvider createMenuProvider(
+    ItemStack stack,
+    PlayerItemLocation location,
+    int size,
+    String tagName,
+    MenuFactory factory
+  ) {
     var con = new ItemContainer(stack, location, size, tagName, player -> {
-      if (location.getItem(player).isEmpty() || stack.isEmpty())
-        return false;
+      if (location.getItem(player).isEmpty() || stack.isEmpty()) return false;
       return location.getItem(player) == stack;
     });
-    return new SimpleMenuProvider((i, inventory, player1) -> factory.createMenu(i, inventory, con, BlockPos.ZERO, stack, location), stack.getHoverName());
+    return new SimpleMenuProvider(
+      (i, inventory, player1) ->
+        factory.createMenu(i, inventory, con, BlockPos.ZERO, stack, location),
+      stack.getHoverName()
+    );
   }
 
   public static interface MenuFactory {
-    AbstractContainerMenu createMenu(int i, Inventory playerInventory, Container container, BlockPos pos, ItemStack itemStack, PlayerItemLocation location);
+    AbstractContainerMenu createMenu(
+      int i,
+      Inventory playerInventory,
+      Container container,
+      BlockPos pos,
+      ItemStack itemStack,
+      PlayerItemLocation location
+    );
   }
 }

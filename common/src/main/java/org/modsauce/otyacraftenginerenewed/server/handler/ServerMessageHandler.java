@@ -36,7 +36,7 @@ public class ServerMessageHandler {
             message.blockEntityExistence(),
             message.name(),
             retag
-          ).toFBB()
+          ).toRFBB()
         );
       }
     });
@@ -66,7 +66,7 @@ public class ServerMessageHandler {
             message.itemExistence(),
             message.name(),
             retag
-          ).toFBB()
+          ).toRFBB()
         );
       }
     });

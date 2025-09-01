@@ -1,6 +1,8 @@
 package org.modsauce.otyacraftenginerenewed.util;
 
 import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -16,15 +18,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.modsauce.otyacraftenginerenewed.explatform.OEExpectPlatform;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * アイテム関係のユーティリティ
  *
  * @author MORIMORI0317
  */
 public final class OEItemUtils {
+
   /**
    * MOBバケツから中身のエンティティタイプを取得
    *
@@ -43,9 +43,11 @@ public final class OEItemUtils {
    * @return コピーずみアイテムスタック
    */
   @NotNull
-  public static ItemStack copyAndSetCount(@NotNull ItemStack itemStack, int size) {
-    if (size == 0)
-      return ItemStack.EMPTY;
+  public static ItemStack copyAndSetCount(
+    @NotNull ItemStack itemStack,
+    int size
+  ) {
+    if (size == 0) return ItemStack.EMPTY;
     ItemStack copy = itemStack.copy();
     copy.setCount(size);
     return copy;
@@ -140,7 +142,11 @@ public final class OEItemUtils {
    * @return アイテムスタックエンティティ
    */
   @NotNull
-  public static ItemEntity createItemEntity(@NotNull ItemStack item, @NotNull Level level, Vec3 pos) {
+  public static ItemEntity createItemEntity(
+    @NotNull ItemStack item,
+    @NotNull Level level,
+    Vec3 pos
+  ) {
     return createItemEntity(item, level, pos.x(), pos.y(), pos.z());
   }
 
@@ -155,7 +161,13 @@ public final class OEItemUtils {
    * @return アイテムスタックエンティティ
    */
   @NotNull
-  public static ItemEntity createItemEntity(@NotNull ItemStack item, @NotNull Level level, double x, double y, double z) {
+  public static ItemEntity createItemEntity(
+    @NotNull ItemStack item,
+    @NotNull Level level,
+    double x,
+    double y,
+    double z
+  ) {
     ItemEntity iteme = new ItemEntity(level, x, y, z, item);
     iteme.setDefaultPickUpDelay();
     return iteme;
@@ -169,7 +181,10 @@ public final class OEItemUtils {
    * @return アイテムスタックのリスト
    */
   @NotNull
-  public static List<ItemStack> allocationItemStack(@NotNull ItemStack stack, int cont) {
+  public static List<ItemStack> allocationItemStack(
+    @NotNull ItemStack stack,
+    int cont
+  ) {
     if (stack.isEmpty()) return ImmutableList.of();
     List<ItemStack> stacks = new ArrayList<>();
     int sc = stack.getMaxStackSize();
@@ -205,15 +220,17 @@ public final class OEItemUtils {
    * @param stack2 アイテムスタック
    * @return 一致するかどうか
    */
-  public static boolean matchesExceptStackCount(@NotNull ItemStack stack1, @NotNull ItemStack stack2) {
-    if (stack1.isEmpty() && stack2.isEmpty())
-      return true;
+  public static boolean matchesExceptStackCount(
+    @NotNull ItemStack stack1,
+    @NotNull ItemStack stack2
+  ) {
+    if (stack1.isEmpty() && stack2.isEmpty()) return true;
 
-    if (!stack1.is((stack2.getItem())))
-      return false;
+    if (!stack1.is((stack2.getItem()))) return false;
 
-    if (!stack1.isEmpty() && !stack2.isEmpty())
-      return ItemStack.isSameItemSameTags(stack1, stack2);
+    if (
+      !stack1.isEmpty() && !stack2.isEmpty()
+    ) return ItemStack.isSameItemSameComponents(stack1, stack2);
 
     return false;
   }
@@ -226,16 +243,20 @@ public final class OEItemUtils {
    * @return 最適化済みアイテムスタックリスト
    */
   @NotNull
-  public static List<ItemStack> overlapItemStacks(@NotNull List<ItemStack> stacks) {
+  public static List<ItemStack> overlapItemStacks(
+    @NotNull List<ItemStack> stacks
+  ) {
     List<ItemStack> ret = new ArrayList<>();
 
     for (ItemStack stack : stacks) {
-      if (stack.isEmpty())
-        continue;
+      if (stack.isEmpty()) continue;
 
       ItemStack match = null;
       for (ItemStack retstack : ret) {
-        if (retstack.getCount() < retstack.getMaxStackSize() && matchesExceptStackCount(stack, retstack)) {
+        if (
+          retstack.getCount() < retstack.getMaxStackSize() &&
+          matchesExceptStackCount(stack, retstack)
+        ) {
           match = retstack;
           break;
         }
@@ -261,7 +282,10 @@ public final class OEItemUtils {
   }
 
   @Nullable
-  public static FoodProperties getFoodProperties(ItemStack stack, @Nullable LivingEntity livingEntity) {
+  public static FoodProperties getFoodProperties(
+    ItemStack stack,
+    @Nullable LivingEntity livingEntity
+  ) {
     return OEExpectPlatform.getFoodProperties(stack, livingEntity);
   }
 }

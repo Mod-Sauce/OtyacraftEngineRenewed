@@ -2,6 +2,8 @@ package org.modsauce.otyacraftenginerenewed.mixin.client;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import java.util.ArrayList;
+import java.util.List;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.core.BlockPos;
@@ -24,34 +26,72 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
 @Mixin(LevelRenderer.class)
 public abstract class LevelRendererMixin {
+
   @Shadow
   @Nullable
   private ClientLevel level;
 
   @Inject(method = "renderHitOutline", at = @At("HEAD"), cancellable = true)
-  private void renderHitOutline(PoseStack poseStack, VertexConsumer vertexConsumer, Entity entity, double d, double e, double f, BlockPos blockPos, BlockState blockState, CallbackInfo ci) {
-    var shapeType = OtyacraftEngineClientDebug.getInstance().getHighlightVoxelShape();
+  private void renderHitOutline(
+    PoseStack poseStack,
+    VertexConsumer vertexConsumer,
+    Entity entity,
+    double d,
+    double e,
+    double f,
+    BlockPos blockPos,
+    BlockState blockState,
+    CallbackInfo ci
+  ) {
+    var shapeType =
+      OtyacraftEngineClientDebug.getInstance().getHighlightVoxelShape();
     if (shapeType != HighlightVoxelShapeType.OFF) {
       var shape = shapeType.getGetter();
-      if (shape != null)
-        LevelRenderer.renderVoxelShape(poseStack, vertexConsumer, shape.getShape(blockState, level, blockPos, CollisionContext.of(entity)), (double) blockPos.getX() - d, (double) blockPos.getY() - e, (double) blockPos.getZ() - f, 0.0F, 0.0F, 0.0F, 0.4F, true);
+      if (shape != null) LevelRenderer.renderVoxelShape(
+        poseStack,
+        vertexConsumer,
+        shape.getShape(
+          blockState,
+          level,
+          blockPos,
+          CollisionContext.of(entity)
+        ),
+        (double) blockPos.getX() - d,
+        (double) blockPos.getY() - e,
+        (double) blockPos.getZ() - f,
+        0.0F,
+        0.0F,
+        0.0F,
+        0.4F,
+        true
+      );
       ci.cancel();
     }
   }
 
   @Inject(method = "renderShape", at = @At("HEAD"), cancellable = true)
-  private static void renderShape(PoseStack poseStack, VertexConsumer vertexConsumer, VoxelShape voxelShape, double x, double y, double z, float r, float g, float b, float a, CallbackInfo ci) {
+  private static void renderShape(
+    PoseStack poseStack,
+    VertexConsumer vertexConsumer,
+    VoxelShape voxelShape,
+    double x,
+    double y,
+    double z,
+    float r,
+    float g,
+    float b,
+    float a,
+    CallbackInfo ci
+  ) {
     if (((IkisugiVoxelShape) voxelShape).getRenderEdges() == null) return;
     ci.cancel();
 
     for (VoxelEntry entry : ((IkisugiVoxelShape) voxelShape).getRenderEdges()) {
-      var cls = ClientIVShapeManager.getInstance().getVoxelClientShape(entry.getLocation());
+      var cls = ClientIVShapeManager.getInstance().getVoxelClientShape(
+        entry.getLocation()
+      );
       if (cls == null) continue;
       poseStack.pushPose();
       var p = entry.getPose();
@@ -72,15 +112,46 @@ public abstract class LevelRendererMixin {
       }
 
       for (VoxelEdge edge : cache) {
-        renderShapeEdge(pose, vertexConsumer, edge.stX(), edge.stY(), edge.stZ(), edge.enX(), edge.enY(), edge.enZ(), x, y, z, r, g, b, a);
+        renderShapeEdge(
+          pose,
+          vertexConsumer,
+          edge.stX(),
+          edge.stY(),
+          edge.stZ(),
+          edge.enX(),
+          edge.enY(),
+          edge.enZ(),
+          x,
+          y,
+          z,
+          r,
+          g,
+          b,
+          a
+        );
       }
 
       poseStack.popPose();
     }
   }
 
-
-  private static void renderShapeEdge(PoseStack.Pose pose, VertexConsumer vertexConsumer, double sx, double sy, double sz, double ex, double ey, double ez, double x, double y, double z, float r, float g, float b, float a) {
+  private static void renderShapeEdge(
+    PoseStack.Pose pose,
+    VertexConsumer vertexConsumer,
+    double sx,
+    double sy,
+    double sz,
+    double ex,
+    double ey,
+    double ez,
+    double x,
+    double y,
+    double z,
+    float r,
+    float g,
+    float b,
+    float a
+  ) {
     float q = (float) (ex - sx);
     float r2 = (float) (ey - sy);
     float s = (float) (ez - sz);
@@ -88,7 +159,23 @@ public abstract class LevelRendererMixin {
     q /= t;
     r2 /= t;
     s /= t;
-    vertexConsumer.vertex(pose.pose(), (float) (sx + x), (float) (sy + y), (float) (sz + z)).color(r, g, b, a).normal(pose.normal(), q, r2, s).endVertex();
-    vertexConsumer.vertex(pose.pose(), (float) (ex + x), (float) (ey + y), (float) (ez + z)).color(r, g, b, a).normal(pose.normal(), q, r2, s).endVertex();
+    vertexConsumer
+      .addVertex(
+        pose.pose(),
+        (float) (sx + x),
+        (float) (sy + y),
+        (float) (sz + z)
+      )
+      .setColor(r, g, b, a)
+      .setNormal(pose, q, r2, s);
+    vertexConsumer
+      .addVertex(
+        pose.pose(),
+        (float) (ex + x),
+        (float) (ey + y),
+        (float) (ez + z)
+      )
+      .setColor(r, g, b, a)
+      .setNormal(pose, q, r2, s);
   }
 }

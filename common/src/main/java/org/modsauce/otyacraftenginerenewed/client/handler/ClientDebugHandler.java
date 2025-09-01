@@ -1,4 +1,4 @@
-package org.modsauce.otyacraftenginerenewed.client.handler;
+/*package org.modsauce.otyacraftenginerenewed.client.handler;
 
 import dev.architectury.event.events.client.ClientTooltipEvent;
 import dev.architectury.platform.Platform;
@@ -72,3 +72,6 @@ public class ClientDebugHandler {
     return Set.of();
   }
 }
+*/
+// Removed for now
+// Todo: Fin usage and fix it
