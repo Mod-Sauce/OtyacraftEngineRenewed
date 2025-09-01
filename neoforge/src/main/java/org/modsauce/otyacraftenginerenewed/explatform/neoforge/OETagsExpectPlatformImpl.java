@@ -1,4 +1,4 @@
-package org.modsauce.otyacraftenginerenewed.explatform.forge;
+package org.modsauce.otyacraftenginerenewed.explatform.neoforge;
 
 import com.google.common.collect.ImmutableList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.modsauce.otyacraftenginerenewed.explatform.forge;
+package org.modsauce.otyacraftenginerenewed.explatform.neoforge;
 
 import dev.felnull.fnjl.util.FNReflectionUtil;
 import java.util.ArrayList;

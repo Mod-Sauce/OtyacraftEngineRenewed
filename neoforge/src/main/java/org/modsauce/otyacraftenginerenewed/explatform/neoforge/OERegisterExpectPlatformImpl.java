@@ -1,4 +1,4 @@
-package org.modsauce.otyacraftenginerenewed.explatform.forge;
+package org.modsauce.otyacraftenginerenewed.explatform.neoforge;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 import java.util.function.Supplier;
