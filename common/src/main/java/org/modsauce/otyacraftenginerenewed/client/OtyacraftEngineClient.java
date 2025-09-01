@@ -5,7 +5,7 @@ import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.gui.ConfigScreenProvider;
 import org.modsauce.otyacraftenginerenewed.OEConfig;
 import org.modsauce.otyacraftenginerenewed.OtyacraftEngine;
-import org.modsauce.otyacraftenginerenewed.client.handler.ClientDebugHandler;
+//import org.modsauce.otyacraftenginerenewed.client.handler.ClientDebugHandler;
 import org.modsauce.otyacraftenginerenewed.client.handler.ClientHandler;
 import org.modsauce.otyacraftenginerenewed.client.renderer.texture.URLTextureManager;
 import org.modsauce.otyacraftenginerenewed.client.shape.ClientIVShapeManager;
@@ -15,7 +15,7 @@ public class OtyacraftEngineClient {
 
   public static void init() {
     configInit();
-    ClientDebugHandler.init();
+    //    ClientDebugHandler.init();
     ClientHandler.init();
     URLTextureManager.getInstance().init();
 
@@ -27,16 +27,20 @@ public class OtyacraftEngineClient {
   }
 
   private static void configInit() {
-    Platform.getMod(OtyacraftEngine.MODID).registerConfigurationScreen(parent -> {
-      ConfigScreenProvider<OEConfig> provider = (ConfigScreenProvider<OEConfig>) AutoConfig.getConfigScreen(OEConfig.class, parent);
+    Platform.getMod(OtyacraftEngine.MODID).registerConfigurationScreen(
+        parent -> {
+          ConfigScreenProvider<OEConfig> provider = (ConfigScreenProvider<
+            OEConfig
+          >) AutoConfig.getConfigScreen(OEConfig.class, parent);
 
-      provider.setBuildFunction(builder -> {
-        builder.setGlobalized(true);
-        builder.setGlobalizedExpanded(false);
-        return builder.build();
-      });
+          provider.setBuildFunction(builder -> {
+            builder.setGlobalized(true);
+            builder.setGlobalizedExpanded(false);
+            return builder.build();
+          });
 
-      return provider.get();
-    });
+          return provider.get();
+        }
+      );
   }
 }

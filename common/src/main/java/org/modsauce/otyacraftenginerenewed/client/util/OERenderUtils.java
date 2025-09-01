@@ -3,6 +3,9 @@ package org.modsauce.otyacraftenginerenewed.client.util;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.*;
 import com.mojang.math.Axis;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.function.Consumer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
@@ -26,16 +29,13 @@ import org.modsauce.otyacraftenginerenewed.client.ClientMixinTemp;
 import org.modsauce.otyacraftenginerenewed.client.renderer.OERenderTypes;
 import org.modsauce.otyacraftenginerenewed.explatform.client.OEClientExpectPlatform;
 
-import java.util.Objects;
-import java.util.UUID;
-import java.util.function.Consumer;
-
 /**
  * 描画関係のユーティリティ
  *
  * @author MORIMORI0317
  */
 public final class OERenderUtils {
+
   private static final Minecraft mc = Minecraft.getInstance();
   public static final float MIN_BREADTH = 1.0E-3F;
 
@@ -47,7 +47,12 @@ public final class OERenderUtils {
    * @param y         Y
    * @param z         Z
    */
-  public static void poseTrans16(@NotNull PoseStack poseStack, double x, double y, double z) {
+  public static void poseTrans16(
+    @NotNull PoseStack poseStack,
+    double x,
+    double y,
+    double z
+  ) {
     float pix = 1f / 16f;
     poseStack.translate(pix * x, pix * y, pix * z);
   }
@@ -70,7 +75,12 @@ public final class OERenderUtils {
    * @param y         Y角度
    * @param z         Z角度
    */
-  public static void poseRotateAll(@NotNull PoseStack poseStack, float x, float y, float z) {
+  public static void poseRotateAll(
+    @NotNull PoseStack poseStack,
+    float x,
+    float y,
+    float z
+  ) {
     poseRotateX(poseStack, x);
     poseRotateY(poseStack, y);
     poseRotateZ(poseStack, z);
@@ -113,8 +123,14 @@ public final class OERenderUtils {
    * @param state     角度
    * @param roted     回転ずれ
    */
-  public static void poseRotateHorizontalState(@NotNull PoseStack poseStack, @NotNull BlockState state, int roted) {
-    Direction direction = state.getValue(BlockStateProperties.HORIZONTAL_FACING);
+  public static void poseRotateHorizontalState(
+    @NotNull PoseStack poseStack,
+    @NotNull BlockState state,
+    int roted
+  ) {
+    Direction direction = state.getValue(
+      BlockStateProperties.HORIZONTAL_FACING
+    );
     poseRotateDirection(poseStack, direction, roted);
   }
 
@@ -125,7 +141,11 @@ public final class OERenderUtils {
    * @param direction 方向
    * @param roted     回転ずれ
    */
-  public static void poseRotateDirection(@NotNull PoseStack poseStack, @NotNull Direction direction, int roted) {
+  public static void poseRotateDirection(
+    @NotNull PoseStack poseStack,
+    @NotNull Direction direction,
+    int roted
+  ) {
     for (int i = 0; i < roted; i++) {
       direction = direction.getClockWise();
     }
@@ -150,7 +170,13 @@ public final class OERenderUtils {
    * @param centerZ           中心Z
    * @param poseStackConsumer 中心での処理
    */
-  public static void poseCenterConsumer(@NotNull PoseStack poseStack, float centerX, float centerY, float centerZ, @NotNull Consumer<PoseStack> poseStackConsumer) {
+  public static void poseCenterConsumer(
+    @NotNull PoseStack poseStack,
+    float centerX,
+    float centerY,
+    float centerZ,
+    @NotNull Consumer<PoseStack> poseStackConsumer
+  ) {
     poseStack.translate(centerX, centerY, centerZ);
     poseStackConsumer.accept(poseStack);
     poseStack.translate(-centerX, -centerY, -centerZ);
@@ -170,7 +196,18 @@ public final class OERenderUtils {
    * @param textureWidth  テクスチャの横サイズ
    * @param textureHeight テクスチャの縦サイズ
    */
-  public static void drawTexture(@NotNull ResourceLocation location, @NotNull PoseStack poseStack, float x, float y, float u0, float v0, float ru1, float rv1, float textureWidth, float textureHeight) {
+  public static void drawTexture(
+    @NotNull ResourceLocation location,
+    @NotNull PoseStack poseStack,
+    float x,
+    float y,
+    float u0,
+    float v0,
+    float ru1,
+    float rv1,
+    float textureWidth,
+    float textureHeight
+  ) {
     setPreDraw(location);
     blitFloat(poseStack, x, y, u0, v0, ru1, rv1, textureWidth, textureHeight);
   }
@@ -188,7 +225,16 @@ public final class OERenderUtils {
    * @param ru1       テクスチャの終了地点X
    * @param rv1       テクスチャの終了地点Y
    */
-  public static void drawTexture(@NotNull ResourceLocation location, @NotNull PoseStack poseStack, float x, float y, float ru0, float rv0, float ru1, float rv1) {
+  public static void drawTexture(
+    @NotNull ResourceLocation location,
+    @NotNull PoseStack poseStack,
+    float x,
+    float y,
+    float ru0,
+    float rv0,
+    float ru1,
+    float rv1
+  ) {
     drawTexture(location, poseStack, x, y, ru0, rv0, ru1, rv1, 256, 256);
   }
 
@@ -209,7 +255,10 @@ public final class OERenderUtils {
    * @param location テクスチャ
    * @param draw     描画処理
    */
-  public static void setAndDrawAlpha(@NotNull ResourceLocation location, Runnable draw) {
+  public static void setAndDrawAlpha(
+    @NotNull ResourceLocation location,
+    Runnable draw
+  ) {
     setPreDraw(location);
     RenderSystem.enableBlend();
     RenderSystem.defaultBlendFunc();
@@ -231,8 +280,21 @@ public final class OERenderUtils {
    * @param textureWidth  テクスチャの横サイズ
    * @param textureHeight テクスチャの縦サイズ
    */
-  public static void drawTextureAlpha(@NotNull ResourceLocation location, @NotNull PoseStack poseStack, float x, float y, float u0, float v0, float ru1, float rv1, float textureWidth, float textureHeight) {
-    setAndDrawAlpha(location, () -> blitFloat(poseStack, x, y, u0, v0, ru1, rv1, textureWidth, textureHeight));
+  public static void drawTextureAlpha(
+    @NotNull ResourceLocation location,
+    @NotNull PoseStack poseStack,
+    float x,
+    float y,
+    float u0,
+    float v0,
+    float ru1,
+    float rv1,
+    float textureWidth,
+    float textureHeight
+  ) {
+    setAndDrawAlpha(location, () ->
+      blitFloat(poseStack, x, y, u0, v0, ru1, rv1, textureWidth, textureHeight)
+    );
   }
 
   /**
@@ -248,7 +310,16 @@ public final class OERenderUtils {
    * @param ru1       テクスチャの終了地点X
    * @param rv1       テクスチャの終了地点Y
    */
-  public static void drawTextureAlpha(@NotNull ResourceLocation location, @NotNull PoseStack poseStack, float x, float y, float u0, float v0, float ru1, float rv1) {
+  public static void drawTextureAlpha(
+    @NotNull ResourceLocation location,
+    @NotNull PoseStack poseStack,
+    float x,
+    float y,
+    float u0,
+    float v0,
+    float ru1,
+    float rv1
+  ) {
     drawTextureAlpha(location, poseStack, x, y, u0, v0, ru1, rv1, 256, 256);
   }
 
@@ -265,7 +336,17 @@ public final class OERenderUtils {
    * @param textureWidth  テクスチャの横サイズ
    * @param textureHeight テクスチャの縦サイズ
    */
-  public static void blitFloat(@NotNull PoseStack poseStack, float x, float y, float u0, float v0, float rvu1, float rvv1, float textureWidth, float textureHeight) {
+  public static void blitFloat(
+    @NotNull PoseStack poseStack,
+    float x,
+    float y,
+    float u0,
+    float v0,
+    float rvu1,
+    float rvv1,
+    float textureWidth,
+    float textureHeight
+  ) {
     Matrix4f matrix4f = poseStack.last().pose();
     float ry = x + rvu1;
     float rh = y + rvv1;
@@ -275,13 +356,15 @@ public final class OERenderUtils {
     float rv1 = (v0 + rvv1) / textureHeight;
 
     RenderSystem.setShader(GameRenderer::getPositionTexShader);
-    BufferBuilder bufferBuilder = Tesselator.getInstance().getBuilder();
-    bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-    bufferBuilder.vertex(matrix4f, x, rh, 0).uv(ru0, rv1).endVertex();
-    bufferBuilder.vertex(matrix4f, ry, rh, 0).uv(ru1, rv1).endVertex();
-    bufferBuilder.vertex(matrix4f, ry, y, 0).uv(ru1, rv0).endVertex();
-    bufferBuilder.vertex(matrix4f, x, y, 0).uv(ru0, rv0).endVertex();
-    BufferUploader.drawWithShader(bufferBuilder.end());
+    BufferBuilder bufferBuilder = Tesselator.getInstance().begin(
+      VertexFormat.Mode.QUADS,
+      DefaultVertexFormat.POSITION_TEX
+    );
+    bufferBuilder.addVertex(matrix4f, x, rh, 0).setUv(ru0, rv1);
+    bufferBuilder.addVertex(matrix4f, ry, rh, 0).setUv(ru1, rv1);
+    bufferBuilder.addVertex(matrix4f, ry, y, 0).setUv(ru1, rv0);
+    bufferBuilder.addVertex(matrix4f, x, y, 0).setUv(ru0, rv0);
+    BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
   }
 
   /**
@@ -296,7 +379,15 @@ public final class OERenderUtils {
    * @param u1        相対テクスチャの終了地点X
    * @param v1        相対テクスチャの終了地点Y
    */
-  public static void blitFloat(@NotNull PoseStack poseStack, float x, float y, float ru0, float rv0, float u1, float v1) {
+  public static void blitFloat(
+    @NotNull PoseStack poseStack,
+    float x,
+    float y,
+    float ru0,
+    float rv0,
+    float u1,
+    float v1
+  ) {
     blitFloat(poseStack, x, y, ru0, rv0, u1, v1, 256, 256);
   }
 
@@ -311,11 +402,25 @@ public final class OERenderUtils {
    * @param height    高さ
    * @param color     塗りつぶし色
    */
-  public static void drawFill(@NotNull PoseStack poseStack, float x, float y, float width, float height, int color) {
+  public static void drawFill(
+    @NotNull PoseStack poseStack,
+    float x,
+    float y,
+    float width,
+    float height,
+    int color
+  ) {
     innerFill(poseStack.last().pose(), x, y, width, height, color);
   }
 
-  private static void innerFill(Matrix4f matrix4f, float x, float y, float w, float h, int color) {
+  private static void innerFill(
+    Matrix4f matrix4f,
+    float x,
+    float y,
+    float w,
+    float h,
+    int color
+  ) {
     float o;
     if (x < w) {
       o = x;
@@ -333,15 +438,17 @@ public final class OERenderUtils {
     float g = (float) FastColor.ARGB32.red(color) / 255.0F;
     float h2 = (float) FastColor.ARGB32.green(color) / 255.0F;
     float p = (float) FastColor.ARGB32.blue(color) / 255.0F;
-    BufferBuilder bufferBuilder = Tesselator.getInstance().getBuilder();
+    BufferBuilder bufferBuilder = Tesselator.getInstance().begin(
+      VertexFormat.Mode.QUADS,
+      DefaultVertexFormat.POSITION_COLOR
+    );
     RenderSystem.enableBlend();
     RenderSystem.setShader(GameRenderer::getPositionColorShader);
-    bufferBuilder.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-    bufferBuilder.vertex(matrix4f, x, y, 0).color(g, h2, p, f).endVertex();
-    bufferBuilder.vertex(matrix4f, x, h, 0).color(g, h2, p, f).endVertex();
-    bufferBuilder.vertex(matrix4f, w, h, 0).color(g, h2, p, f).endVertex();
-    bufferBuilder.vertex(matrix4f, w, y, 0).color(g, h2, p, f).endVertex();
-    BufferUploader.drawWithShader(bufferBuilder.end());
+    bufferBuilder.addVertex(matrix4f, x, y, 0).setColor(g, h2, p, f);
+    bufferBuilder.addVertex(matrix4f, x, h, 0).setColor(g, h2, p, f);
+    bufferBuilder.addVertex(matrix4f, w, h, 0).setColor(g, h2, p, f);
+    bufferBuilder.addVertex(matrix4f, w, y, 0).setColor(g, h2, p, f);
+    BufferUploader.drawWithShader(bufferBuilder.buildOrThrow());
     RenderSystem.disableBlend();
   }
 
@@ -354,10 +461,26 @@ public final class OERenderUtils {
    * @param combinedLight   CombinedLight
    * @param combinedOverlay CombinedOverlay
    */
-  public static void renderModel(PoseStack poseStack, VertexConsumer vertexConsumer, @NotNull BakedModel bakedModel, int combinedLight, int combinedOverlay) {
+  public static void renderModel(
+    PoseStack poseStack,
+    VertexConsumer vertexConsumer,
+    @NotNull BakedModel bakedModel,
+    int combinedLight,
+    int combinedOverlay
+  ) {
     Objects.requireNonNull(bakedModel);
     var bmr = mc.getBlockRenderer().getModelRenderer();
-    bmr.renderModel(poseStack.last(), vertexConsumer, null, bakedModel, 1.0F, 1.0F, 1.0F, combinedLight, combinedOverlay);
+    bmr.renderModel(
+      poseStack.last(),
+      vertexConsumer,
+      null,
+      bakedModel,
+      1.0F,
+      1.0F,
+      1.0F,
+      combinedLight,
+      combinedOverlay
+    );
   }
 
   /**
@@ -370,62 +493,291 @@ public final class OERenderUtils {
    * @param combinedOverlay CombinedOverlay
    * @param color           色
    */
-  public static void renderModel(PoseStack poseStack, VertexConsumer vertexConsumer, @NotNull BakedModel bakedModel, int combinedLight, int combinedOverlay, int color) {
+  public static void renderModel(
+    PoseStack poseStack,
+    VertexConsumer vertexConsumer,
+    @NotNull BakedModel bakedModel,
+    int combinedLight,
+    int combinedOverlay,
+    int color
+  ) {
     Objects.requireNonNull(bakedModel);
     var bmr = mc.getBlockRenderer().getModelRenderer();
-    float r = (float) (color >> 16 & 255) / 255.0F;
-    float g = (float) (color >> 8 & 255) / 255.0F;
+    float r = (float) ((color >> 16) & 255) / 255.0F;
+    float g = (float) ((color >> 8) & 255) / 255.0F;
     float b = (float) (color & 255) / 255.0F;
-    bmr.renderModel(poseStack.last(), vertexConsumer, null, bakedModel, r, g, b, combinedLight, combinedOverlay);
+    bmr.renderModel(
+      poseStack.last(),
+      vertexConsumer,
+      null,
+      bakedModel,
+      r,
+      g,
+      b,
+      combinedLight,
+      combinedOverlay
+    );
   }
 
   @Deprecated
-  public static void renderTextureSprite(ResourceLocation location, PoseStack poseStack, MultiBufferSource multiBufferSource, float x, float y, float z, float pitch, float yaw, float roll, float width, float height, float u0, float v0, float u1, float v1, float textureWidth, float textureHeight, int combinedLightIn, int combinedOverlayIn) {
+  public static void renderTextureSprite(
+    ResourceLocation location,
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    float x,
+    float y,
+    float z,
+    float pitch,
+    float yaw,
+    float roll,
+    float width,
+    float height,
+    float u0,
+    float v0,
+    float u1,
+    float v1,
+    float textureWidth,
+    float textureHeight,
+    int combinedLightIn,
+    int combinedOverlayIn
+  ) {
     poseStack.pushPose();
     poseStack.translate(x, y, z);
     poseRotateY(poseStack, yaw);
     poseRotateX(poseStack, pitch);
     poseRotateZ(poseStack, roll);
-    renderTextureSprite(location, poseStack, multiBufferSource, width, height, u0, v0, u1, v1, textureWidth, textureHeight, combinedLightIn, combinedOverlayIn);
+    renderTextureSprite(
+      location,
+      poseStack,
+      multiBufferSource,
+      width,
+      height,
+      u0,
+      v0,
+      u1,
+      v1,
+      textureWidth,
+      textureHeight,
+      combinedLightIn,
+      combinedOverlayIn
+    );
     poseStack.popPose();
   }
 
-
-  public static void renderTextureSprite(ResourceLocation location, PoseStack poseStack, MultiBufferSource multiBufferSource, float width, float height, float u0, float v0, float u1, float v1, float textureWidth, float textureHeight, int combinedLightIn, int combinedOverlayIn) {
-    renderSprite(poseStack, multiBufferSource.getBuffer(OERenderTypes.simpleSpriteCutout(location)), width, height, u0, v0, u1, v1, textureWidth, textureHeight, combinedLightIn, combinedOverlayIn);
+  public static void renderTextureSprite(
+    ResourceLocation location,
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    float width,
+    float height,
+    float u0,
+    float v0,
+    float u1,
+    float v1,
+    float textureWidth,
+    float textureHeight,
+    int combinedLightIn,
+    int combinedOverlayIn
+  ) {
+    renderSprite(
+      poseStack,
+      multiBufferSource.getBuffer(OERenderTypes.simpleSpriteCutout(location)),
+      width,
+      height,
+      u0,
+      v0,
+      u1,
+      v1,
+      textureWidth,
+      textureHeight,
+      combinedLightIn,
+      combinedOverlayIn
+    );
   }
 
-  public static void renderColorfulTextureSprite(ResourceLocation location, PoseStack poseStack, MultiBufferSource multiBufferSource, float width, float height, float u0, float v0, float u1, float v1, float textureWidth, float textureHeight, int color, int combinedLightIn, int combinedOverlayIn) {
-    renderColorfulSprite(poseStack, multiBufferSource.getBuffer(OERenderTypes.simpleSpriteCutout(location)), width, height, u0, v0, u1, v1, textureWidth, textureHeight, color, combinedLightIn, combinedOverlayIn);
+  public static void renderColorfulTextureSprite(
+    ResourceLocation location,
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    float width,
+    float height,
+    float u0,
+    float v0,
+    float u1,
+    float v1,
+    float textureWidth,
+    float textureHeight,
+    int color,
+    int combinedLightIn,
+    int combinedOverlayIn
+  ) {
+    renderColorfulSprite(
+      poseStack,
+      multiBufferSource.getBuffer(OERenderTypes.simpleSpriteCutout(location)),
+      width,
+      height,
+      u0,
+      v0,
+      u1,
+      v1,
+      textureWidth,
+      textureHeight,
+      color,
+      combinedLightIn,
+      combinedOverlayIn
+    );
   }
 
-  public static void renderSprite(PoseStack poseStack, VertexConsumer vertexConsumer, float width, float height, float u0, float v0, float u1, float v1, float textureWidth, float textureHeight, int combinedLightIn, int combinedOverlayIn) {
-    renderColorfulSprite(poseStack, vertexConsumer, width, height, u0, v0, u1, v1, textureWidth, textureHeight, 0xFFFFFFFF, combinedLightIn, combinedOverlayIn);
+  public static void renderSprite(
+    PoseStack poseStack,
+    VertexConsumer vertexConsumer,
+    float width,
+    float height,
+    float u0,
+    float v0,
+    float u1,
+    float v1,
+    float textureWidth,
+    float textureHeight,
+    int combinedLightIn,
+    int combinedOverlayIn
+  ) {
+    renderColorfulSprite(
+      poseStack,
+      vertexConsumer,
+      width,
+      height,
+      u0,
+      v0,
+      u1,
+      v1,
+      textureWidth,
+      textureHeight,
+      0xFFFFFFFF,
+      combinedLightIn,
+      combinedOverlayIn
+    );
   }
 
-  public static void renderColorfulSprite(PoseStack poseStack, VertexConsumer vertexConsumer, float width, float height, float u0, float v0, float u1, float v1, float textureWidth, float textureHeight, int color, int combinedLightIn, int combinedOverlayIn) {
+  public static void renderColorfulSprite(
+    PoseStack poseStack,
+    VertexConsumer vertexConsumer,
+    float width,
+    float height,
+    float u0,
+    float v0,
+    float u1,
+    float v1,
+    float textureWidth,
+    float textureHeight,
+    int color,
+    int combinedLightIn,
+    int combinedOverlayIn
+  ) {
     float wst = u0 / textureWidth;
     float wft = u1 / textureWidth + wst;
     float hst = v0 / textureHeight;
     float hft = v1 / textureHeight + hst;
 
-    float a = (float) (color >> 24 & 255) / 255.0F;
-    float r = (float) (color >> 16 & 255) / 255.0F;
-    float g = (float) (color >> 8 & 255) / 255.0F;
+    float a = (float) ((color >> 24) & 255) / 255.0F;
+    float r = (float) ((color >> 16) & 255) / 255.0F;
+    float g = (float) ((color >> 8) & 255) / 255.0F;
     float b = (float) (color & 255) / 255.0F;
 
     PoseStack.Pose pose = poseStack.last();
-    vertex(vertexConsumer, pose, 0, 0, 0, wst, hft, r, g, b, a, combinedOverlayIn, combinedLightIn);
-    vertex(vertexConsumer, pose, width, 0, 0, wft, hft, r, g, b, a, combinedOverlayIn, combinedLightIn);
-    vertex(vertexConsumer, pose, width, height, 0, wft, hst, r, g, b, a, combinedOverlayIn, combinedLightIn);
-    vertex(vertexConsumer, pose, 0, height, 0, wst, hst, r, g, b, a, combinedOverlayIn, combinedLightIn);
+    vertex(
+      vertexConsumer,
+      pose,
+      0,
+      0,
+      0,
+      wst,
+      hft,
+      r,
+      g,
+      b,
+      a,
+      combinedOverlayIn,
+      combinedLightIn
+    );
+    vertex(
+      vertexConsumer,
+      pose,
+      width,
+      0,
+      0,
+      wft,
+      hft,
+      r,
+      g,
+      b,
+      a,
+      combinedOverlayIn,
+      combinedLightIn
+    );
+    vertex(
+      vertexConsumer,
+      pose,
+      width,
+      height,
+      0,
+      wft,
+      hst,
+      r,
+      g,
+      b,
+      a,
+      combinedOverlayIn,
+      combinedLightIn
+    );
+    vertex(
+      vertexConsumer,
+      pose,
+      0,
+      height,
+      0,
+      wst,
+      hst,
+      r,
+      g,
+      b,
+      a,
+      combinedOverlayIn,
+      combinedLightIn
+    );
   }
 
-  private static void vertex(VertexConsumer builder, PoseStack.Pose pose, float x, float y, float z, float u, float v, float r, float g, float b, float a, int combinedOverlayIn, int combinedLightIn) {
-    builder.vertex(pose.pose(), x, y, z).color(r, g, b, a).uv(u, v).overlayCoords(combinedOverlayIn).uv2(combinedLightIn).normal(pose.normal(), 0f, 0f, 0f).endVertex();
+  private static void vertex(
+    VertexConsumer builder,
+    PoseStack.Pose pose,
+    float x,
+    float y,
+    float z,
+    float u,
+    float v,
+    float r,
+    float g,
+    float b,
+    float a,
+    int combinedOverlayIn,
+    int combinedLightIn
+  ) {
+    builder
+      .addVertex(pose.pose(), x, y, z)
+      .setColor(r, g, b, a)
+      .setUv(u, v)
+      .overlayCoords(combinedOverlayIn)
+      .setUv2(combinedLightIn)
+      .normal(pose.normal(), 0f, 0f, 0f)
+      .endVertex();
   }
 
-  public static void posePlayerArm(PoseStack poseStack, HumanoidArm arm, float swingProgress, float equipProgress) {
+  public static void posePlayerArm(
+    PoseStack poseStack,
+    HumanoidArm arm,
+    float swingProgress,
+    float equipProgress
+  ) {
     boolean bl = arm != HumanoidArm.LEFT;
     float h = bl ? 1.0F : -1.0F;
     float j = Mth.sqrt(swingProgress);
@@ -433,7 +785,11 @@ public final class OERenderUtils {
     float l = 0.4F * Mth.sin(j * Mth.TWO_PI);
     float m = -0.4F * Mth.sin(swingProgress * Mth.PI);
 
-    poseStack.translate(h * (k + 0.64000005F), l + -0.6F + equipProgress * -0.6F, m + -0.71999997F);
+    poseStack.translate(
+      h * (k + 0.64000005F),
+      l + -0.6F + equipProgress * -0.6F,
+      m + -0.71999997F
+    );
     poseStack.mulPose(Axis.YP.rotationDegrees(h * 45.0F));
     float n = Mth.sin(swingProgress * swingProgress * Mth.PI);
     float o = Mth.sin(j * Mth.PI);
@@ -446,10 +802,17 @@ public final class OERenderUtils {
     poseStack.translate(h * 5.6F, 0.0D, 0.0D);
   }
 
-  public static void renderPlayerArm(PoseStack poseStack, MultiBufferSource multiBufferSource, HumanoidArm arm, int light) {
+  public static void renderPlayerArm(
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    HumanoidArm arm,
+    int light
+  ) {
     if (mc.player.isInvisible()) return;
     boolean bl = arm != HumanoidArm.LEFT;
-    var pr = (PlayerRenderer) mc.getEntityRenderDispatcher().getRenderer(mc.player);
+    var pr = (PlayerRenderer) mc
+      .getEntityRenderDispatcher()
+      .getRenderer(mc.player);
     RenderSystem.setShaderTexture(0, mc.player.getSkinTextureLocation());
     if (bl) {
       pr.renderRightHand(poseStack, multiBufferSource, light, mc.player);
@@ -458,14 +821,23 @@ public final class OERenderUtils {
     }
   }
 
-  public static void poseHandItem(PoseStack poseStack, HumanoidArm arm, float swingProgress, float equipProgress) {
+  public static void poseHandItem(
+    PoseStack poseStack,
+    HumanoidArm arm,
+    float swingProgress,
+    float equipProgress
+  ) {
     boolean handFlg = arm == HumanoidArm.RIGHT;
     float s = -0.4F * Mth.sin(Mth.sqrt(swingProgress) * Mth.PI);
     float r = 0.2F * Mth.sin(Mth.sqrt(swingProgress) * Mth.TWO_PI);
     float l = -0.2F * Mth.sin(swingProgress * Mth.PI);
     int t = handFlg ? 1 : -1;
     poseStack.translate((float) t * s, r, l);
-    poseStack.translate((float) t * 0.56F, -0.52F + equipProgress * -0.6F, -0.7200000286102295D);
+    poseStack.translate(
+      (float) t * 0.56F,
+      -0.52F + equipProgress * -0.6F,
+      -0.7200000286102295D
+    );
     float g = Mth.sin(swingProgress * swingProgress * Mth.PI);
     poseRotateY(poseStack, (float) t * (45.0F + g * -20.0F));
     float h = Mth.sin(Mth.sqrt(swingProgress) * Mth.PI);
@@ -474,9 +846,25 @@ public final class OERenderUtils {
     poseRotateY(poseStack, (float) t * -45.0F);
   }
 
-  public static void renderHandItem(PoseStack poseStack, MultiBufferSource multiBufferSource, HumanoidArm arm, ItemStack stack, int light) {
+  public static void renderHandItem(
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    HumanoidArm arm,
+    ItemStack stack,
+    int light
+  ) {
     boolean handFlg = arm == HumanoidArm.RIGHT;
-    mc.gameRenderer.itemInHandRenderer.renderItem(mc.player, stack, handFlg ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND : ItemDisplayContext.FIRST_PERSON_LEFT_HAND, !handFlg, poseStack, multiBufferSource, light);
+    mc.gameRenderer.itemInHandRenderer.renderItem(
+      mc.player,
+      stack,
+      handFlg
+        ? ItemDisplayContext.FIRST_PERSON_RIGHT_HAND
+        : ItemDisplayContext.FIRST_PERSON_LEFT_HAND,
+      !handFlg,
+      poseStack,
+      multiBufferSource,
+      light
+    );
   }
 
   /**
@@ -489,9 +877,22 @@ public final class OERenderUtils {
    * @param color       色(ARGB)
    * @since 2.0
    */
-  public static void drawCenterFont(GuiGraphics guiGraphics, Component text, float x, float y, int color) {
+  public static void drawCenterFont(
+    GuiGraphics guiGraphics,
+    Component text,
+    float x,
+    float y,
+    int color
+  ) {
     //  mc.font.draw(poseStack, text, x - ((float) mc.font.width(text) / 2f), y, color);
-    guiGraphics.drawString(mc.font, text, (int) (x - ((float) mc.font.width(text) / 2f)), (int) y, color, false);
+    guiGraphics.drawString(
+      mc.font,
+      text,
+      (int) (x - ((float) mc.font.width(text) / 2f)),
+      (int) y,
+      color,
+      false
+    );
   }
 
   /**
@@ -504,9 +905,22 @@ public final class OERenderUtils {
    * @param color       色(ARGB)
    * @since 2.0
    */
-  public static void drawCenterFont(GuiGraphics guiGraphics, String str, float x, float y, int color) {
+  public static void drawCenterFont(
+    GuiGraphics guiGraphics,
+    String str,
+    float x,
+    float y,
+    int color
+  ) {
     //mc.font.draw(poseStack, str, x - ((float) mc.font.width(str) / 2f), y, color);
-    guiGraphics.drawString(mc.font, str, (int) (x - ((float) mc.font.width(str) / 2f)), (int) y, color, false);
+    guiGraphics.drawString(
+      mc.font,
+      str,
+      (int) (x - ((float) mc.font.width(str) / 2f)),
+      (int) y,
+      color,
+      false
+    );
   }
 
   /**
@@ -524,8 +938,30 @@ public final class OERenderUtils {
    * @param packedLightCoords light
    * @return size?
    */
-  public static int fontDrawInBatch(Component text, float x, float y, int color, boolean shadow, Matrix4f lastPose, MultiBufferSource multiBufferSource, Font.DisplayMode displayMode, int bakedGlyphColor, int packedLightCoords) {
-    return mc.font.drawInBatch(text, x, y, color, shadow, lastPose, multiBufferSource, displayMode, bakedGlyphColor, packedLightCoords);
+  public static int fontDrawInBatch(
+    Component text,
+    float x,
+    float y,
+    int color,
+    boolean shadow,
+    Matrix4f lastPose,
+    MultiBufferSource multiBufferSource,
+    Font.DisplayMode displayMode,
+    int bakedGlyphColor,
+    int packedLightCoords
+  ) {
+    return mc.font.drawInBatch(
+      text,
+      x,
+      y,
+      color,
+      shadow,
+      lastPose,
+      multiBufferSource,
+      displayMode,
+      bakedGlyphColor,
+      packedLightCoords
+    );
   }
 
   /**
@@ -543,43 +979,171 @@ public final class OERenderUtils {
    * @param packedLightCoords light
    * @return size?
    */
-  public static int fontDrawInBatch(String text, float x, float y, int color, boolean shadow, Matrix4f lastPose, MultiBufferSource multiBufferSource, Font.DisplayMode displayMode, int bakedGlyphColor, int packedLightCoords) {
-    return mc.font.drawInBatch(text, x, y, color, shadow, lastPose, multiBufferSource, displayMode, bakedGlyphColor, packedLightCoords);
+  public static int fontDrawInBatch(
+    String text,
+    float x,
+    float y,
+    int color,
+    boolean shadow,
+    Matrix4f lastPose,
+    MultiBufferSource multiBufferSource,
+    Font.DisplayMode displayMode,
+    int bakedGlyphColor,
+    int packedLightCoords
+  ) {
+    return mc.font.drawInBatch(
+      text,
+      x,
+      y,
+      color,
+      shadow,
+      lastPose,
+      multiBufferSource,
+      displayMode,
+      bakedGlyphColor,
+      packedLightCoords
+    );
   }
 
   @Deprecated
-  public static void renderTextSprite(PoseStack poseStack, MultiBufferSource multiBufferSource, Component text, float x, float y, float z, float size, float textX, float textY, int color, int combinedLightIn) {
+  public static void renderTextSprite(
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    Component text,
+    float x,
+    float y,
+    float z,
+    float size,
+    float textX,
+    float textY,
+    int color,
+    int combinedLightIn
+  ) {
     poseStack.pushPose();
     poseStack.translate(x, y, z);
-    poseStack.scale(0.010416667F * size, -0.010416667F * size, 0.010416667F * size);
-    mc.font.drawInBatch(text, textX, -mc.font.lineHeight + textY, color, false, poseStack.last().pose(), multiBufferSource, Font.DisplayMode.NORMAL, 0, combinedLightIn);
+    poseStack.scale(
+      0.010416667F * size,
+      -0.010416667F * size,
+      0.010416667F * size
+    );
+    mc.font.drawInBatch(
+      text,
+      textX,
+      -mc.font.lineHeight + textY,
+      color,
+      false,
+      poseStack.last().pose(),
+      multiBufferSource,
+      Font.DisplayMode.NORMAL,
+      0,
+      combinedLightIn
+    );
     poseStack.popPose();
   }
 
   @Deprecated
-  public static void renderTextSprite(PoseStack poseStack, MultiBufferSource multiBufferSource, Component text, float x, float y, float z, float size, float textX, float textY, int combinedLightIn) {
+  public static void renderTextSprite(
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    Component text,
+    float x,
+    float y,
+    float z,
+    float size,
+    float textX,
+    float textY,
+    int combinedLightIn
+  ) {
     poseStack.pushPose();
     poseStack.translate(x, y, z);
-    poseStack.scale(0.010416667F * size, -0.010416667F * size, 0.010416667F * size);
-    mc.font.drawInBatch(text, textX, -mc.font.lineHeight + textY, 0, false, poseStack.last().pose(), multiBufferSource, Font.DisplayMode.NORMAL, 0, combinedLightIn);
+    poseStack.scale(
+      0.010416667F * size,
+      -0.010416667F * size,
+      0.010416667F * size
+    );
+    mc.font.drawInBatch(
+      text,
+      textX,
+      -mc.font.lineHeight + textY,
+      0,
+      false,
+      poseStack.last().pose(),
+      multiBufferSource,
+      Font.DisplayMode.NORMAL,
+      0,
+      combinedLightIn
+    );
     poseStack.popPose();
   }
 
   @Deprecated
-  public static void renderCenterTextSprite(PoseStack poseStack, MultiBufferSource multiBufferSource, Component text, float x, float y, float z, float size, float textX, float textY, int color, int combinedLightIn) {
+  public static void renderCenterTextSprite(
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    Component text,
+    float x,
+    float y,
+    float z,
+    float size,
+    float textX,
+    float textY,
+    int color,
+    int combinedLightIn
+  ) {
     poseStack.pushPose();
     poseStack.translate(x, y, z);
-    poseStack.scale(0.010416667F * size, -0.010416667F * size, 0.010416667F * size);
-    mc.font.drawInBatch(text, ((float) -mc.font.width(text) / 2f) + textX, -mc.font.lineHeight + textY, color, false, poseStack.last().pose(), multiBufferSource, Font.DisplayMode.NORMAL, 0, combinedLightIn);
+    poseStack.scale(
+      0.010416667F * size,
+      -0.010416667F * size,
+      0.010416667F * size
+    );
+    mc.font.drawInBatch(
+      text,
+      ((float) -mc.font.width(text) / 2f) + textX,
+      -mc.font.lineHeight + textY,
+      color,
+      false,
+      poseStack.last().pose(),
+      multiBufferSource,
+      Font.DisplayMode.NORMAL,
+      0,
+      combinedLightIn
+    );
     poseStack.popPose();
   }
 
   @Deprecated
-  public static void renderCenterTextSprite(PoseStack poseStack, MultiBufferSource multiBufferSource, Component text, float x, float y, float z, float size, float textX, float textY, int combinedLightIn) {
+  public static void renderCenterTextSprite(
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    Component text,
+    float x,
+    float y,
+    float z,
+    float size,
+    float textX,
+    float textY,
+    int combinedLightIn
+  ) {
     poseStack.pushPose();
     poseStack.translate(x, y, z);
-    poseStack.scale(0.010416667F * size, -0.010416667F * size, 0.010416667F * size);
-    mc.font.drawInBatch(text, ((float) -mc.font.width(text) / 2f) + textX, -mc.font.lineHeight + textY, 0, false, poseStack.last().pose(), multiBufferSource, Font.DisplayMode.NORMAL, 0, combinedLightIn);
+    poseStack.scale(
+      0.010416667F * size,
+      -0.010416667F * size,
+      0.010416667F * size
+    );
+    mc.font.drawInBatch(
+      text,
+      ((float) -mc.font.width(text) / 2f) + textX,
+      -mc.font.lineHeight + textY,
+      0,
+      false,
+      poseStack.last().pose(),
+      multiBufferSource,
+      Font.DisplayMode.NORMAL,
+      0,
+      combinedLightIn
+    );
     poseStack.popPose();
   }
 
@@ -597,11 +1161,33 @@ public final class OERenderUtils {
    * @param bakedGlyphColor   背景色
    * @param packedLightCoords light
    */
-  public static void renderFontSprite(Component text, int x, int y, int color, boolean shadow, PoseStack poseStack, MultiBufferSource multiBufferSource, Font.DisplayMode displayMode, int bakedGlyphColor, int packedLightCoords) {
+  public static void renderFontSprite(
+    Component text,
+    int x,
+    int y,
+    int color,
+    boolean shadow,
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    Font.DisplayMode displayMode,
+    int bakedGlyphColor,
+    int packedLightCoords
+  ) {
     poseStack.pushPose();
     poseStack.scale(-0.025F, -0.025F, 0.025F);
     Matrix4f matrix4f = poseStack.last().pose();
-    fontDrawInBatch(text, x, y, color, shadow, matrix4f, multiBufferSource, displayMode, bakedGlyphColor, packedLightCoords);
+    fontDrawInBatch(
+      text,
+      x,
+      y,
+      color,
+      shadow,
+      matrix4f,
+      multiBufferSource,
+      displayMode,
+      bakedGlyphColor,
+      packedLightCoords
+    );
     poseStack.popPose();
   }
 
@@ -619,11 +1205,33 @@ public final class OERenderUtils {
    * @param bakedGlyphColor   背景色
    * @param packedLightCoords light
    */
-  public static void renderFontSprite(String text, int x, int y, int color, boolean shadow, PoseStack poseStack, MultiBufferSource multiBufferSource, Font.DisplayMode displayMode, int bakedGlyphColor, int packedLightCoords) {
+  public static void renderFontSprite(
+    String text,
+    int x,
+    int y,
+    int color,
+    boolean shadow,
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    Font.DisplayMode displayMode,
+    int bakedGlyphColor,
+    int packedLightCoords
+  ) {
     poseStack.pushPose();
     poseStack.scale(-0.025F, -0.025F, 0.025F);
     Matrix4f matrix4f = poseStack.last().pose();
-    fontDrawInBatch(text, x, y, color, shadow, matrix4f, multiBufferSource, displayMode, bakedGlyphColor, packedLightCoords);
+    fontDrawInBatch(
+      text,
+      x,
+      y,
+      color,
+      shadow,
+      matrix4f,
+      multiBufferSource,
+      displayMode,
+      bakedGlyphColor,
+      packedLightCoords
+    );
     poseStack.popPose();
   }
 
@@ -641,15 +1249,36 @@ public final class OERenderUtils {
    * @param bakedGlyphColor   背景色
    * @param packedLightCoords light
    */
-  public static void renderCenterFontSprite(Component text, int x, int y, int color, boolean shadow, PoseStack poseStack, MultiBufferSource multiBufferSource, Font.DisplayMode displayMode, int bakedGlyphColor, int packedLightCoords) {
+  public static void renderCenterFontSprite(
+    Component text,
+    int x,
+    int y,
+    int color,
+    boolean shadow,
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    Font.DisplayMode displayMode,
+    int bakedGlyphColor,
+    int packedLightCoords
+  ) {
     poseStack.pushPose();
     poseStack.scale(-0.025F, -0.025F, 0.025F);
     Matrix4f matrix4f = poseStack.last().pose();
     x += (float) (-mc.font.width(text) / 2);
-    fontDrawInBatch(text, x, y, color, shadow, matrix4f, multiBufferSource, displayMode, bakedGlyphColor, packedLightCoords);
+    fontDrawInBatch(
+      text,
+      x,
+      y,
+      color,
+      shadow,
+      matrix4f,
+      multiBufferSource,
+      displayMode,
+      bakedGlyphColor,
+      packedLightCoords
+    );
     poseStack.popPose();
   }
-
 
   /**
    * 文字のスプライトを描画する
@@ -665,12 +1294,34 @@ public final class OERenderUtils {
    * @param bakedGlyphColor   背景色
    * @param packedLightCoords light
    */
-  public static void renderCenterFontSprite(String text, int x, int y, int color, boolean shadow, PoseStack poseStack, MultiBufferSource multiBufferSource, Font.DisplayMode displayMode, int bakedGlyphColor, int packedLightCoords) {
+  public static void renderCenterFontSprite(
+    String text,
+    int x,
+    int y,
+    int color,
+    boolean shadow,
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    Font.DisplayMode displayMode,
+    int bakedGlyphColor,
+    int packedLightCoords
+  ) {
     poseStack.pushPose();
     poseStack.scale(-0.025F, -0.025F, 0.025F);
     Matrix4f matrix4f = poseStack.last().pose();
     x += (float) (-mc.font.width(text) / 2);
-    fontDrawInBatch(text, x, y, color, shadow, matrix4f, multiBufferSource, displayMode, bakedGlyphColor, packedLightCoords);
+    fontDrawInBatch(
+      text,
+      x,
+      y,
+      color,
+      shadow,
+      matrix4f,
+      multiBufferSource,
+      displayMode,
+      bakedGlyphColor,
+      packedLightCoords
+    );
     poseStack.popPose();
   }
 
@@ -685,7 +1336,14 @@ public final class OERenderUtils {
    * @param color       色(ARGB)
    * @param width       幅
    */
-  public static void drawFixedWidthFont(GuiGraphics guiGraphics, Component text, float x, float y, int color, float width) {
+  public static void drawFixedWidthFont(
+    GuiGraphics guiGraphics,
+    Component text,
+    float x,
+    float y,
+    int color,
+    float width
+  ) {
     PoseStack poseStack = guiGraphics.pose();
 
     int size = mc.font.width(text);
@@ -714,7 +1372,14 @@ public final class OERenderUtils {
    * @param color       色(ARGB)
    * @param width       幅
    */
-  public static void drawFixedWidthFont(GuiGraphics guiGraphics, String text, float x, float y, int color, float width) {
+  public static void drawFixedWidthFont(
+    GuiGraphics guiGraphics,
+    String text,
+    float x,
+    float y,
+    int color,
+    float width
+  ) {
     PoseStack poseStack = guiGraphics.pose();
 
     int size = mc.font.width(text);
@@ -741,7 +1406,12 @@ public final class OERenderUtils {
    * @param y         Y
    * @since 2.0
    */
-  public static void drawPlayerFace(PoseStack poseStack, UUID uuid, float x, float y) {
+  public static void drawPlayerFace(
+    PoseStack poseStack,
+    UUID uuid,
+    float x,
+    float y
+  ) {
     drawPlayerFace(poseStack, uuid, x, y, 8);
   }
 
@@ -756,12 +1426,40 @@ public final class OERenderUtils {
    * @param size      サイズ
    * @since 2.0
    */
-  public static void drawPlayerFace(PoseStack poseStack, UUID uuid, float x, float y, float size) {
+  public static void drawPlayerFace(
+    PoseStack poseStack,
+    UUID uuid,
+    float x,
+    float y,
+    float size
+  ) {
     poseStack.pushPose();
     float sc = size / 8f;
     ResourceLocation plskin = OETextureUtils.getPlayerSkinTexture(uuid);
-    drawTexture(plskin, poseStack, x, y, 8f * sc, 8f * sc, 8f * sc, 8f * sc, 64f * sc, 64f * sc);
-    drawTexture(plskin, poseStack, x, y, 40f * sc, 8f * sc, 8f * sc, 8f * sc, 64f * sc, 64f * sc);
+    drawTexture(
+      plskin,
+      poseStack,
+      x,
+      y,
+      8f * sc,
+      8f * sc,
+      8f * sc,
+      8f * sc,
+      64f * sc,
+      64f * sc
+    );
+    drawTexture(
+      plskin,
+      poseStack,
+      x,
+      y,
+      40f * sc,
+      8f * sc,
+      8f * sc,
+      8f * sc,
+      64f * sc,
+      64f * sc
+    );
     poseStack.popPose();
   }
 
@@ -773,7 +1471,12 @@ public final class OERenderUtils {
    * @param x         X
    * @param y         Y
    */
-  public static void drawPlayerFace(PoseStack poseStack, String name, float x, float y) {
+  public static void drawPlayerFace(
+    PoseStack poseStack,
+    String name,
+    float x,
+    float y
+  ) {
     drawPlayerFace(poseStack, name, x, y, 8);
   }
 
@@ -788,12 +1491,40 @@ public final class OERenderUtils {
    * @param size      サイズ
    * @since 2.0
    */
-  public static void drawPlayerFace(PoseStack poseStack, String name, float x, float y, float size) {
+  public static void drawPlayerFace(
+    PoseStack poseStack,
+    String name,
+    float x,
+    float y,
+    float size
+  ) {
     poseStack.pushPose();
     float sc = size / 8f;
     ResourceLocation plskin = OETextureUtils.getPlayerSkinTexture(name);
-    drawTexture(plskin, poseStack, x, y, 8f * sc, 8f * sc, 8f * sc, 8f * sc, 64f * sc, 64f * sc);
-    drawTexture(plskin, poseStack, x, y, 40f * sc, 8f * sc, 8f * sc, 8f * sc, 64f * sc, 64f * sc);
+    drawTexture(
+      plskin,
+      poseStack,
+      x,
+      y,
+      8f * sc,
+      8f * sc,
+      8f * sc,
+      8f * sc,
+      64f * sc,
+      64f * sc
+    );
+    drawTexture(
+      plskin,
+      poseStack,
+      x,
+      y,
+      40f * sc,
+      8f * sc,
+      8f * sc,
+      8f * sc,
+      64f * sc,
+      64f * sc
+    );
     poseStack.popPose();
   }
 
@@ -807,8 +1538,25 @@ public final class OERenderUtils {
    * @param combinedLightIn   CombinedLightIn
    * @param combinedOverlayIn CombinedOverlayIn
    */
-  public static void renderPlayerFaceSprite(PoseStack poseStack, MultiBufferSource multiBufferSource, UUID uuid, float size, int combinedLightIn, int combinedOverlayIn) {
-    renderPlayerFaceSprite(poseStack, multiBufferSource.getBuffer(OERenderTypes.simpleSpriteCutout(OETextureUtils.getPlayerSkinTexture(uuid))), size, combinedLightIn, combinedOverlayIn);
+  public static void renderPlayerFaceSprite(
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    UUID uuid,
+    float size,
+    int combinedLightIn,
+    int combinedOverlayIn
+  ) {
+    renderPlayerFaceSprite(
+      poseStack,
+      multiBufferSource.getBuffer(
+        OERenderTypes.simpleSpriteCutout(
+          OETextureUtils.getPlayerSkinTexture(uuid)
+        )
+      ),
+      size,
+      combinedLightIn,
+      combinedOverlayIn
+    );
   }
 
   /**
@@ -821,8 +1569,25 @@ public final class OERenderUtils {
    * @param combinedLightIn   CombinedLightIn
    * @param combinedOverlayIn CombinedOverlayIn
    */
-  public static void renderPlayerFaceSprite(PoseStack poseStack, MultiBufferSource multiBufferSource, String name, float size, int combinedLightIn, int combinedOverlayIn) {
-    renderPlayerFaceSprite(poseStack, multiBufferSource.getBuffer(OERenderTypes.simpleSpriteCutout(OETextureUtils.getPlayerSkinTexture(name))), size, combinedLightIn, combinedOverlayIn);
+  public static void renderPlayerFaceSprite(
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    String name,
+    float size,
+    int combinedLightIn,
+    int combinedOverlayIn
+  ) {
+    renderPlayerFaceSprite(
+      poseStack,
+      multiBufferSource.getBuffer(
+        OERenderTypes.simpleSpriteCutout(
+          OETextureUtils.getPlayerSkinTexture(name)
+        )
+      ),
+      size,
+      combinedLightIn,
+      combinedOverlayIn
+    );
   }
 
   /**
@@ -834,14 +1599,46 @@ public final class OERenderUtils {
    * @param combinedLightIn   CombinedLightIn
    * @param combinedOverlayIn CombinedOverlayIn
    */
-  public static void renderPlayerFaceSprite(PoseStack poseStack, VertexConsumer vertexConsumer, float size, int combinedLightIn, int combinedOverlayIn) {
+  public static void renderPlayerFaceSprite(
+    PoseStack poseStack,
+    VertexConsumer vertexConsumer,
+    float size,
+    int combinedLightIn,
+    int combinedOverlayIn
+  ) {
     poseStack.pushPose();
     float sc = size / 8f;
-    renderSprite(poseStack, vertexConsumer, size, size, 8f * sc, 8f * sc, 8f * sc, 8f * sc, 64f * sc, 64f * sc, combinedLightIn, combinedOverlayIn);
+    renderSprite(
+      poseStack,
+      vertexConsumer,
+      size,
+      size,
+      8f * sc,
+      8f * sc,
+      8f * sc,
+      8f * sc,
+      64f * sc,
+      64f * sc,
+      combinedLightIn,
+      combinedOverlayIn
+    );
 
     poseStack.pushPose();
     poseStack.translate(0, 0, Mth.EPSILON);
-    renderSprite(poseStack, vertexConsumer, size, size, 40f * sc, 8f * sc, 8f * sc, 8f * sc, 64f * sc, 64f * sc, combinedLightIn, combinedOverlayIn);
+    renderSprite(
+      poseStack,
+      vertexConsumer,
+      size,
+      size,
+      40f * sc,
+      8f * sc,
+      8f * sc,
+      8f * sc,
+      64f * sc,
+      64f * sc,
+      combinedLightIn,
+      combinedOverlayIn
+    );
     poseStack.popPose();
 
     poseStack.popPose();
@@ -857,7 +1654,14 @@ public final class OERenderUtils {
     ClientMixinTemp.SKIP_TRANSANDROT_MODELPART.set(false);
   }
 
-  public static void renderPlayerArmNoTransAndRot(PoseStack poseStack, MultiBufferSource multiBufferSource, HumanoidArm arm, int light) {
-    noTransAndRotModelPart(() -> renderPlayerArm(poseStack, multiBufferSource, arm, light));
+  public static void renderPlayerArmNoTransAndRot(
+    PoseStack poseStack,
+    MultiBufferSource multiBufferSource,
+    HumanoidArm arm,
+    int light
+  ) {
+    noTransAndRotModelPart(() ->
+      renderPlayerArm(poseStack, multiBufferSource, arm, light)
+    );
   }
 }

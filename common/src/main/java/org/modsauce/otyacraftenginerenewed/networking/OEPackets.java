@@ -3,7 +3,6 @@ package org.modsauce.otyacraftenginerenewed.networking;
 import dev.architectury.networking.NetworkManager;
 import java.util.UUID;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import org.modsauce.otyacraftenginerenewed.OtyacraftEngine;
