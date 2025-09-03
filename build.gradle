@@ -17,8 +17,8 @@ architectury {
 changelog {
     repositoryUrl = rootProject.repository_url
     introduction = """
-    Changelog to track updates for this mod.  
-    Add your changes to Unreleased if you want to commit.  
+    Changelog to track updates for this mod.
+    Add your changes to Unreleased if you want to commit.
     Please write according to [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
     """
     combinePreReleases = false
@@ -33,7 +33,10 @@ subprojects {
 
     dependencies {
         minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
-        mappings loom.officialMojangMappings()
+        mappings loom.layered() {
+            officialMojangMappings()
+            parchment("org.parchmentmc.data:parchment-1.20.2:2023.10.08@zip")
+        }
     }
 }
 
@@ -48,6 +51,13 @@ allprojects {
 
     repositories {
         mavenCentral()
+        maven {
+            url = uri("https://maven.neoforged.net/releases/#/")
+        }
+        maven {
+            name = 'ParchmentMC'
+            url = 'https://maven.parchmentmc.org'
+        }
     }
 
     tasks.withType(JavaCompile) {
