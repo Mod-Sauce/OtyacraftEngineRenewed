@@ -1,6 +1,7 @@
 package org.modsauce.otyacraftenginerenewed.block;
 
 import com.google.common.collect.ImmutableList;
+import java.util.List;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
 import net.minecraft.server.level.ServerLevel;
@@ -19,25 +20,47 @@ import org.jetbrains.annotations.Nullable;
 import org.modsauce.otyacraftenginerenewed.blockentity.IDroppedBlockEntity;
 import org.modsauce.otyacraftenginerenewed.util.OEItemUtils;
 
-import java.util.List;
-
 public abstract class OEBaseEntityBlock extends BaseEntityBlock {
+
   protected OEBaseEntityBlock(Properties properties) {
     super(properties);
   }
 
   @Override
-  public void setPlacedBy(Level level, BlockPos blockPos, BlockState blockState, @Nullable LivingEntity livingEntity, ItemStack itemStack) {
+  public void setPlacedBy(
+    Level level,
+    BlockPos blockPos,
+    BlockState blockState,
+    @Nullable LivingEntity livingEntity,
+    ItemStack itemStack
+  ) {
     super.setPlacedBy(level, blockPos, blockState, livingEntity, itemStack);
-    if (itemStack.hasCustomHoverName()) {
-      if (level.getBlockEntity(blockPos) instanceof BaseContainerBlockEntity container) {
-        container.setCustomName(itemStack.getHoverName());
+    if (
+      itemStack.has(net.minecraft.core.component.DataComponents.CUSTOM_NAME)
+    ) {
+      if (
+        level.getBlockEntity(blockPos) instanceof
+          BaseContainerBlockEntity container
+      ) {
+        var customName = itemStack.get(
+          net.minecraft.core.component.DataComponents.CUSTOM_NAME
+        );
+        if (customName != null) {
+          // TODO: Fix setCustomName method call for MC 1.21.1
+          // container.setCustomName(customName);
+        }
       }
     }
   }
 
   @Override
-  public void onRemove(BlockState blockState, Level level, BlockPos blockPos, BlockState blockState2, boolean bl) {
+  public void onRemove(
+    BlockState blockState,
+    Level level,
+    BlockPos blockPos,
+    BlockState blockState2,
+    boolean bl
+  ) {
     if (!blockState.is(blockState2.getBlock())) {
       var be = level.getBlockEntity(blockPos);
       if (!level.isClientSide() && level instanceof ServerLevel) {
@@ -57,30 +80,53 @@ public abstract class OEBaseEntityBlock extends BaseEntityBlock {
   }
 
   @Override
-  public void playerWillDestroy(Level level, BlockPos blockPos, BlockState blockState, Player player) {
+  public BlockState playerWillDestroy(
+    Level level,
+    BlockPos blockPos,
+    BlockState blockState,
+    Player player
+  ) {
     var be = level.getBlockEntity(blockPos);
-    if (be instanceof IDroppedBlockEntity droppedBlockEntity && droppedBlockEntity.isRetainDrop()) {
+    if (
+      be instanceof IDroppedBlockEntity droppedBlockEntity &&
+      droppedBlockEntity.isRetainDrop()
+    ) {
       if (!level.isClientSide && player.isCreative()) {
         var dropItem = droppedBlockEntity.createRetainDropItem();
         if (!dropItem.isEmpty()) {
           if (be instanceof BaseContainerBlockEntity named) {
-            if (named.hasCustomName())
-              dropItem.setHoverName(named.getCustomName());
+            if (named.hasCustomName()) dropItem.set(
+              net.minecraft.core.component.DataComponents.CUSTOM_NAME,
+              named.getCustomName()
+            );
           }
 
-          var itemEntity = OEItemUtils.createItemEntity(dropItem, level, (double) blockPos.getX() + 0.5D, (double) blockPos.getY() + 0.5D, (double) blockPos.getZ() + 0.5D);
+          var itemEntity = OEItemUtils.createItemEntity(
+            dropItem,
+            level,
+            (double) blockPos.getX() + 0.5D,
+            (double) blockPos.getY() + 0.5D,
+            (double) blockPos.getZ() + 0.5D
+          );
           level.addFreshEntity(itemEntity);
         }
       }
     }
     super.playerWillDestroy(level, blockPos, blockState, player);
+    return blockState;
   }
 
   @Override
-  public List<ItemStack> getDrops(BlockState blockState, LootParams.Builder builder) {
-    var blockEntity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
-    if (blockEntity instanceof IDroppedBlockEntity icbe && icbe.isRetainDrop())
-      return ImmutableList.of(icbe.createRetainDropItem());
+  public List<ItemStack> getDrops(
+    BlockState blockState,
+    LootParams.Builder builder
+  ) {
+    var blockEntity = builder.getOptionalParameter(
+      LootContextParams.BLOCK_ENTITY
+    );
+    if (
+      blockEntity instanceof IDroppedBlockEntity icbe && icbe.isRetainDrop()
+    ) return ImmutableList.of(icbe.createRetainDropItem());
 
     return super.getDrops(blockState, builder);
   }

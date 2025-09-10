@@ -1,9 +1,11 @@
 package org.modsauce.otyacraftenginerenewed.util;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.authlib.properties.PropertyMap;
 import java.util.ArrayList;
 import java.util.List;
-import net.minecraft.nbt.CompoundTag;
+import java.util.Optional;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -12,6 +14,7 @@ import net.minecraft.world.food.FoodProperties;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.MobBucketItem;
+import net.minecraft.world.item.component.ResolvableProfile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
@@ -128,8 +131,12 @@ public final class OEItemUtils {
   @NotNull
   public static ItemStack createPlayerHead(@NotNull String name) {
     ItemStack playerhead = new ItemStack(Items.PLAYER_HEAD);
-    CompoundTag tag = playerhead.getOrCreateTag();
-    tag.putString("SkullOwner", name);
+    ResolvableProfile profile = new ResolvableProfile(
+      Optional.of(name),
+      Optional.empty(),
+      new PropertyMap()
+    );
+    playerhead.set(DataComponents.PROFILE, profile);
     return playerhead;
   }
 

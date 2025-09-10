@@ -2,6 +2,7 @@ package org.modsauce.otyacraftenginerenewed.client.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
+import net.minecraft.client.resources.PlayerSkin;
 import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
@@ -14,6 +15,7 @@ import org.modsauce.otyacraftenginerenewed.explatform.client.OEClientExpectPlatf
  * @author MORIMORI031c
  */
 public final class OEModelUtils {
+
   private static final Minecraft mc = Minecraft.getInstance();
 
   /**
@@ -53,7 +55,14 @@ public final class OEModelUtils {
    * @return スリムモデルかどうか
    */
   public static boolean isSlimPlayerModel(AbstractClientPlayer player) {
-    var pl = player.getModelName();
-    return "slim".equals(pl);
+    // TODO: Fix getModelName API for MC 1.21.1
+    // The model name API has changed - need to get from player info
+    var playerInfo = Minecraft.getInstance()
+      .getConnection()
+      .getPlayerInfo(player.getUUID());
+    if (playerInfo != null) {
+      return playerInfo.getSkin().model() == PlayerSkin.Model.SLIM;
+    }
+    return false;
   }
 }

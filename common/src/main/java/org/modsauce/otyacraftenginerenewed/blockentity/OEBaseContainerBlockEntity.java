@@ -2,6 +2,7 @@ package org.modsauce.otyacraftenginerenewed.blockentity;
 
 import java.util.Collection;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
@@ -58,21 +59,29 @@ public abstract class OEBaseContainerBlockEntity
   }
 
   @Override
-  public CompoundTag getUpdateTag() {
-    var tag = super.getUpdateTag();
+  public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+    CompoundTag tag = super.getUpdateTag(registries);
     saveToUpdateTag(tag);
     return tag;
   }
 
   @Override
   public void saveToUpdateTag(CompoundTag tag) {
-    ContainerHelper.saveAllItems(tag, getItems());
+    ContainerHelper.saveAllItems(
+      tag,
+      getItems(),
+      level != null ? level.registryAccess() : null
+    );
   }
 
   @Override
   public void loadToUpdateTag(CompoundTag tag) {
     getItems().clear();
-    ContainerHelper.loadAllItems(tag, getItems());
+    ContainerHelper.loadAllItems(
+      tag,
+      getItems(),
+      level != null ? level.registryAccess() : null
+    );
   }
 
   @Override
@@ -139,16 +148,22 @@ public abstract class OEBaseContainerBlockEntity
   }
 
   @Override
-  public void load(CompoundTag tag) {
-    super.load(tag);
+  protected void loadAdditional(
+    CompoundTag tag,
+    HolderLookup.Provider registries
+  ) {
+    super.loadAdditional(tag, registries);
     getItems().clear();
-    ContainerHelper.loadAllItems(tag, getItems());
+    ContainerHelper.loadAllItems(tag, getItems(), registries);
   }
 
   @Override
-  protected void saveAdditional(CompoundTag tag) {
-    super.saveAdditional(tag);
-    ContainerHelper.saveAllItems(tag, getItems());
+  protected void saveAdditional(
+    CompoundTag tag,
+    HolderLookup.Provider registries
+  ) {
+    super.saveAdditional(tag, registries);
+    ContainerHelper.saveAllItems(tag, getItems(), registries);
   }
 
   protected ItemStack getDropItem() {
@@ -160,7 +175,7 @@ public abstract class OEBaseContainerBlockEntity
     var itm = getDropItem();
     if (itm.isEmpty()) return itm;
     itm = itm.copy();
-    saveToItem(itm);
+    saveToItem(itm, level != null ? level.registryAccess() : null);
     return itm;
   }
 

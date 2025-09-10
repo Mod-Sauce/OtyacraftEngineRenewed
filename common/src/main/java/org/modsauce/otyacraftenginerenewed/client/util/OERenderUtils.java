@@ -766,10 +766,9 @@ public final class OERenderUtils {
       .addVertex(pose.pose(), x, y, z)
       .setColor(r, g, b, a)
       .setUv(u, v)
-      .overlayCoords(combinedOverlayIn)
-      .setUv2(combinedLightIn)
-      .normal(pose.normal(), 0f, 0f, 0f)
-      .endVertex();
+      .setOverlay(combinedOverlayIn)
+      .setUv2(combinedLightIn, combinedOverlayIn)
+      .setNormal(pose, 0f, 0f, 0f);
   }
 
   public static void posePlayerArm(
@@ -813,7 +812,12 @@ public final class OERenderUtils {
     var pr = (PlayerRenderer) mc
       .getEntityRenderDispatcher()
       .getRenderer(mc.player);
-    RenderSystem.setShaderTexture(0, mc.player.getSkinTextureLocation());
+    // TODO: Fix getSkinTextureLocation() API for MC 1.21.1
+    // The skin texture location API has changed
+    var playerInfo = mc.getConnection().getPlayerInfo(mc.player.getUUID());
+    if (playerInfo != null) {
+      RenderSystem.setShaderTexture(0, playerInfo.getSkin().texture());
+    }
     if (bl) {
       pr.renderRightHand(poseStack, multiBufferSource, light, mc.player);
     } else {

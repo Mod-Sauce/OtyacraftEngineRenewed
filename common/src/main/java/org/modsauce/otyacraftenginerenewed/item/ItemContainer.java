@@ -3,6 +3,7 @@ package org.modsauce.otyacraftenginerenewed.item;
 import java.util.function.Function;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
@@ -12,6 +13,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.CustomData;
 import org.modsauce.otyacraftenginerenewed.item.location.PlayerItemLocation;
 
 public class ItemContainer implements Container {
@@ -128,11 +130,13 @@ public class ItemContainer implements Container {
     NonNullList<ItemStack> items,
     String tagName
   ) {
-    var tag = itemStack.getTags();
-    if (tag != null) ContainerHelper.loadAllItems(
-      tag.getCompound(tagName),
-      items
-    );
+    var customData = itemStack.get(DataComponents.CUSTOM_DATA);
+    if (customData != null) {
+      var tag = customData.copyTag();
+      if (tag.contains(tagName)) {
+        ContainerHelper.loadAllItems(tag.getCompound(tagName), items, null);
+      }
+    }
   }
 
   public static void saveItemList(
@@ -140,9 +144,14 @@ public class ItemContainer implements Container {
     NonNullList<ItemStack> items,
     String tagName
   ) {
-    var tag = itemStack.getOrCreateTag();
+    var customData = itemStack.getOrDefault(
+      DataComponents.CUSTOM_DATA,
+      CustomData.EMPTY
+    );
+    var tag = customData.copyTag();
     if (!tag.contains(tagName)) tag.put(tagName, new CompoundTag());
-    ContainerHelper.saveAllItems(tag.getCompound(tagName), items);
+    ContainerHelper.saveAllItems(tag.getCompound(tagName), items, null);
+    itemStack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
   }
 
   public ItemStack getItemStack() {

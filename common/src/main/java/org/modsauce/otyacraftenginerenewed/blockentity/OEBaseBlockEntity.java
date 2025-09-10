@@ -1,7 +1,7 @@
 package org.modsauce.otyacraftenginerenewed.blockentity;
 
-
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
@@ -9,12 +9,20 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class OEBaseBlockEntity extends BlockEntity implements IOEBaseFuncBlockEntity {
+public abstract class OEBaseBlockEntity
+  extends BlockEntity
+  implements IOEBaseFuncBlockEntity {
+
   private boolean updateMark;
 
-  public OEBaseBlockEntity(BlockEntityType<?> blockEntityType, BlockPos blockPos, BlockState blockState) {
+  public OEBaseBlockEntity(
+    BlockEntityType<?> blockEntityType,
+    BlockPos blockPos,
+    BlockState blockState
+  ) {
     super(blockEntityType, blockPos, blockState);
   }
 
@@ -34,16 +42,14 @@ public abstract class OEBaseBlockEntity extends BlockEntity implements IOEBaseFu
   }
 
   @Override
-  public void saveToUpdateTag(CompoundTag tag) {
-  }
+  public void saveToUpdateTag(CompoundTag tag) {}
 
   @Override
-  public void loadToUpdateTag(CompoundTag tag) {
-  }
+  public void loadToUpdateTag(CompoundTag tag) {}
 
   @Override
-  public CompoundTag getUpdateTag() {
-    var tag = super.getUpdateTag();
+  public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
+    var tag = super.getUpdateTag(registries);
     saveToUpdateTag(tag);
     return tag;
   }

@@ -75,7 +75,8 @@ public abstract class OEContainerBasedScreen<T extends OEBaseMenu>
     super.containerTick();
     for (GuiEventListener child : children()) {
       if (child instanceof EditBox editBox) {
-        editBox.tick();
+        // tick() method was removed in MC 1.21.1
+        // EditBox now handles its own ticking internally
       }
     }
   }

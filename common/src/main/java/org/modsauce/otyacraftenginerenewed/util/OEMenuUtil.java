@@ -2,6 +2,7 @@ package org.modsauce.otyacraftenginerenewed.util;
 
 import dev.architectury.registry.menu.MenuRegistry;
 import net.minecraft.core.BlockPos;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.MenuProvider;
@@ -26,7 +27,10 @@ public final class OEMenuUtil {
     MenuRegistry.openExtendedMenu(player, provider, n -> {
       n.writeBoolean(true);
       n.writeNbt(PlayerItemLocations.saveToTag(location));
-      n.writeItem(stack);
+      ItemStack.OPTIONAL_STREAM_CODEC.encode(
+        (RegistryFriendlyByteBuf) n,
+        stack
+      );
       n.writeInt(inventorySize);
     });
   }
@@ -69,7 +73,7 @@ public final class OEMenuUtil {
       return factory.create(
         id,
         inventory,
-        buf.readItem(),
+        ItemStack.OPTIONAL_STREAM_CODEC.decode((RegistryFriendlyByteBuf) buf),
         location,
         new SimpleContainer(buf.readInt())
       );
@@ -88,7 +92,7 @@ public final class OEMenuUtil {
         return factoryItem.create(
           id,
           inventory,
-          buf.readItem(),
+          ItemStack.OPTIONAL_STREAM_CODEC.decode((RegistryFriendlyByteBuf) buf),
           location,
           new SimpleContainer(buf.readInt())
         );

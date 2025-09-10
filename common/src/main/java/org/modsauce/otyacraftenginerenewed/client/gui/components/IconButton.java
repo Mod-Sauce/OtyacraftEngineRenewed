@@ -1,26 +1,47 @@
 package org.modsauce.otyacraftenginerenewed.client.gui.components;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import java.util.function.Supplier;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.modsauce.otyacraftenginerenewed.client.gui.TextureRegion;
 import org.modsauce.otyacraftenginerenewed.client.gui.components.base.OEBaseComponent;
 import org.modsauce.otyacraftenginerenewed.client.util.OERenderUtils;
 
-import java.util.function.Supplier;
-
 public class IconButton extends Button implements OEBaseComponent {
+
+  private static final ResourceLocation WIDGETS_LOCATION =
+    ResourceLocation.withDefaultNamespace("textures/gui/widgets.png");
+
   @NotNull
   private TextureRegion texture;
 
-  public IconButton(int x, int y, int width, int height, Component message, OnPress onPress, @NotNull TextureRegion texture) {
+  public IconButton(
+    int x,
+    int y,
+    int width,
+    int height,
+    Component message,
+    OnPress onPress,
+    @NotNull TextureRegion texture
+  ) {
     this(x, y, width, height, message, onPress, Supplier::get, texture);
   }
 
-  public IconButton(int x, int y, int width, int height, Component message, OnPress onPress, CreateNarration createNarration, @NotNull TextureRegion texture) {
+  public IconButton(
+    int x,
+    int y,
+    int width,
+    int height,
+    Component message,
+    OnPress onPress,
+    CreateNarration createNarration,
+    @NotNull TextureRegion texture
+  ) {
     super(x, y, width, height, message, onPress, createNarration);
     this.texture = texture;
   }
@@ -42,7 +63,7 @@ public class IconButton extends Button implements OEBaseComponent {
 
   @Override
   public void renderWidget(GuiGraphics guiGraphics, int i, int j, float f) {
-       /* RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
+    /* RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.enableDepthTest();
@@ -50,7 +71,19 @@ public class IconButton extends Button implements OEBaseComponent {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);*/
 
     guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-    guiGraphics.blitNineSliced(WIDGETS_LOCATION, this.getX(), this.getY(), this.getWidth(), this.getHeight(), 20, 4, 200, 20, 0, this.getTextureY());
+    guiGraphics.blit(
+      WIDGETS_LOCATION,
+      this.getX(),
+      this.getY(),
+      this.getWidth(),
+      this.getHeight(),
+      20,
+      4,
+      200,
+      20,
+      this.getTextureY(),
+      0
+    );
     guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
     renderIcon(guiGraphics, i, j, f);
@@ -67,11 +100,26 @@ public class IconButton extends Button implements OEBaseComponent {
     return 46 + i * 20;
   }
 
-  protected void renderIcon(@NotNull GuiGraphics guiGraphics, int i, int j, float f) {
+  protected void renderIcon(
+    @NotNull GuiGraphics guiGraphics,
+    int i,
+    int j,
+    float f
+  ) {
     RenderSystem.setShaderTexture(0, getTexture().location());
     RenderSystem.enableDepthTest();
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-    OERenderUtils.blitFloat(guiGraphics.pose(), getX() + (width - texture.uvWidth()) / 2f, getY() + (height - texture.uvHeight()) / 2f, getTexture().u0(), getTexture().v0(), getTexture().uvWidth(), getTexture().uvHeight(), getTexture().width(), getTexture().height());
+    OERenderUtils.blitFloat(
+      guiGraphics.pose(),
+      getX() + (width - texture.uvWidth()) / 2f,
+      getY() + (height - texture.uvHeight()) / 2f,
+      getTexture().u0(),
+      getTexture().v0(),
+      getTexture().uvWidth(),
+      getTexture().uvHeight(),
+      getTexture().width(),
+      getTexture().height()
+    );
     RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
   }
 }

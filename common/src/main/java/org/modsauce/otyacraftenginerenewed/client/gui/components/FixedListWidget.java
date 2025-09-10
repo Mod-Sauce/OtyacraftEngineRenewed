@@ -1,9 +1,12 @@
 package org.modsauce.otyacraftenginerenewed.client.gui.components;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import java.util.List;
+import java.util.function.Function;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.sounds.SoundManager;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -13,17 +16,27 @@ import org.modsauce.otyacraftenginerenewed.client.gui.components.base.OEBasedWid
 import org.modsauce.otyacraftenginerenewed.client.util.OEClientUtils;
 import org.modsauce.otyacraftenginerenewed.client.util.OERenderUtils;
 
-import java.util.List;
-import java.util.function.Function;
-
 public abstract class FixedListWidget<E> extends OEBasedWidget {
-  private static final TextureRegion DEFAULT_TEXTURE = TextureRegion.relative(OE_WIDGETS, 40, 34, 18, 42);
+
+  private static final TextureRegion DEFAULT_TEXTURE = TextureRegion.relative(
+    OE_WIDGETS,
+    40,
+    34,
+    18,
+    42
+  );
+  private static final ResourceLocation WIDGETS_LOCATION =
+    ResourceLocation.withDefaultNamespace("textures/gui/widgets.png");
+
   @NotNull
   private List<E> entryList;
+
   @NotNull
   private final Function<E, Component> entryName;
+
   @Nullable
   private final PressEntry<E> onPressEntry;
+
   private final boolean selectable;
   private final int entryShowCount;
   private boolean border;
@@ -31,10 +44,11 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   private boolean canScroll;
   protected boolean isHoveredScrollBar;
   protected int hoveredNumber;
+
   @Nullable
   protected E selectedEntry;
-  protected int selectedEntryIndex = -1;
 
+  protected int selectedEntryIndex = -1;
 
   /**
    * @param x              X座標
@@ -49,10 +63,34 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
    * @param selectable     選択を有効にするかどうか
    * @param old            コピー用の古い値
    */
-  public FixedListWidget(int x, int y, int width, int height, @NotNull Component message, int entryShowCount, @NotNull List<E> entryList, @NotNull Function<E, Component> entryName, @Nullable PressEntry<E> onPressEntry, boolean selectable, @Nullable FixedListWidget<E> old) {
-    this(x, y, width, height, message, entryShowCount, entryList, entryName, onPressEntry, selectable, DEFAULT_TEXTURE, old);
+  public FixedListWidget(
+    int x,
+    int y,
+    int width,
+    int height,
+    @NotNull Component message,
+    int entryShowCount,
+    @NotNull List<E> entryList,
+    @NotNull Function<E, Component> entryName,
+    @Nullable PressEntry<E> onPressEntry,
+    boolean selectable,
+    @Nullable FixedListWidget<E> old
+  ) {
+    this(
+      x,
+      y,
+      width,
+      height,
+      message,
+      entryShowCount,
+      entryList,
+      entryName,
+      onPressEntry,
+      selectable,
+      DEFAULT_TEXTURE,
+      old
+    );
   }
-
 
   /**
    * @param x              X座標
@@ -69,7 +107,20 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
    * @param old            コピー用の古い値
    */
 
-  public FixedListWidget(int x, int y, int width, int height, @NotNull Component message, int entryShowCount, @NotNull List<E> entryList, @NotNull Function<E, Component> entryName, @Nullable PressEntry<E> onPressEntry, boolean selectable, @NotNull TextureRegion texture, @Nullable FixedListWidget<E> old) {
+  public FixedListWidget(
+    int x,
+    int y,
+    int width,
+    int height,
+    @NotNull Component message,
+    int entryShowCount,
+    @NotNull List<E> entryList,
+    @NotNull Function<E, Component> entryName,
+    @Nullable PressEntry<E> onPressEntry,
+    boolean selectable,
+    @NotNull TextureRegion texture,
+    @Nullable FixedListWidget<E> old
+  ) {
     super(x, y, width, height, "fixedListWidget", message, texture);
     this.entryShowCount = entryShowCount;
     this.entryList = entryList;
@@ -80,69 +131,213 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   }
 
   @Override
-  public void render(GuiGraphics guiGraphics, int mx, int my, float parTick) {
+  public void renderWidget(
+    GuiGraphics guiGraphics,
+    int mx,
+    int my,
+    float parTick
+  ) {
     if (this.visible) {
       this.hoveredNumber = (my - getY()) / getIndividualHeight();
-      this.isHoveredScrollBar = mx >= this.getX() + getIndividualWidth() && my >= this.getY() && mx < this.getX() + this.width && my < this.getY() + this.height;
+      this.isHoveredScrollBar =
+        mx >= this.getX() + getIndividualWidth() &&
+        my >= this.getY() &&
+        mx < this.getX() + this.width &&
+        my < this.getY() + this.height;
     }
-    super.render(guiGraphics, mx, my, parTick);
-  }
 
-  @Override
-  public void renderWidget(GuiGraphics guiGraphics, int mx, int my, float parTick) {
     for (int i = 0; i < entryShowCount; i++) {
       int cn = getCurrentFirstEntryIndex() + i;
-      if (cn >= entryList.size() || cn < 0)
-        break;
+      if (cn >= entryList.size() || cn < 0) break;
       var e = entryList.get(cn);
-      renderOneButton(guiGraphics, e, cn, i, getX(), getY() + getIndividualHeight() * i, mx, my, parTick, selectedEntry == entryList.get(cn));
+      renderOneButton(
+        guiGraphics,
+        e,
+        cn,
+        i,
+        getX(),
+        getY() + getIndividualHeight() * i,
+        mx,
+        my,
+        parTick,
+        selectedEntry == entryList.get(cn)
+      );
     }
-    renderScrollbar(guiGraphics, this.getX() + getIndividualWidth(), this.getY(), 9, height);
+    renderScrollbar(
+      guiGraphics,
+      this.getX() + getIndividualWidth(),
+      this.getY(),
+      9,
+      height
+    );
   }
 
-  protected void renderScrollbar(GuiGraphics guiGraphics, int x, int y, int w, int h) {
+  protected void renderScrollbar(
+    GuiGraphics guiGraphics,
+    int x,
+    int y,
+    int w,
+    int h
+  ) {
     PoseStack poseStack = guiGraphics.pose();
     boolean hv = isScrollBarHovered() || isFocused();
 
-    OERenderUtils.drawTexture(getTexture().location(), poseStack, x, y, getTexture().u0() + (hv ? 9 : 0), getTexture().v0(), 9, 3, getTexture().width(), getTexture().height());
+    OERenderUtils.drawTexture(
+      getTexture().location(),
+      poseStack,
+      x,
+      y,
+      getTexture().u0() + (hv ? 9 : 0),
+      getTexture().v0(),
+      9,
+      3,
+      getTexture().width(),
+      getTexture().height()
+    );
     int bsct = (height - 6) / 16;
     for (int i = 0; i < bsct; i++) {
-      OERenderUtils.drawTexture(getTexture().location(), poseStack, x, y + 3 + (i * 16), getTexture().u0() + (hv ? 9 : 0), getTexture().v0() + 3, 9, 16, getTexture().width(), getTexture().height());
+      OERenderUtils.drawTexture(
+        getTexture().location(),
+        poseStack,
+        x,
+        y + 3 + (i * 16),
+        getTexture().u0() + (hv ? 9 : 0),
+        getTexture().v0() + 3,
+        9,
+        16,
+        getTexture().width(),
+        getTexture().height()
+      );
     }
     int bsam = (height - 6) % 16;
-    OERenderUtils.drawTexture(getTexture().location(), poseStack, x, y + 3 + (bsct * 16), getTexture().u0() + (hv ? 9 : 0), getTexture().v0() + 3, 9, bsam, getTexture().width(), getTexture().height());
-    OERenderUtils.drawTexture(getTexture().location(), poseStack, x, y + height - 3, getTexture().u0() + (hv ? 9 : 0), getTexture().v0() + 19, 9, 3, getTexture().width(), getTexture().height());
+    OERenderUtils.drawTexture(
+      getTexture().location(),
+      poseStack,
+      x,
+      y + 3 + (bsct * 16),
+      getTexture().u0() + (hv ? 9 : 0),
+      getTexture().v0() + 3,
+      9,
+      bsam,
+      getTexture().width(),
+      getTexture().height()
+    );
+    OERenderUtils.drawTexture(
+      getTexture().location(),
+      poseStack,
+      x,
+      y + height - 3,
+      getTexture().u0() + (hv ? 9 : 0),
+      getTexture().v0() + 19,
+      9,
+      3,
+      getTexture().width(),
+      getTexture().height()
+    );
 
     int barHeight = getBarHeight();
     float barY = (getActualHeight() - barHeight) * scrollAmount;
 
-    OERenderUtils.drawTexture(getTexture().location(), poseStack, x + 1, y + 1 + barY, getTexture().u0() + (hv ? 7 : 0), getTexture().v0() + 22, 7, 3, getTexture().width(), getTexture().height());
+    OERenderUtils.drawTexture(
+      getTexture().location(),
+      poseStack,
+      x + 1,
+      y + 1 + barY,
+      getTexture().u0() + (hv ? 7 : 0),
+      getTexture().v0() + 22,
+      7,
+      3,
+      getTexture().width(),
+      getTexture().height()
+    );
     int ssct = (barHeight - 6) / 14;
     for (int i = 0; i < ssct; i++) {
-      OERenderUtils.drawTexture(getTexture().location(), poseStack, x + 1, y + 4 + (i * 14) + barY, getTexture().u0() + (hv ? 7 : 0), getTexture().v0() + 25, 7, 14, getTexture().width(), getTexture().height());
+      OERenderUtils.drawTexture(
+        getTexture().location(),
+        poseStack,
+        x + 1,
+        y + 4 + (i * 14) + barY,
+        getTexture().u0() + (hv ? 7 : 0),
+        getTexture().v0() + 25,
+        7,
+        14,
+        getTexture().width(),
+        getTexture().height()
+      );
     }
     int ssam = (barHeight - 6) % 14;
-    OERenderUtils.drawTexture(getTexture().location(), poseStack, x + 1, y + 4 + (ssct * 14) + barY, getTexture().u0() + (hv ? 7 : 0), getTexture().v0() + 25, 7, ssam, getTexture().width(), getTexture().height());
-    OERenderUtils.drawTexture(getTexture().location(), poseStack, x + 1, y + 1 + barHeight - 3 + barY, getTexture().u0() + (hv ? 7 : 0), getTexture().v0() + 39, 7, 3, getTexture().width(), getTexture().height());
+    OERenderUtils.drawTexture(
+      getTexture().location(),
+      poseStack,
+      x + 1,
+      y + 4 + (ssct * 14) + barY,
+      getTexture().u0() + (hv ? 7 : 0),
+      getTexture().v0() + 25,
+      7,
+      ssam,
+      getTexture().width(),
+      getTexture().height()
+    );
+    OERenderUtils.drawTexture(
+      getTexture().location(),
+      poseStack,
+      x + 1,
+      y + 1 + barHeight - 3 + barY,
+      getTexture().u0() + (hv ? 7 : 0),
+      getTexture().v0() + 39,
+      7,
+      3,
+      getTexture().width(),
+      getTexture().height()
+    );
   }
 
-  protected void renderOneButton(GuiGraphics guiGraphics, E item, int lnum, int bnum, int bX, int bY, int mx, int my, float parTick, boolean selected) {
-      /*  RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
+  protected void renderOneButton(
+    GuiGraphics guiGraphics,
+    E item,
+    int lnum,
+    int bnum,
+    int bX,
+    int bY,
+    int mx,
+    int my,
+    float parTick,
+    boolean selected
+  ) {
+    /*  RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
         RenderSystem.enableBlend();
         RenderSystem.enableDepthTest();
         blitNineSliced(poseStack, bX, bY, this.getIndividualWidth(), this.getIndividualHeight(), 20, 4, 200, 20, 0, this.getTextureY(this.isEntryHovered(bnum)));*/
 
     guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-    guiGraphics.blitNineSliced(WIDGETS_LOCATION, bX, bY, this.getIndividualWidth(), this.getIndividualHeight(), 20, 4, 200, 20, 0, this.getTextureY(this.isEntryHovered(bnum)));
+    guiGraphics.blit(
+      WIDGETS_LOCATION,
+      bX,
+      bY,
+      this.getIndividualWidth(),
+      this.getIndividualHeight(),
+      20,
+      4,
+      200,
+      20,
+      0,
+      this.getTextureY(this.isEntryHovered(bnum))
+    );
     guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
     /* RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);*/
     int k = this.active ? 16777215 : 10526880;
-    this.renderString(guiGraphics, this.getMessage(lnum), k | Mth.ceil(this.alpha * 255.0F) << 24, bX, bY);
+    this.renderString(
+      guiGraphics,
+      this.getMessage(lnum),
+      k | (Mth.ceil(this.alpha * 255.0F) << 24),
+      bX,
+      bY
+    );
 
     //  RenderSystem.setShader(GameRenderer::getPositionTexShader);
-     /*   RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
+    /*   RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
         int k = this.getYImage(this.isEntryHovered(bnum));
         if (selected) k = 0;
@@ -158,14 +353,36 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
     // drawCenteredString(poseStack, mc.font, this.getMessage(lnum), this.x + getIndividualWidth() / 2, y + (getIndividualHeight() - 8) / 2, l | Mth.ceil(this.alpha * 255.0F) << 24);
   }
 
-  public void renderString(GuiGraphics guiGraphics, Component message, int i, int x, int y) {
+  public void renderString(
+    GuiGraphics guiGraphics,
+    Component message,
+    int i,
+    int x,
+    int y
+  ) {
     this.renderScrollingString(guiGraphics, message, 2, i, x, y);
   }
 
-  protected void renderScrollingString(GuiGraphics guiGraphics, Component message, int i, int j, int x, int y) {
+  protected void renderScrollingString(
+    GuiGraphics guiGraphics,
+    Component message,
+    int i,
+    int j,
+    int x,
+    int y
+  ) {
     int k = x + i;
     int l = x + this.getIndividualWidth() - i;
-    renderScrollingString(guiGraphics, mc.font, message, k, y, l, y + this.getIndividualHeight(), j);
+    renderScrollingString(
+      guiGraphics,
+      mc.font,
+      message,
+      k,
+      y,
+      l,
+      y + this.getIndividualHeight(),
+      j
+    );
   }
 
   private int getTextureY(boolean hoverd) {
@@ -180,16 +397,13 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   }
 
   @Override
-  public void onFocusedClick() {
-
-  }
+  public void onFocusedClick() {}
 
   @Override
   public void playDownSound(@NotNull SoundManager soundManager) {
     boolean flg = isEntryHovered(hoveredNumber);
     boolean nflg = entryList.size() > hoveredNumber;
-    if (!(flg && !nflg))
-      super.playDownSound(soundManager);
+    if (!(flg && !nflg)) super.playDownSound(soundManager);
   }
 
   @Override
@@ -211,8 +425,7 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
     return super.mouseClicked(mx, my, i);
   }
 
-  @Override
-  public boolean mouseScrolled(double d, double e, double f) {
+  public boolean mouseScrolled(double d, double e, double f, double g) {
     this.setScrollAmount(this.getScrollAmount() - getMouseScrollAmount(f));
     return true;
   }
@@ -221,10 +434,16 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   public boolean keyPressed(int i, int j, int k) {
     if (this.active && this.visible && isHoveredOrFocused()) {
       if (i == GLFW.GLFW_KEY_UP) {
-        this.setScrollAmount(this.getScrollAmount() - 0.3f * ((float) entryShowCount / (float) height));
+        this.setScrollAmount(
+          this.getScrollAmount() -
+            0.3f * ((float) entryShowCount / (float) height)
+        );
         return true;
       } else if (i == GLFW.GLFW_KEY_DOWN) {
-        this.setScrollAmount(this.getScrollAmount() + 0.3f * ((float) entryShowCount / (float) height));
+        this.setScrollAmount(
+          this.getScrollAmount() +
+            0.3f * ((float) entryShowCount / (float) height)
+        );
         return true;
       }
     }
@@ -239,8 +458,7 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
         selectedEntry = e;
         selectedEntryIndex = cn;
       }
-      if (onPressEntry != null)
-        onPressEntry.onPressEntry(this, e);
+      if (onPressEntry != null) onPressEntry.onPressEntry(this, e);
     }
   }
 
@@ -255,19 +473,20 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   }
 
   public void setSelectedEntry(@Nullable E selectedEntry) {
-    if (selectedEntry == null || entryList.stream().anyMatch(n -> n == selectedEntry)) {
+    if (
+      selectedEntry == null ||
+      entryList.stream().anyMatch(n -> n == selectedEntry)
+    ) {
       this.selectedEntry = selectedEntry;
-      if (selectedEntry == null)
-        selectedEntryIndex = -1;
-      else
-        selectedEntryIndex = entryList.indexOf(selectedEntry);
+      if (selectedEntry == null) selectedEntryIndex = -1;
+      else selectedEntryIndex = entryList.indexOf(selectedEntry);
     }
   }
 
-  public @Nullable
-  E getSelectedEntry() {
-    if (entryList.stream().anyMatch(n -> n == selectedEntry))
-      return selectedEntry;
+  public @Nullable E getSelectedEntry() {
+    if (
+      entryList.stream().anyMatch(n -> n == selectedEntry)
+    ) return selectedEntry;
     return null;
   }
 
@@ -277,8 +496,7 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   }
 
   protected int getCurrentFirstEntryIndex() {
-    if (entryList.size() <= entryShowCount)
-      return 0;
+    if (entryList.size() <= entryShowCount) return 0;
     return (int) ((entryList.size() - entryShowCount) * scrollAmount);
   }
 
@@ -305,7 +523,12 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   }
 
   public int getBarHeight() {
-    return Mth.clamp((int) (getActualHeight() / (((float) entryList.size() / (float) entryShowCount))), 10, getActualHeight());
+    return Mth.clamp(
+      (int) (getActualHeight() /
+        (((float) entryList.size() / (float) entryShowCount))),
+      10,
+      getActualHeight()
+    );
   }
 
   public float getScrollAmount() {
@@ -328,8 +551,7 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
     return width - (9 + (border ? 0 : 1));
   }
 
-  public @NotNull
-  List<E> getEntryList() {
+  public @NotNull List<E> getEntryList() {
     return entryList;
   }
 
@@ -354,13 +576,14 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   }
 
   public float getMouseScrollAmount(double mouseAmount) {
-    float am = (float) getIndividualHeight() / ((float) getIndividualHeight() * (float) Math.max((entryList.size() - entryShowCount), 1));
+    float am =
+      (float) getIndividualHeight() /
+      ((float) getIndividualHeight() *
+        (float) Math.max((entryList.size() - entryShowCount), 1));
 
     float m = 1;
-    if (OEClientUtils.isKeyInput(mc.options.keyShift))
-      m *= 3;
-    if (OEClientUtils.isKeyInput(mc.options.keySprint))
-      m *= 10;
+    if (OEClientUtils.isKeyInput(mc.options.keyShift)) m *= 3;
+    if (OEClientUtils.isKeyInput(mc.options.keySprint)) m *= 10;
 
     return (float) mouseAmount * am * m;
   }
@@ -369,4 +592,3 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
     void onPressEntry(FixedListWidget<E> widget, E item);
   }
 }
-
