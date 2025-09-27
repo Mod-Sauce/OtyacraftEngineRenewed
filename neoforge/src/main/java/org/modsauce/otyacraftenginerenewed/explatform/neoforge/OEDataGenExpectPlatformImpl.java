@@ -1,6 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.explatform.neoforge;
 
-import net.minecraftforge.data.loading.DatagenModLoader;
+import net.neoforged.neoforge.data.loading.DatagenModLoader;
 
 public class OEDataGenExpectPlatformImpl {
 

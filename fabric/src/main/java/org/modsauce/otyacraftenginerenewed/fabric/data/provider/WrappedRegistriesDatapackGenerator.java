@@ -43,11 +43,13 @@ public class WrappedRegistriesDatapackGenerator
       .filter(data -> !builderKeys.contains(data.key()))
       .forEach(data -> datapackEntriesBuilder.add(data.key(), context -> {}));
 
-    return datapackEntriesBuilder.buildPatch(
-      RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY),
-      original,
-      com.mojang.datafixers.util.Pair::of
-    );
+    return datapackEntriesBuilder
+      .buildPatch(
+        RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY),
+        original,
+        null
+      )
+      .patches();
   }
 
   public static Stream<

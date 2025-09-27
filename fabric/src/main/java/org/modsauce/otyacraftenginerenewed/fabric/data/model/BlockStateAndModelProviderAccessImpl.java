@@ -259,11 +259,14 @@ public class BlockStateAndModelProviderAccessImpl
   }
 
   private ResourceLocation blockLoc(ResourceLocation loc) {
-    return new ResourceLocation(loc.getNamespace(), "block/" + loc.getPath());
+    return ResourceLocation.fromNamespaceAndPath(
+      loc.getNamespace(),
+      "block/" + loc.getPath()
+    );
   }
 
   private ResourceLocation blockLoc(String name) {
-    return new ResourceLocation(
+    return ResourceLocation.fromNamespaceAndPath(
       crossDataGeneratorAccess.getMod().getModId(),
       "block/" + name
     );

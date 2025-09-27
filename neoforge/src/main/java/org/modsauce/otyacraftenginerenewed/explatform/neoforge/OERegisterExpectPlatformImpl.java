@@ -9,8 +9,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraftforge.common.ForgeTier;
-import net.minecraftforge.common.TierSortingRegistry;
+//import net.minecraftforge.common.TierSortingRegistry;
+import net.neoforged.neoforge.common.SimpleTier;
 import org.jetbrains.annotations.NotNull;
 import org.modsauce.otyacraftenginerenewed.blockentity.BlockEntityCreateSupplier;
 
@@ -41,7 +41,7 @@ public class OERegisterExpectPlatformImpl {
     @NotNull Supplier<Ingredient> repairIngredient
   ) {
     //   TierSortingRegistry.registerTier()
-    return new ForgeTier(
+    return new SimpleTier(
       level,
       uses,
       speed,

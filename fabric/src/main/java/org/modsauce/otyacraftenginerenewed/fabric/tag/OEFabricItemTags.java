@@ -3,7 +3,7 @@ package org.modsauce.otyacraftenginerenewed.fabric.tag;
 import com.google.common.base.Suppliers;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
-import net.fabricmc.fabric.impl.tag.convention.TagRegistration;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -47,7 +47,7 @@ public class OEFabricItemTags {
     "iron_blocks",
     tp -> tp.add(Items.IRON_BLOCK)
   );
-  public static final Supplier<TagKey<Item>> BOOKS = bind("books");
+  public static final Supplier<TagKey<Item>> BOOKS = bindTagKey("books");
   public static final Supplier<ManualTagHolder<Item>> RAW_MEATS = bind(
     "raw_meats",
     tp ->
@@ -168,17 +168,12 @@ public class OEFabricItemTags {
     > tagRegister
   ) {
     return Suppliers.memoize(() ->
-      ManualTagHolder.of(
-        TagRegistration.ITEM_TAG_REGISTRATION.registerCommon(id),
-        tagRegister
-      )
+      ManualTagHolder.of(TagKey.create(Registries.ITEM, cLoc(id)), tagRegister)
     );
   }
 
-  private static Supplier<TagKey<Item>> bind(String id) {
-    return Suppliers.memoize(() ->
-      TagRegistration.ITEM_TAG_REGISTRATION.registerCommon(id)
-    );
+  private static Supplier<TagKey<Item>> bindTagKey(String id) {
+    return Suppliers.memoize(() -> TagKey.create(Registries.ITEM, cLoc(id)));
   }
 
   private static ResourceLocation cLoc(String path) {
