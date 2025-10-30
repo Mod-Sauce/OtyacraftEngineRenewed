@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 //import net.minecraftforge.common.TierSortingRegistry;
-import net.neoforged.neoforge.common.SimpleTier;
 import org.jetbrains.annotations.NotNull;
 import org.modsauce.otyacraftenginerenewed.blockentity.BlockEntityCreateSupplier;
 
@@ -41,14 +40,36 @@ public class OERegisterExpectPlatformImpl {
     @NotNull Supplier<Ingredient> repairIngredient
   ) {
     //   TierSortingRegistry.registerTier()
-    return new SimpleTier(
-      level,
-      uses,
-      speed,
-      attackDamageBonus,
-      enchantmentValue,
-      tag,
-      repairIngredient
-    );
+    return new Tier() {
+      @Override
+      public int getUses() {
+        return uses;
+      }
+
+      @Override
+      public float getSpeed() {
+        return speed;
+      }
+
+      @Override
+      public float getAttackDamageBonus() {
+        return attackDamageBonus;
+      }
+
+      @Override
+      public TagKey<Block> getIncorrectBlocksForDrops() {
+        return tag;
+      }
+
+      @Override
+      public int getEnchantmentValue() {
+        return enchantmentValue;
+      }
+
+      @Override
+      public Ingredient getRepairIngredient() {
+        return repairIngredient.get();
+      }
+    };
   }
 }

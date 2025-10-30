@@ -14,6 +14,9 @@ import org.modsauce.otyacraftenginerenewed.tag.ManualTagHolder;
 public class OEForgeItemTags {
 
   public static final Supplier<TagKey<Item>> BOOKS = bind("books");
+  public static final Supplier<TagKey<Item>> SHEARS = bind("shears");
+  public static final Supplier<TagKey<Item>> BOWS = bind("bow");
+  
   public static final Supplier<ManualTagHolder<Item>> RAW_MEATS = bind(
     "raw_meats",
     tp ->
@@ -87,9 +90,37 @@ public class OEForgeItemTags {
     "drinks",
     tp -> tp.addOptionalTag(drinks()).addTagHolder(MILKS.get())
   );
+  public static final Supplier<ManualTagHolder<Item>> STONE = bind(
+    "stone",
+    tp -> {
+      tp.add(
+        Items.STONE,
+        Items.ANDESITE,
+        Items.DIORITE,
+        Items.GRANITE,
+        Items.DEEPSLATE
+      );
+      tp.add(
+        Items.POLISHED_ANDESITE,
+        Items.POLISHED_DIORITE,
+        Items.POLISHED_GRANITE,
+        Items.POLISHED_DEEPSLATE
+      );
+    }
+  );
   public static final Supplier<ManualTagHolder<Item>> CLAY = bind("clay", tp ->
     tp.add(Items.CLAY_BALL)
   );
+  public static final Supplier<TagKey<Item>> GLASS_BLOCKS = bind("glass_blocks");
+
+  private static Supplier<ManualTagHolder<Item>> bind(
+    String id,
+    Consumer<IntrinsicHolderTagsProviderWrapper.IntrinsicTagAppenderWrapper<Item>> tagRegister
+  ) {
+    return Suppliers.memoize(() ->
+      ManualTagHolder.of(ItemTags.create(fgLoc(id)), tagRegister)
+    );
+  }
 
   private static Supplier<TagKey<Item>> bind(String id) {
     return Suppliers.memoize(() -> ItemTags.create(fgLoc(id)));

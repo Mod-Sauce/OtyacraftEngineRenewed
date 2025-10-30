@@ -4,6 +4,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.BakedModel;
+import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.ItemLike;
 import org.modsauce.otyacraftenginerenewed.client.renderer.item.BEWLItemRenderer;
@@ -18,11 +19,12 @@ public class OEClientExpectPlatformImpl {
   }
 
   public static BakedModel getModel(ResourceLocation location) {
-    return mc.getModelManager().getModel(location);
+    ModelResourceLocation modelLocation = new ModelResourceLocation(location, "inventory");
+    return mc.getModelManager().getModel(modelLocation);
   }
 
   public static float getPartialTicks() {
-    return mc.getPartialTick();
+    return mc.getTimer().getGameTimeDeltaPartialTick(mc.isPaused());
   }
 
   public static void registerItemRenderer(

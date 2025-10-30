@@ -28,7 +28,7 @@ public class OETagsExpectPlatformImpl {
   }
 
   public static TagKey<Item> shears() {
-    return Tags.Items.SHEARS;
+    return OEForgeItemTags.SHEARS.get();
   }
 
   public static Optional<TagKey<Item>> swords() {
@@ -36,7 +36,7 @@ public class OETagsExpectPlatformImpl {
   }
 
   public static TagKey<Item> bows() {
-    return Tags.Items.TOOLS_BOWS;
+    return OEForgeItemTags.BOWS.get();
   }
 
   public static TagKey<Item> ironIngots() {
@@ -52,7 +52,7 @@ public class OETagsExpectPlatformImpl {
   }
 
   public static TagKey<Item> netheriteIngots() {
-    return Tags.Items.INGOTS_NETHER_BRICK;
+    return Tags.Items.INGOTS_NETHERITE;
   }
 
   public static TagKey<Item> redstoneDusts() {
@@ -64,7 +64,7 @@ public class OETagsExpectPlatformImpl {
   }
 
   public static TagKey<Item> glassBlocks() {
-    return Tags.Items.GLASS;
+    return OEForgeItemTags.GLASS_BLOCKS.get();
   }
 
   public static TagKey<Item> glassPanes() {
@@ -84,7 +84,7 @@ public class OETagsExpectPlatformImpl {
   }
 
   public static ManualTagHolder<Item> stone() {
-    return ManualTagHolder.of(() -> Tags.Items.STONE);
+    return OEForgeItemTags.STONE.get();
   }
 
   public static ManualTagHolder<Item> redstoneBlocks() {

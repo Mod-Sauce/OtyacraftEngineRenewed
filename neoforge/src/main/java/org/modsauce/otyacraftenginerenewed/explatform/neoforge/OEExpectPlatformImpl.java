@@ -1,6 +1,5 @@
 package org.modsauce.otyacraftenginerenewed.explatform.neoforge;
 
-import dev.felnull.fnjl.util.FNReflectionUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -52,7 +51,10 @@ public class OEExpectPlatformImpl {
           cls = Class.forName(n.clazz().getClassName());
         } catch (Exception ignored) {}
         if (cls == null) return;
-        var inst = FNReflectionUtil.newInstance(cls);
+        Object inst = null;
+        try {
+          inst = cls.getDeclaredConstructor().newInstance();
+        } catch (Exception ignored) {}
         if (interfaceClass.isInstance(inst)) lst.add((T) inst);
       });
     return lst;

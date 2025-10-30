@@ -65,6 +65,11 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
     }
 
     @Override
+    public RecipeProvider createRecipeProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, RecipeProviderWrapper recipeProviderWrapper) {
+        return new WrappedRecipeProvider(packOutput, lookup, recipeProviderWrapper);
+    }
+
+    @Override
     public RecipeProvider createRecipeProvider(PackOutput packOutput, RecipeProviderWrapper recipeProviderWrapper) {
         return new WrappedRecipeProvider(packOutput, recipeProviderWrapper);
     }
@@ -109,8 +114,18 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
     }
 
     @Override
+    public DataProvider createBlockLootTableProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, BlockLootTableProviderWrapper blockLootTableProviderWrapper) {
+        return new WrappedBlockLootTableProvider(packOutput, lookup, blockLootTableProviderWrapper);
+    }
+
+    @Override
     public DataProvider createBlockLootTableProvider(PackOutput packOutput, BlockLootTableProviderWrapper blockLootTableProviderWrapper) {
         return new WrappedBlockLootTableProvider(packOutput, blockLootTableProviderWrapper);
+    }
+
+    @Override
+    public DataProvider createAdvancementProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, AdvancementProviderWrapper advancementProviderWrapper, List<AdvancementSubProviderWrapper> subProviderWrappers) {
+        return new WrappedAdvancementProvider(packOutput, lookup, subProviderWrappers, advancementProviderWrapper);
     }
 
     @Override

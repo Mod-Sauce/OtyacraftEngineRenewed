@@ -39,6 +39,7 @@ dependencies {
     modApi "me.shedaniel.cloth:cloth-config-neoforge:${rootProject.cloth_config_version}"
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${rootProject.rei_version}"
 
+    implementation "dev.felnull:felnull-java-library:${rootProject.felnull_version}"
     shadowIn "dev.felnull:felnull-java-library:${rootProject.felnull_version}"
     shadowIn 'com.madgag:animated-gif-lib:1.4'
 }

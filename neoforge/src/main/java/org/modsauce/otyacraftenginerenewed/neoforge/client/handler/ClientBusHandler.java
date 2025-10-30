@@ -12,13 +12,13 @@ import net.minecraft.client.renderer.entity.layers.RenderLayer;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.neoforge.common.NeoForge;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
 
-@Mod.EventBusSubscriber(modid = OtyacraftEngine.MODID, bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = OtyacraftEngine.MODID, value = Dist.CLIENT)
 public class ClientBusHandler {
     @SubscribeEvent
     public static void onClientSetup(FMLClientSetupEvent event) {
@@ -35,9 +35,11 @@ public class ClientBusHandler {
                 if (entityType == EntityType.PLAYER) {
                     for (PlayerSkin.Model skin : e.getSkins()) {
                         var renderer = e.getSkin(PlayerSkin.Model.valueOf(String.valueOf(skin)));
-                        if (renderer != null) {
-                            RenderLayer theLayer = layer.create((RenderLayerParent<T, M>) renderer, e.getEntityModels());
-                            renderer.addLayer(theLayer);
+                        if (renderer instanceof LivingEntityRenderer<?, ?> livingRenderer) {
+                            RenderLayer<T, M> theLayer = layer.create((RenderLayerParent<T, M>) renderer, e.getEntityModels());
+                            @SuppressWarnings("unchecked")
+                            LivingEntityRenderer<T, M> typedRenderer = (LivingEntityRenderer<T, M>) livingRenderer;
+                            typedRenderer.addLayer(theLayer);
                         }
                     }
                 } else {

@@ -21,7 +21,7 @@ public interface ManualTagHolder<T> {
 
   @NotNull
   static <T> ManualTagHolder<T> of(@NotNull Supplier<TagKey<T>> tagKey) {
-    return new ManualTagHolder<>() {
+    return new ManualTagHolder<T>() {
       @Override
       public @NotNull TagKey<T> getKey() {
         return tagKey.get();

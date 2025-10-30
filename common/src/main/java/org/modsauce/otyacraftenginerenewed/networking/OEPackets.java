@@ -36,7 +36,7 @@ public class OEPackets {
 
   public static void init() {
     NetworkManager.registerReceiver(
-      NetworkManager.c2s(),
+      NetworkManager.Side.C2S,
       BLOCK_ENTITY_INSTRUCTION,
       (friendlyByteBuf, packetContext) ->
         ServerMessageHandler.onBlockEntityInstructionMessage(
@@ -45,7 +45,7 @@ public class OEPackets {
         )
     );
     NetworkManager.registerReceiver(
-      NetworkManager.c2s(),
+      NetworkManager.Side.C2S,
       ITEM_INSTRUCTION,
       (friendlyByteBuf, packetContext) ->
         ServerMessageHandler.onItemInstructionMessage(
@@ -57,7 +57,7 @@ public class OEPackets {
 
   public static void clientInit() {
     NetworkManager.registerReceiver(
-      NetworkManager.s2c(),
+      NetworkManager.Side.S2C,
       BLOCK_ENTITY_INSTRUCTION_RETURN,
       (friendlyByteBuf, packetContext) ->
         ClientMessageHandler.onBlockEntityInstructionReturn(
@@ -66,7 +66,7 @@ public class OEPackets {
         )
     );
     NetworkManager.registerReceiver(
-      NetworkManager.s2c(),
+      NetworkManager.Side.S2C,
       ITEM_INSTRUCTION_RETURN,
       (friendlyByteBuf, packetContext) ->
         ClientMessageHandler.onItemInstructionReturn(
