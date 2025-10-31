@@ -2,7 +2,6 @@ package org.modsauce.otyacraftenginerenewed.fabric.mixin.client;
 
 import org.modsauce.otyacraftenginerenewed.client.event.OEClientEventHooks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
@@ -25,14 +24,8 @@ public class MinecraftMixin {
     public LocalPlayer player;
 
     @Inject(method = "setLevel", at = @At("HEAD"))
-    private void setLevel(ClientLevel clientLevel, CallbackInfo ci) {
+    private void setLevel(ClientLevel clientLevel, net.minecraft.client.gui.screens.ReceivingLevelScreen.Reason reason, CallbackInfo ci) {
         if (level != null)
-            OEClientEventHooks.onLevelUnload(level);
-    }
-
-    @Inject(method = "clearLevel(Lnet/minecraft/client/gui/screens/Screen;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/Minecraft;updateScreenAndTick(Lnet/minecraft/client/gui/screens/Screen;)V", ordinal = 0, shift = At.Shift.AFTER))
-    private void clearLevel(Screen screen, CallbackInfo ci) {
-        if (this.level != null)
             OEClientEventHooks.onLevelUnload(level);
     }
 

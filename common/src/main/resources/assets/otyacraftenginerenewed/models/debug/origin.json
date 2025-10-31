@@ -1,5 +1,5 @@
 {
   "parent": "builtin/entity",
-  "loader": "forge:obj",
-  "model": "otyacraftengine:models/debug/origin.obj"
+  "loader": "neoforge:obj",
+  "model": "otyacraftenginerenewed:models/debug/origin.obj"
 }

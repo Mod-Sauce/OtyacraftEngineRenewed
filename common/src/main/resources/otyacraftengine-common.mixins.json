@@ -4,18 +4,18 @@
   "compatibilityLevel": "JAVA_21",
   "minVersion": "0.8",
   "client": [
-    "org.modsauce.otyacraftenginerenewed.mixin.client.HumanoidModelMixin",
-    "org.modsauce.otyacraftenginerenewed.mixin.client.IntegratedServerMixin",
-    "org.modsauce.otyacraftenginerenewed.mixin.client.ItemInHandLayerMixin",
-    "org.modsauce.otyacraftenginerenewed.mixin.client.ItemInHandRendererMixin",
-    "org.modsauce.otyacraftenginerenewed.mixin.client.LevelRendererMixin",
-    "org.modsauce.otyacraftenginerenewed.mixin.client.ModelPartMixin"
+    "client.HumanoidModelMixin",
+    "client.IntegratedServerMixin",
+    "client.ItemInHandLayerMixin",
+    "client.ItemInHandRendererMixin",
+    "client.LevelRendererMixin",
+    "client.ModelPartMixin"
   ],
   "mixins": [
-    "org.modsauce.otyacraftenginerenewed.mixin.InventoryChangeTriggerMixin",
-    "org.modsauce.otyacraftenginerenewed.mixin.MinecraftServerMixin",
-    "org.modsauce.otyacraftenginerenewed.mixin.ShapesMixin",
-    "org.modsauce.otyacraftenginerenewed.mixin.VoxelShapeMixin"
+    "InventoryChangeTriggerMixin",
+    "MinecraftServerMixin",
+    "ShapesMixin",
+    "VoxelShapeMixin"
   ],
   "injectors": {
     "defaultRequire": 1

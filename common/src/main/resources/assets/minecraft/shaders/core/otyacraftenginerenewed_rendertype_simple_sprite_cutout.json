@@ -4,8 +4,8 @@
     "srcrgb": "srcalpha",
     "dstrgb": "1-srcalpha"
   },
-  "vertex": "otyacraftengine_rendertype_simple_sprite_cutout",
-  "fragment": "otyacraftengine_rendertype_simple_sprite_cutout",
+  "vertex": "otyacraftenginerenewed_rendertype_simple_sprite_cutout",
+  "fragment": "otyacraftenginerenewed_rendertype_simple_sprite_cutout",
   "attributes": [
     "Position",
     "Color",
