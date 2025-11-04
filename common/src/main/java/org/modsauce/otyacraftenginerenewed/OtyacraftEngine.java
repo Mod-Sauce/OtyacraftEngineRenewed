@@ -16,25 +16,33 @@ import org.modsauce.otyacraftenginerenewed.networking.OEPackets;
 import org.modsauce.otyacraftenginerenewed.util.OEDataGenUtils;
 
 public class OtyacraftEngine {
-  public static final Logger LOGGER = LogManager.getLogger(OtyacraftEngine.class);
-  public static final String MODID = "otyacraftenginerenewed";
-  private static final OEConfig CONFIG = AutoConfig.register(OEConfig.class, PartitioningSerializer.wrap(Toml4jConfigSerializer::new)).getConfig();
 
-  public static void init() {
-    CommonHandler.init();
-    OEPackets.init();
-    OECriteriaTriggers.init();
-    PlayerItemLocations.init();
+    public static final Logger LOGGER = LogManager.getLogger(
+        OtyacraftEngine.class
+    );
+    public static final String MODID = "otyacraftenginerenewed";
+    private static final OEConfig CONFIG = AutoConfig.register(
+        OEConfig.class,
+        PartitioningSerializer.wrap(Toml4jConfigSerializer::new)
+    ).getConfig();
 
-    if (!OEDataGenUtils.isDataGenerating())
-      EnvExecutor.runInEnv(Env.CLIENT, () -> OtyacraftEngineClient::preInit);
-  }
+    public static void init() {
+        CommonHandler.init();
+        OEPackets.init();
+        //OECriteriaTriggers.init();
+        PlayerItemLocations.init();
 
-  public static String getModName() {
-    return Platform.getMod(MODID).getName();
-  }
+        if (!OEDataGenUtils.isDataGenerating()) EnvExecutor.runInEnv(
+            Env.CLIENT,
+            () -> OtyacraftEngineClient::preInit
+        );
+    }
 
-  public static OEConfig getConfig() {
-    return CONFIG;
-  }
+    public static String getModName() {
+        return Platform.getMod(MODID).getName();
+    }
+
+    public static OEConfig getConfig() {
+        return CONFIG;
+    }
 }

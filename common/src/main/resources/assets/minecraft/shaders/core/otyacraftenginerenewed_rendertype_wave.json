@@ -4,8 +4,8 @@
     "srcrgb": "srcalpha",
     "dstrgb": "1-srcalpha"
   },
-  "vertex": "otyacraftengine_rendertype_wave",
-  "fragment": "otyacraftengine_rendertype_wave",
+  "vertex": "otyacraftenginerenewed_rendertype_wave",
+  "fragment": "otyacraftenginerenewed_rendertype_wave",
   "attributes": [
     "Position",
     "Color",
