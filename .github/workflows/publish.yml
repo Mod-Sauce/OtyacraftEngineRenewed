@@ -4,16 +4,16 @@ on:
   workflow_dispatch:
 jobs:
   build:
-    runs-on: blacksmith-4vcpu-ubuntu-2404 
-    permissions: 
+    runs-on: blacksmith-8vcpu-ubuntu-2404
+    permissions:
       contents: read
-      packages: write 
+      packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: useblacksmith/setup-java@v5
         with:
-          java-version: '21'
-          distribution: 'zulu'
+          java-version: "21"
+          distribution: "zulu"
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v3.5.0
       - name: Publish package
