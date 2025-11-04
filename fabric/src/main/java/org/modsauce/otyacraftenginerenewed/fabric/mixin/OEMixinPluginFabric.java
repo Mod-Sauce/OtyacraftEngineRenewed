@@ -21,7 +21,7 @@ public class OEMixinPluginFabric implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if (mixinClassName.startsWith("dev.felnull.otyacraftenginerenewed.fabric.mixin.data"))
+        if (mixinClassName.startsWith("org.modsauce.otyacraftenginerenewed.fabric.mixin.data"))
             return Platform.isDevelopmentEnvironment();
 
         return true;

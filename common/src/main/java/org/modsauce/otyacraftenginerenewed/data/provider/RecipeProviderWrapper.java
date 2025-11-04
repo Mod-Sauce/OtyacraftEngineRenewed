@@ -12,6 +12,7 @@ import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
 
 import java.util.function.Consumer;
 
+
 public abstract class RecipeProviderWrapper extends DataProviderWrapper<RecipeProvider> {
   private final RecipeProvider recipeProvider;
 
