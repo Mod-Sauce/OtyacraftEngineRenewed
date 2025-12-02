@@ -96,7 +96,7 @@ publishing {
       name = "GitHubPackages"
       url = "https://maven.pkg.github.com/Mod-Sauce/OtyacraftEngineRenewed"
       credentials {
-        username = System.getenv("Shadowbee27")
+        username = "Shadowbee27"
         password = System.getenv("OER_TOKEN_SHADOWBEE")
       }
     }
