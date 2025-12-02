@@ -15,7 +15,7 @@ loom {
 
 configurations {
     common
-    shadowCommon 
+    shadowCommon
     compileClasspath.extendsFrom common
     runtimeClasspath.extendsFrom common
     developmentFabric.extendsFrom common
@@ -31,7 +31,7 @@ repositories {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
     modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
-   
+
     modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
     common(project(path: ":common", configuration: "namedElements")) { transitive false }
@@ -91,15 +91,16 @@ components.java {
 }
 
 publishing {
-    repositories {
-        maven {
-            url repsyUrl
-            credentials {
-                username "${System.getenv("USERNAME")}"
-                password "${System.getenv("MAVEN_PASSWORD")}"
-            }
-        }
+  repositories {
+    maven {
+      name = "GitHubPackages"
+      url = "https://maven.pkg.github.com/Mod-Sauce/OtyacraftEngineRenewed"
+      credentials {
+        username = System.getenv("Shadowbee27")
+        password = System.getenv("OER_TOKEN_SHADOWBEE")
+      }
     }
+  }
     publications {
         maven(MavenPublication) {
             from(components.java)
