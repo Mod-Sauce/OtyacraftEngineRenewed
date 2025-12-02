@@ -2,12 +2,14 @@ name: Publish
 on:
   release:
   workflow_dispatch:
+
+permissions:
+  contents: read
+  packages: write
+
 jobs:
   build:
     runs-on: blacksmith-4vcpu-ubuntu-2404
-    permissions:
-      contents: read
-      packages: write
     steps:
       - uses: actions/checkout@v3
       - uses: useblacksmith/setup-java@v5
@@ -16,9 +18,8 @@ jobs:
           distribution: "zulu"
       - name: Validate Gradle wrapper
         uses: gradle/wrapper-validation-action@v3.5.0
-      - name: Publish package
-        uses: useblacksmith/setup-gradle/setup-gradle@v5
-        with:
-          arguments: publish
+      - run: chmod +x ./gradlew
+      - name: Build with Gradle
+        run: ./gradlew publish
         env:
-          MAVEN_PASSWORD: ${{ secrets.OER_TOKEN_SHADOWBEE }}
+          OER_TOKEN_SHADOWBEE: ${{ secrets.OER_TOKEN_SHADOWBEE }}
