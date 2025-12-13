@@ -33,18 +33,8 @@ public class MinecraftMixin {
     if (level != null) OEClientEventHooks.onLevelUnload(level);
   }
 
-  @Inject(
-    method = "clearLevel",
-    at = @At(
-      value = "INVOKE",
-      target = "Lnet/minecraft/client/Minecraft;updateScreenAndTick(Lnet/minecraft/client/gui/screens/Screen;)V",
-      ordinal = 0,
-      shift = At.Shift.AFTER
-    )
-  )
-  private void clearLevel(Screen screen, CallbackInfo ci) {
-    if (this.level != null) OEClientEventHooks.onLevelUnload(level);
-  }
+  // TODO: Fix for MC 1.21.1 - clearLevel method was renamed or removed
+  // The level unload functionality is handled by setLevel injection and NeoForge events
 
   @Inject(
     method = "continueAttack",

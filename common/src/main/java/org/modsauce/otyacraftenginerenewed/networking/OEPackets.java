@@ -1,6 +1,7 @@
 package org.modsauce.otyacraftenginerenewed.networking;
 
 import dev.architectury.networking.NetworkManager;
+import dev.architectury.platform.Platform;
 import java.util.UUID;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -36,7 +37,7 @@ public class OEPackets {
 
   public static void init() {
     NetworkManager.registerReceiver(
-      NetworkManager.Side.C2S,
+      NetworkManager.c2s(),
       BLOCK_ENTITY_INSTRUCTION,
       (friendlyByteBuf, packetContext) ->
         ServerMessageHandler.onBlockEntityInstructionMessage(
@@ -45,7 +46,7 @@ public class OEPackets {
         )
     );
     NetworkManager.registerReceiver(
-      NetworkManager.Side.C2S,
+      NetworkManager.c2s(),
       ITEM_INSTRUCTION,
       (friendlyByteBuf, packetContext) ->
         ServerMessageHandler.onItemInstructionMessage(
@@ -56,21 +57,23 @@ public class OEPackets {
   }
 
   public static void clientInit() {
+    // S2C Packets - Only register on client side to avoid Fabric networking issues
+    // The server doesn't need to register S2C receivers, only the client does
     NetworkManager.registerReceiver(
-      NetworkManager.Side.S2C,
+      NetworkManager.s2c(),
       BLOCK_ENTITY_INSTRUCTION_RETURN,
       (friendlyByteBuf, packetContext) ->
         ClientMessageHandler.onBlockEntityInstructionReturn(
-          new BlockEntityInstructionMessage(friendlyByteBuf),
+          new BlockEntityInstructionMessage((RegistryFriendlyByteBuf) friendlyByteBuf),
           packetContext
         )
     );
     NetworkManager.registerReceiver(
-      NetworkManager.Side.S2C,
+      NetworkManager.s2c(),
       ITEM_INSTRUCTION_RETURN,
       (friendlyByteBuf, packetContext) ->
         ClientMessageHandler.onItemInstructionReturn(
-          new ItemInstructionMessage(friendlyByteBuf),
+          new ItemInstructionMessage((RegistryFriendlyByteBuf) friendlyByteBuf),
           packetContext
         )
     );
