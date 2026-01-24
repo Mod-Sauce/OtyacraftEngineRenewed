@@ -1,5 +1,7 @@
 package org.modsauce.otyacraftenginerenewed.neoforge.mixin.self;
 
+import net.minecraft.core.HolderLookup;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.modsauce.otyacraftenginerenewed.blockentity.IClientSyncableBlockEntity;
 import org.modsauce.otyacraftenginerenewed.blockentity.OEBaseBlockEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -11,9 +13,9 @@ import org.spongepowered.asm.mixin.Mixin;
 @Mixin(OEBaseBlockEntity.class)
 public abstract class OEBaseBlockEntityMixin implements IBlockEntityExtension, IClientSyncableBlockEntity {
     @Override
-    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
         CompoundTag tag = pkt.getTag();
         if (tag != null)
-            loadToUpdateTag(tag);
+            loadToUpdateTag(tag, lookupProvider);
     }
 }

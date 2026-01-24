@@ -42,15 +42,15 @@ public abstract class OEBaseBlockEntity
   }
 
   @Override
-  public void saveToUpdateTag(CompoundTag tag) {}
+  public void saveToUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {}
 
   @Override
-  public void loadToUpdateTag(CompoundTag tag) {}
+  public void loadToUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {}
 
   @Override
   public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
     var tag = super.getUpdateTag(registries);
-    saveToUpdateTag(tag);
+    saveToUpdateTag(tag, registries);
     return tag;
   }
 

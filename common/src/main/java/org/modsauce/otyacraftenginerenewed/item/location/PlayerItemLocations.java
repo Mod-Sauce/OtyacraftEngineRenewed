@@ -35,7 +35,7 @@ public class PlayerItemLocations {
   }
 
   public static PlayerItemLocation loadFromTag(CompoundTag tag) {
-    var rl = ResourceLocation.withDefaultNamespace(tag.getString("id"));
+    var rl = ResourceLocation.parse(tag.getString("id"));
     var factory = FACTORS.get(rl);
     if (factory == null)
       throw new IllegalArgumentException("Unregistered player item location");

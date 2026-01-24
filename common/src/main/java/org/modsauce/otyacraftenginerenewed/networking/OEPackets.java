@@ -64,7 +64,7 @@ public class OEPackets {
       BLOCK_ENTITY_INSTRUCTION_RETURN,
       (friendlyByteBuf, packetContext) ->
         ClientMessageHandler.onBlockEntityInstructionReturn(
-          new BlockEntityInstructionMessage((RegistryFriendlyByteBuf) friendlyByteBuf),
+          new BlockEntityInstructionMessage(friendlyByteBuf),
           packetContext
         )
     );
@@ -73,7 +73,7 @@ public class OEPackets {
       ITEM_INSTRUCTION_RETURN,
       (friendlyByteBuf, packetContext) ->
         ClientMessageHandler.onItemInstructionReturn(
-          new ItemInstructionMessage((RegistryFriendlyByteBuf) friendlyByteBuf),
+          new ItemInstructionMessage(friendlyByteBuf),
           packetContext
         )
     );

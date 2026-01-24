@@ -28,7 +28,7 @@ public final class OEMenuUtil {
       n.writeBoolean(true);
       n.writeNbt(PlayerItemLocations.saveToTag(location));
       ItemStack.OPTIONAL_STREAM_CODEC.encode(
-        (RegistryFriendlyByteBuf) n,
+        new RegistryFriendlyByteBuf(n, player.level().registryAccess()),
         stack
       );
       n.writeInt(inventorySize);
@@ -73,7 +73,7 @@ public final class OEMenuUtil {
       return factory.create(
         id,
         inventory,
-        ItemStack.OPTIONAL_STREAM_CODEC.decode((RegistryFriendlyByteBuf) buf),
+        ItemStack.OPTIONAL_STREAM_CODEC.decode(new RegistryFriendlyByteBuf(buf, inventory.player.registryAccess())),
         location,
         new SimpleContainer(buf.readInt())
       );
@@ -92,7 +92,7 @@ public final class OEMenuUtil {
         return factoryItem.create(
           id,
           inventory,
-          ItemStack.OPTIONAL_STREAM_CODEC.decode((RegistryFriendlyByteBuf) buf),
+          ItemStack.OPTIONAL_STREAM_CODEC.decode(new RegistryFriendlyByteBuf(buf, inventory.player.registryAccess())),
           location,
           new SimpleContainer(buf.readInt())
         );
