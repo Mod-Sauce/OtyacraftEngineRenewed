@@ -15,16 +15,21 @@ dependencies {
 }
 
 publishing {
-  repositories {
-      maven {
-        name = "GitHubPackages"
-        url = "https://maven.pkg.github.com/Mod-Sauce/OtyacraftEngineRenewed"
-        credentials {
-          username = "Shadowbee27"
-          password = System.getenv("OER_TOKEN_SHADOWBEE")
-        }
+repositories {
+    maven {
+      name = "CodebergPakages"
+      url = "https://codeberg.org/api/packages/Mod-Sauce/maven"
+
+      credentials(HttpHeaderCredentials) {
+        name = "Authorization"
+        value = "token " + (System.getenv("OER_TOKEN_SHADOWBEE") ?: "")
+      }
+
+      authentication {
+        header(HttpHeaderAuthentication)
       }
     }
+  }
 
 
     publications {
