@@ -14,13 +14,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientPacketListener.class)
 public class ClientPacketListenerMixin {
-    @Final
-    private Minecraft minecraft;
-
     @Inject(method = "handleBlockEntityData", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/game/ClientboundBlockEntityDataPacket;getPos()Lnet/minecraft/core/BlockPos;", ordinal = 0), cancellable = true)
     private void handleBlockEntityData(ClientboundBlockEntityDataPacket clientboundBlockEntityDataPacket, CallbackInfo ci) {
         BlockPos blockPos = clientboundBlockEntityDataPacket.getPos();
-        this.minecraft.level.getBlockEntity(blockPos, clientboundBlockEntityDataPacket.getType()).ifPresent((blockEntity) -> {
+        // 就是这行代码导致的网络协议错误
+        // fuck
+        Minecraft.getInstance().level.getBlockEntity(blockPos, clientboundBlockEntityDataPacket.getType()).ifPresent((blockEntity) -> {
             if (blockEntity instanceof IClientSyncableBlockEntity syncableBlockEntity) {
                 CompoundTag tag = clientboundBlockEntityDataPacket.getTag();
                 syncableBlockEntity.loadToUpdateTag(tag);
