@@ -1,6 +1,5 @@
 package org.modsauce.otyacraftenginerenewed.blockentity;
 
-import java.util.Collection;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
@@ -17,6 +16,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.Collection;
 
 public abstract class OEBaseContainerBlockEntity
   extends BaseContainerBlockEntity
@@ -61,26 +62,26 @@ public abstract class OEBaseContainerBlockEntity
   @Override
   public CompoundTag getUpdateTag(HolderLookup.Provider registries) {
     CompoundTag tag = super.getUpdateTag(registries);
-    saveToUpdateTag(tag);
+    saveToUpdateTag(tag, registries);
     return tag;
   }
 
   @Override
-  public void saveToUpdateTag(CompoundTag tag) {
+  public void saveToUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
     ContainerHelper.saveAllItems(
       tag,
       getItems(),
-      level != null ? level.registryAccess() : null
+      registries
     );
   }
 
   @Override
-  public void loadToUpdateTag(CompoundTag tag) {
+  public void loadToUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
     getItems().clear();
     ContainerHelper.loadAllItems(
       tag,
       getItems(),
-      level != null ? level.registryAccess() : null
+      registries
     );
   }
 

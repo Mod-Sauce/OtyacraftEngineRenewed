@@ -26,7 +26,7 @@ public abstract class RecipeProviderWrapper extends DataProviderWrapper<RecipePr
     return this.recipeProvider;
   }
 
-  public abstract void generateRecipe(Consumer<RecipeOutput> exporter, RecipeProviderAccess providerAccess);
+  public abstract void generateRecipe(RecipeOutput exporter, RecipeProviderAccess providerAccess);
 
   public static interface RecipeProviderAccess {
     InventoryChangeTrigger.TriggerInstance has(MinMaxBounds.Ints ints, ItemLike itemLike);

@@ -1,22 +1,38 @@
 package org.modsauce.otyacraftenginerenewed.tag;
 
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.Unmodifiable;
-import org.modsauce.otyacraftenginerenewed.explatform.OETagsExpectPlatform;
+import static org.modsauce.otyacraftenginerenewed.tag.OEItemTags.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
 public class PlatformItemTags {
+    private static ResourceLocation cLoc(String path) {
+        return ResourceLocation.fromNamespaceAndPath("c", path);
+    }
 
-  /**
+    private static TagKey<Item> cLocItem(String path){
+        return TagKey.create(Registries.ITEM, cLoc(path));
+    }
+    private static ResourceLocation mLoc(String path) {
+        return ResourceLocation.withDefaultNamespace(path);
+    }
+
+    private static TagKey<Item> mLocItem(String path){
+        return TagKey.create(Registries.ITEM, mLoc(path));
+    }
+    /**
    * Fabricではこのタグは廃止される予定<br>
    * バニラの{@link ItemTags#PICKAXES}も利用してください
    */
   public static Optional<TagKey<Item>> pickaxes() {
-    return OETagsExpectPlatform.pickaxes();
+    return Optional.of(mLocItem("pickaxes"));
   }
 
   /**
@@ -24,7 +40,7 @@ public class PlatformItemTags {
    * バニラの{@link ItemTags#SHOVELS}も利用してください
    */
   public static Optional<TagKey<Item>> shovels() {
-    return OETagsExpectPlatform.shovels();
+    return Optional.of(mLocItem("shovels"));
   }
 
   /**
@@ -32,7 +48,7 @@ public class PlatformItemTags {
    * バニラの{@link ItemTags#HOES}も利用してください
    */
   public static Optional<TagKey<Item>> hoes() {
-    return OETagsExpectPlatform.hoes();
+    return Optional.of(mLocItem("hoes"));
   }
 
   /**
@@ -40,11 +56,11 @@ public class PlatformItemTags {
    * バニラの{@link ItemTags#AXES}も利用してください
    */
   public static Optional<TagKey<Item>> axes() {
-    return OETagsExpectPlatform.axes();
+    return Optional.of(mLocItem("axes"));
   }
 
   public static TagKey<Item> shears() {
-    return OETagsExpectPlatform.shears();
+    return cLocItem("tools/shear");
   }
 
   /**
@@ -52,139 +68,131 @@ public class PlatformItemTags {
    * バニラの{@link ItemTags#SWORDS}も利用してください
    */
   public static Optional<TagKey<Item>> swords() {
-    return OETagsExpectPlatform.swords();
+    return Optional.of(mLocItem("swords"));
   }
 
   public static TagKey<Item> bows() {
-    return OETagsExpectPlatform.bows();
+    return cLocItem("tools/bow");
   }
 
   public static TagKey<Item> ironIngots() {
-    return OETagsExpectPlatform.ironIngots();
+    return cLocItem("ingots/iron");
   }
 
   public static TagKey<Item> goldIngots() {
-    return OETagsExpectPlatform.goldIngots();
+    return cLocItem("ingots/gold");
   }
 
   public static TagKey<Item> copperIngots() {
-    return OETagsExpectPlatform.copperIngots();
+    return cLocItem("ingots/copper");
   }
 
   public static TagKey<Item> netheriteIngots() {
-    return OETagsExpectPlatform.netheriteIngots();
+    return cLocItem("ingots/netherite");
   }
 
   public static TagKey<Item> redstoneDusts() {
-    return OETagsExpectPlatform.redstoneDusts();
+    return cLocItem("dusts/redstone");
   }
 
   public static TagKey<Item> diamonds() {
-    return OETagsExpectPlatform.diamonds();
+    return cLocItem("gems/diamond");
   }
 
   public static TagKey<Item> glassBlocks() {
-    return OETagsExpectPlatform.glassBlocks();
+    return cLocItem("glass_blocks");
   }
 
   public static TagKey<Item> glassPanes() {
-    return OETagsExpectPlatform.glassPanes();
+    return cLocItem("glass_panes");
   }
 
   public static TagKey<Item> books() {
-    return OETagsExpectPlatform.books();
+    return BOOKS.get();
   }
 
-  public static ManualTagHolder<Item> ironNuggets() {
-    return OETagsExpectPlatform.ironNuggets();
+  public static TagKey<Item> ironNuggets() {
+    return IRON_NUGGETS.get();
   }
 
   public static ManualTagHolder<Item> enderPearls() {
-    return OETagsExpectPlatform.enderPearls();
+    return ENDER_PEARLS.get();
   }
 
-  public static ManualTagHolder<Item> stone() {
-    return OETagsExpectPlatform.stone();
+  public static TagKey<Item> stone() {
+    return STONE.get();
   }
 
-  public static ManualTagHolder<Item> redstoneBlocks() {
-    return OETagsExpectPlatform.redstoneBlocks();
+  public static TagKey<Item> redstoneBlocks() {
+    return REDSTONE_BLOCKS.get();
   }
 
-  public static ManualTagHolder<Item> rawMeats() {
-    return OETagsExpectPlatform.rawMeats();
+  public static TagKey<Item> rawMeats() {
+    return RAW_MEATS.get();
   }
 
-  public static ManualTagHolder<Item> cookedMeats() {
-    return OETagsExpectPlatform.cookedMeats();
+  public static TagKey<Item> cookedMeats() {
+    return COOKED_MEATS.get();
   }
 
-  public static ManualTagHolder<Item> rawFishes() {
-    return OETagsExpectPlatform.rawFishes();
+  public static TagKey<Item> rawFishes() {
+    return RAW_FISHES.get();
   }
 
-  public static ManualTagHolder<Item> cookedFishes() {
-    return OETagsExpectPlatform.cookedFishes();
+  public static TagKey<Item> cookedFishes() {
+    return COOKED_FISHES.get();
   }
 
-  public static ManualTagHolder<Item> wheatBreads() {
-    return OETagsExpectPlatform.wheatBreads();
+  public static TagKey<Item> wheatBreads() {
+    return WHEAT_BREADS.get();
   }
 
-  public static ManualTagHolder<Item> breads() {
-    return OETagsExpectPlatform.breads();
+  public static TagKey<Item> breads() {
+    return BREADS.get();
   }
 
-  public static ManualTagHolder<Item> vegetables() {
-    return OETagsExpectPlatform.vegetables();
+  public static TagKey<Item> vegetables() {
+    return VEGETABLES.get();
   }
 
-  public static ManualTagHolder<Item> carrots() {
-    return OETagsExpectPlatform.carrots();
+  public static TagKey<Item> carrots() {
+    return CARROTS.get();
   }
 
-  public static ManualTagHolder<Item> potatoes() {
-    return OETagsExpectPlatform.potatoes();
+  public static TagKey<Item> potatoes() {
+    return POTATOES.get();
   }
 
-  public static ManualTagHolder<Item> beetroots() {
-    return OETagsExpectPlatform.beetroots();
+  public static TagKey<Item> beetroots() {
+    return BEETROOTS.get();
   }
 
-  public static ManualTagHolder<Item> wheatGrains() {
-    return OETagsExpectPlatform.wheatGrains();
+  public static TagKey<Item> seeds() {
+    return SEEDS.get();
   }
 
-  public static ManualTagHolder<Item> grains() {
-    return OETagsExpectPlatform.grains();
+  public static TagKey<Item> fruits() {
+    return FRUITS.get();
   }
 
-  public static ManualTagHolder<Item> seeds() {
-    return OETagsExpectPlatform.seeds();
+  public static TagKey<Item> milks() {
+    return MILKS.get();
   }
 
-  public static ManualTagHolder<Item> fruits() {
-    return OETagsExpectPlatform.fruits();
+  public static TagKey<Item> drinks() {
+    return DRINKS.get();
   }
 
-  public static ManualTagHolder<Item> milks() {
-    return OETagsExpectPlatform.milks();
-  }
-
-  public static ManualTagHolder<Item> drinks() {
-    return OETagsExpectPlatform.drinks();
-  }
-
-  public static ManualTagHolder<Item> ironBlocks() {
-    return OETagsExpectPlatform.ironBlocks();
+  public static TagKey<Item> ironBlocks() {
+    return IRON_BLOCKS.get();
   }
 
   @Unmodifiable
-  public static List<ManualTagHolder<Item>> slimeBalls() {
-    return OETagsExpectPlatform.slimeBalls();
+  public static List<TagKey<Item>> slimeBalls() {
+    return Collections.singletonList(SLIME_BALLS.get());
   }
 
   public static ManualTagHolder<Item> clayBalls() {
-    return OETagsExpectPlatform.clayBalls();
+    return CLAY.get();
   }
 }

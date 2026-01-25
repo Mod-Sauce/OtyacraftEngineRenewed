@@ -1,5 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.neoforge.data.provider;
 
+import org.jetbrains.annotations.NotNull;
 import org.modsauce.otyacraftenginerenewed.data.provider.RecipeProviderWrapper;
 import net.minecraft.advancements.critereon.InventoryChangeTrigger;
 import net.minecraft.advancements.critereon.MinMaxBounds;
@@ -28,9 +29,8 @@ public class WrappedRecipeProvider extends RecipeProvider {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
-    protected void buildRecipes(RecipeOutput consumer) {
-        recipeProviderWrapper.generateRecipe((Consumer<RecipeOutput>) consumer, new RecipeProviderAccessImpl());
+    protected void buildRecipes(@NotNull RecipeOutput consumer) {
+        recipeProviderWrapper.generateRecipe(consumer, new RecipeProviderAccessImpl());
     }
 
     private static class RecipeProviderAccessImpl implements RecipeProviderWrapper.RecipeProviderAccess {

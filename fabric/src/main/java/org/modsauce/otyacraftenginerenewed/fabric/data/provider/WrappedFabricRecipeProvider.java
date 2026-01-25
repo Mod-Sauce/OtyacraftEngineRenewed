@@ -28,10 +28,8 @@ public class WrappedFabricRecipeProvider extends FabricRecipeProvider {
   }
 
   @Override
-  @SuppressWarnings("unchecked")
   public void buildRecipes(RecipeOutput exporter) {
-    recipeProviderWrapper.generateRecipe(
-      (Consumer<RecipeOutput>) exporter,
+    recipeProviderWrapper.generateRecipe(exporter,
       new RecipeProviderAccessImpl()
     );
   }

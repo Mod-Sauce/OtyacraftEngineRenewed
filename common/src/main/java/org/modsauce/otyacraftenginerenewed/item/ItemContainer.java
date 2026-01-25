@@ -2,6 +2,7 @@ package org.modsauce.otyacraftenginerenewed.item;
 
 import java.util.function.Function;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
@@ -23,20 +24,24 @@ public class ItemContainer implements Container {
   private final NonNullList<ItemStack> items;
   private final String tagName;
   private final Function<Player, Boolean> valid;
+  public final HolderLookup.Provider provider;
 
   public ItemContainer(
     ItemStack itemStack,
     PlayerItemLocation location,
     int size,
     String tagName,
-    Function<Player, Boolean> valid
+    Function<Player, Boolean> valid,
+    HolderLookup.Provider provider
   ) {
+      // HolderLookup.Provider你妈
     this.itemStack = itemStack;
     this.items = NonNullList.withSize(size, ItemStack.EMPTY);
     this.location = location;
-    loadItemList(itemStack, items, tagName);
+    loadItemList(itemStack, items, tagName, provider);
     this.tagName = tagName;
     this.valid = valid;
+    this.provider = provider;
   }
 
   @Override
@@ -122,19 +127,20 @@ public class ItemContainer implements Container {
   }
 
   public void saveItems() {
-    saveItemList(itemStack, items, tagName);
+    saveItemList(itemStack, items, tagName, provider);
   }
 
   public static void loadItemList(
     ItemStack itemStack,
     NonNullList<ItemStack> items,
-    String tagName
+    String tagName,
+    HolderLookup.Provider provider
   ) {
     var customData = itemStack.get(DataComponents.CUSTOM_DATA);
     if (customData != null) {
       var tag = customData.copyTag();
       if (tag.contains(tagName)) {
-        ContainerHelper.loadAllItems(tag.getCompound(tagName), items, null);
+        ContainerHelper.loadAllItems(tag.getCompound(tagName), items, provider);
       }
     }
   }
@@ -142,7 +148,8 @@ public class ItemContainer implements Container {
   public static void saveItemList(
     ItemStack itemStack,
     NonNullList<ItemStack> items,
-    String tagName
+    String tagName,
+    HolderLookup.Provider provider
   ) {
     var customData = itemStack.getOrDefault(
       DataComponents.CUSTOM_DATA,
@@ -150,7 +157,7 @@ public class ItemContainer implements Container {
     );
     var tag = customData.copyTag();
     if (!tag.contains(tagName)) tag.put(tagName, new CompoundTag());
-    ContainerHelper.saveAllItems(tag.getCompound(tagName), items, null);
+    ContainerHelper.saveAllItems(tag.getCompound(tagName), items, provider);
     itemStack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
   }
 
@@ -163,12 +170,13 @@ public class ItemContainer implements Container {
     PlayerItemLocation location,
     int size,
     String tagName,
-    MenuFactory factory
+    MenuFactory factory,
+    HolderLookup.Provider provider
   ) {
     var con = new ItemContainer(stack, location, size, tagName, player -> {
       if (location.getItem(player).isEmpty() || stack.isEmpty()) return false;
       return location.getItem(player) == stack;
-    });
+    }, provider);
     return new SimpleMenuProvider(
       (i, inventory, player1) ->
         factory.createMenu(i, inventory, con, BlockPos.ZERO, stack, location),
