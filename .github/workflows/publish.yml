@@ -21,5 +21,4 @@ jobs:
         with:
           arguments: publish
         env:
-          USERNAME: ${{ secrets.USERNAME }}
-          MAVEN_PASSWORD: ${{ secrets.PASSWORD }}
+          OER_TOKEN_SHADOWBEE: ${{ secrets.OER_TOKEN_SHADOWBEE }}
