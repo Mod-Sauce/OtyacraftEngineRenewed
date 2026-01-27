@@ -1,0 +1,9 @@
+steps:
+  - name: build
+    image: amazoncorretto:21
+    commands:
+      - chmod +x gradlew
+      - ./gradlew build --no-daemon
+when:
+  - event:
+      - manual

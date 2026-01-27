@@ -1,0 +1,16 @@
+steps:
+  - name: build
+    image: amazoncorretto:21
+    commands:
+      - chmod +x gradlew
+      - ./gradlew build --no-daemon
+  - name: publish
+    image: amazoncorretto:21
+    commands:
+      - chmod +x gradlew
+      - ./gradlew publish --no-daemon
+    depends_on: [build]
+when:
+  - event:
+      - manual
+      - release
