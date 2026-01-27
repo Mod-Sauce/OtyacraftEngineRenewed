@@ -1,6 +1,7 @@
 when:
-  - manual
-  - release
+  event:
+    - manual
+    - release
 
 steps:
   - name: build
