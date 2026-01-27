@@ -1,4 +1,4 @@
-event:
+when:
   - manual
   - release
 
