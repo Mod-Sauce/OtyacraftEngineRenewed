@@ -11,6 +11,7 @@ steps:
       - ./gradlew publish --no-daemon
     depends_on: [build]
 when:
+  - branch: [1.20.1, 1.21.1]
   - event:
       - manual
       - release
