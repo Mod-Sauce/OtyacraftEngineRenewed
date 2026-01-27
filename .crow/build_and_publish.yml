@@ -1,9 +1,10 @@
+event:
+  - manual
+  - release
+
 steps:
   - name: build
     image: amazoncorretto:21
-    when:
-      - event:
-          - manual
     commands:
       - chmod +x gradlew
       - ./gradlew build --no-daemon
@@ -12,9 +13,6 @@ steps:
     image: amazoncorretto:21
     when:
       - branch: [1.20.1, 1.21.1]
-      - event:
-          - manual
-          - release
     commands:
       - chmod +x gradlew
       - ./gradlew publish --no-daemon
