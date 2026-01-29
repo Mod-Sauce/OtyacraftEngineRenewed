@@ -7,7 +7,7 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import org.modsauce.otyacraftenginerenewed.client.debug.HighlightVoxelShapeType;
 
 @Config(name = OtyacraftEngine.MODID)
-@Config.Gui.Background(OtyacraftEngine.MODID + ":textures/gui/config_background.png")
+@Config.Gui.Background("cloth-config2:transparent")
 public class OEConfig extends PartitioningSerializer.GlobalData {
 
   @ConfigEntry.Category("client")
@@ -65,7 +65,7 @@ public class OEConfig extends PartitioningSerializer.GlobalData {
     public static class URLTextureConfig {
       private int maxLoaderCount = 3;
 
-      private String urlRegex = "https://(i.imgur.com|imgur.com)/.*";
+      private String urlRegex = "https?://(i.imgur.com|imgur.com|p2.music.126.net)/.*";
 
       public int getMaxLoaderCount() {
         return Math.max(1, maxLoaderCount);
