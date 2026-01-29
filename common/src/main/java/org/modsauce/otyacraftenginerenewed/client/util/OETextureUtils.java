@@ -19,6 +19,8 @@ import org.modsauce.otyacraftenginerenewed.client.renderer.texture.*;
 import org.modsauce.otyacraftenginerenewed.client.renderer.texture.impl.NativeTextureLoadResult;
 import org.modsauce.otyacraftenginerenewed.client.renderer.texture.impl.TextureLoadProgressImpl;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -57,8 +59,28 @@ public final class OETextureUtils {
     }
 
     try (var istream = new ByteArrayInputStream(data)) {
-      return new DynamicTexture(NativeImage.read(istream));
+      return tryToPNG(istream);
     }
+  }
+
+  private static DynamicTexture tryToPNG(InputStream stream) throws IOException {
+      BufferedImage bufferedImage = ImageIO.read(stream);
+      if (bufferedImage == null) {
+          throw new IOException("无法读取图片 - 不支持的格式或损坏的文件");
+      }
+      NativeImage nativeImage = new NativeImage(bufferedImage.getWidth(), bufferedImage.getHeight(), false);
+      for (int y = 0; y < bufferedImage.getHeight(); y++) {
+          for (int x = 0; x < bufferedImage.getWidth(); x++) {
+              int argb = bufferedImage.getRGB(x, y);
+              int a = (argb >> 24) & 0xFF;
+              int r = (argb >> 16) & 0xFF;
+              int g = (argb >> 8) & 0xFF;
+              int b = argb & 0xFF;
+              int rgba = (a << 24) | (b << 16) | (g << 8) | r;
+              nativeImage.setPixelRGBA(x, y, rgba | 0xFF000000);
+          }
+      }
+      return new DynamicTexture(nativeImage);
   }
 
   /**
