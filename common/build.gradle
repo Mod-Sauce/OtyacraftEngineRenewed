@@ -15,20 +15,27 @@ dependencies {
 }
 
 publishing {
-    repositories {
-        maven {
-            url repsyUrl
-            credentials {
-                username "${System.getenv("USERNAME")}"
-                password "${System.getenv("MAVEN_PASSWORD")}"
-            }
-        }
+repositories {
+    maven {
+      name = "CodebergPakages"
+      url = "https://codeberg.org/api/packages/Mod-Sauce/maven"
+
+      credentials(HttpHeaderCredentials) {
+        name = "Authorization"
+        value = "token " + (System.getenv("OER_TOKEN_SHADOWBEE") ?: "")
+      }
+
+      authentication {
+        header(HttpHeaderAuthentication)
+      }
     }
+  }
+
     publications {
-        gpr(MavenPublication) {
+        maven(MavenPublication) {
             from(components.java)
-            groupId = "org.modsauce" // or whatever you want
-            artifactId = "otyacraftenginerenewed" // fabric, neoforge, or nothing
+            groupId = "org.mod-sauce" // or whatever you want
+            artifactId = "otyacraftenginerenewed" // fabric, forge, or nothing
             version = rootProject.version
         }
     }

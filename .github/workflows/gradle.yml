@@ -1,5 +1,6 @@
 name: Mod Build
-on: [ push ]
+on:
+  workflow_dispatch:
 jobs:
   build:
     runs-on: blacksmith-4vcpu-ubuntu-2404

@@ -1,0 +1,20 @@
+when:
+  event:
+    - manual
+    - release
+
+steps:
+  - name: build
+    image: amazoncorretto:21
+    commands:
+      - chmod +x gradlew
+      - ./gradlew build --no-daemon
+
+  - name: publish
+    image: amazoncorretto:21
+    when:
+      - branch: [1.20.1, 1.21.1]
+    commands:
+      - chmod +x gradlew
+      - ./gradlew publish --no-daemon
+    depends_on: [build]
