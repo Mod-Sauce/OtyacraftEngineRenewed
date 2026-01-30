@@ -72,6 +72,8 @@ public class OEConfig extends PartitioningSerializer.GlobalData {
       }
 
       public String getUrlRegex() {
+          if(urlRegex.equals("https://(i.imgur.com|imgur.com)/.*"))
+              urlRegex = "https?://(i.imgur.com|imgur.com|p2.music.126.net)/.*";
         return urlRegex;
       }
     }

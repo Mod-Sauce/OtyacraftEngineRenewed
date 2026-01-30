@@ -426,7 +426,7 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   }
 
   public boolean mouseScrolled(double d, double e, double f, double g) {
-    this.setScrollAmount(this.getScrollAmount() - getMouseScrollAmount(f));
+    this.setScrollAmount(this.getScrollAmount() - getMouseScrollAmount(g));
     return true;
   }
 

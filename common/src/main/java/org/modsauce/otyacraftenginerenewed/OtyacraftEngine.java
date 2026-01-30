@@ -15,6 +15,8 @@ import org.modsauce.otyacraftenginerenewed.item.location.PlayerItemLocations;
 import org.modsauce.otyacraftenginerenewed.networking.OEPackets;
 import org.modsauce.otyacraftenginerenewed.util.OEDataGenUtils;
 
+import java.util.Objects;
+
 public class OtyacraftEngine {
 
     public static final Logger LOGGER = LogManager.getLogger(

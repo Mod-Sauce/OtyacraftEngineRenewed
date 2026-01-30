@@ -4,6 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import java.util.function.Supplier;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
@@ -13,8 +14,8 @@ import org.modsauce.otyacraftenginerenewed.client.gui.components.base.OEBaseComp
 import org.modsauce.otyacraftenginerenewed.client.util.OERenderUtils;
 
 public class IconButton extends Button implements OEBaseComponent {
-
-  private static final ResourceLocation WIDGETS_LOCATION =
+    private static final WidgetSprites SPRITES = new WidgetSprites(ResourceLocation.withDefaultNamespace("widget/button"), ResourceLocation.withDefaultNamespace("widget/button_disabled"), ResourceLocation.withDefaultNamespace("widget/button_highlighted"));
+    private static final ResourceLocation WIDGETS_LOCATION =
     ResourceLocation.withDefaultNamespace("textures/gui/widgets.png");
 
   @NotNull
@@ -71,19 +72,7 @@ public class IconButton extends Button implements OEBaseComponent {
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);*/
 
     guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-    guiGraphics.blit(
-      WIDGETS_LOCATION,
-      this.getX(),
-      this.getY(),
-      this.getWidth(),
-      this.getHeight(),
-      20,
-      4,
-      200,
-      20,
-      this.getTextureY(),
-      0
-    );
+    guiGraphics.blitSprite(SPRITES.get(this.active, this.isHoveredOrFocused()), this.getX(), this.getY(), this.getWidth(), this.getHeight());
     guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
 
     renderIcon(guiGraphics, i, j, f);
