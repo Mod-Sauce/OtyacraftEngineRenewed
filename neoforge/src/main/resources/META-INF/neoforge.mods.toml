@@ -3,6 +3,16 @@ loaderVersion = "21.1.200"
 issueTrackerURL = "https://github.com/Mod-Sauce/OtyacraftEngineRenewed/issues"
 license = "GNU LGPLv3"
 
+# TM的有mixin不写mixin依赖
+[[mixins]]
+config = "otyacraftengine.mixins.json"
+[[mixins]]
+config = "otyacraftengine-common.mixins.json"
+
+# tmd访问加宽也没写
+[[accessTransformers]]
+file="META-INF/accesstransformer.cfg"
+
 [[mods]]
 modId = "otyacraftenginerenewed"
 version = "${version}"
