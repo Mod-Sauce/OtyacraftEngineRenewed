@@ -19,6 +19,12 @@ architectury {
 //    mixinConfig "otyacraftenginerenewed.mixins.json"
 //}
 
+neoForge {
+    accessTransformers {
+        file("src/main/resources/accesstransformer.cfg")
+    }
+}
+
 configurations {
     common
     shadowCommon
@@ -41,8 +47,11 @@ dependencies {
     modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${rootProject.rei_version}"
 
     implementation "dev.felnull:felnull-java-library:${rootProject.felnull_version}"
+    implementation 'com.madgag:animated-gif-lib:1.4'
+    developmentNeoForge "dev.felnull:felnull-java-library:${rootProject.felnull_version}"
+    developmentNeoForge 'com.madgag:animated-gif-lib:1.4'
     shadowIn "dev.felnull:felnull-java-library:${rootProject.felnull_version}"
-    jarJar 'com.madgag:animated-gif-lib:1.4'
+    shadowIn 'com.madgag:animated-gif-lib:1.4'
 }
 
 processResources {
