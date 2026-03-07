@@ -65,15 +65,17 @@ public class OEConfig extends PartitioningSerializer.GlobalData {
     public static class URLTextureConfig {
       private int maxLoaderCount = 3;
 
-      private String urlRegex = "https?://(i.imgur.com|imgur.com|p2.music.126.net)/.*";
+      private String urlRegex = "https?://(i.imgur.com|imgur.com|.*music.126.*)/.*";
 
       public int getMaxLoaderCount() {
         return Math.max(1, maxLoaderCount);
       }
 
       public String getUrlRegex() {
-          if(urlRegex.equals("https://(i.imgur.com|imgur.com)/.*"))
-              urlRegex = "https?://(i.imgur.com|imgur.com|p2.music.126.net)/.*";
+          if(urlRegex.equals("https://(i.imgur.com|imgur.com)/.*") ||
+                  urlRegex.equals("https?://(i.imgur.com|imgur.com|p2.music.126.net)/.*") ||
+                  urlRegex.equals("https?://(i.imgur.com|imgur.com|.*music.126.net)/.*"))
+              urlRegex = "https?://(i.imgur.com|imgur.com|.*music.126.*)/.*";
         return urlRegex;
       }
     }

@@ -10,17 +10,14 @@ import net.neoforged.api.distmarker.Dist;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 
-@EventBusSubscriber(modid = OtyacraftEngine.MODID, bus = EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = OtyacraftEngine.MODID, value = Dist.CLIENT)
 public class ModelHandler {
 
     @SubscribeEvent
     public static void onModelRegistry(ModelEvent.RegisterAdditional e) {
-        ClientCallPointManager.getInstance().call().onModelRegistry(new ModelRegister() {
-            @Override
-            public void addModelLoad(ResourceLocation location) {
-                ModelResourceLocation modelLocation = new ModelResourceLocation(location, "inventory");
-                e.register(modelLocation);
-            }
+        ClientCallPointManager.getInstance().call().onModelRegistry(location -> {
+            ModelResourceLocation modelLocation = new ModelResourceLocation(location, "standalone");
+            e.register(modelLocation);
         });
     }
 }

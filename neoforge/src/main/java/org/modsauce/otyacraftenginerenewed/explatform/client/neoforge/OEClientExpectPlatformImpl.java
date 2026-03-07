@@ -19,7 +19,7 @@ public class OEClientExpectPlatformImpl {
   }
 
   public static BakedModel getModel(ResourceLocation location) {
-    ModelResourceLocation modelLocation = new ModelResourceLocation(location, "inventory");
+    ModelResourceLocation modelLocation = new ModelResourceLocation(location, "standalone");
     return mc.getModelManager().getModel(modelLocation);
   }
 
