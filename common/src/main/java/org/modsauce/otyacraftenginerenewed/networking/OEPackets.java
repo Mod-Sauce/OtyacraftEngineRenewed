@@ -3,6 +3,8 @@ package org.modsauce.otyacraftenginerenewed.networking;
 import dev.architectury.networking.NetworkManager;
 import dev.architectury.platform.Platform;
 import java.util.UUID;
+
+import net.fabricmc.api.EnvType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -54,6 +56,11 @@ public class OEPackets {
           packetContext
         )
     );
+
+    if(Platform.getEnv() == EnvType.SERVER) {
+      NetworkManager.registerS2CPayloadType(BLOCK_ENTITY_INSTRUCTION_RETURN);
+      NetworkManager.registerS2CPayloadType(ITEM_INSTRUCTION_RETURN);
+    }
   }
 
   public static void clientInit() {
