@@ -21,7 +21,7 @@ architectury {
 
 neoForge {
     accessTransformers {
-        file("src/main/resources/accesstransformer.cfg")
+        file("src/main/resources/META-INF/accesstransformer.cfg")
     }
 }
 

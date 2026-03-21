@@ -1,6 +1,7 @@
 package org.modsauce.otyacraftenginerenewed.data.provider;
 
 import dev.architectury.registry.registries.DeferredRegister;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
@@ -11,13 +12,14 @@ import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public abstract class BlockLootTableProviderWrapper extends DataProviderWrapper<DataProvider> {
   private final DataProvider blockLootTableProvider;
 
-  public BlockLootTableProviderWrapper(PackOutput packOutput, CrossDataGeneratorAccess crossDataGeneratorAccess) {
+  public BlockLootTableProviderWrapper(PackOutput packOutput, CrossDataGeneratorAccess crossDataGeneratorAccess, CompletableFuture<HolderLookup.Provider> lookup) {
     super(packOutput, crossDataGeneratorAccess);
-    this.blockLootTableProvider = crossDataGeneratorAccess.createBlockLootTableProvider(packOutput, this);
+    this.blockLootTableProvider = crossDataGeneratorAccess.createBlockLootTableProvider(packOutput, lookup, this);
   }
 
   @Override
