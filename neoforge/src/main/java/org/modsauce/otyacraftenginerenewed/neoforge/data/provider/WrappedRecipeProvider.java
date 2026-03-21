@@ -18,10 +18,11 @@ import java.util.function.Consumer;
 public class WrappedRecipeProvider extends RecipeProvider {
     private final RecipeProviderWrapper recipeProviderWrapper;
 
-    public WrappedRecipeProvider(PackOutput arg, RecipeProviderWrapper recipeProviderWrapper) {
-        super(arg, CompletableFuture.completedFuture(null));
-        this.recipeProviderWrapper = recipeProviderWrapper;
-    }
+//    public WrappedRecipeProvider(PackOutput arg, RecipeProviderWrapper recipeProviderWrapper) {
+//        super(arg, CompletableFuture.completedFuture(null));
+//        this.recipeProviderWrapper = recipeProviderWrapper;
+//    }
+    // wdf
 
     public WrappedRecipeProvider(PackOutput arg, CompletableFuture<HolderLookup.Provider> lookup, RecipeProviderWrapper recipeProviderWrapper) {
         super(arg, lookup);

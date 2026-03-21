@@ -69,10 +69,10 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
         return new WrappedRecipeProvider(packOutput, lookup, recipeProviderWrapper);
     }
 
-    @Override
-    public RecipeProvider createRecipeProvider(PackOutput packOutput, RecipeProviderWrapper recipeProviderWrapper) {
-        return new WrappedRecipeProvider(packOutput, recipeProviderWrapper);
-    }
+//    @Override
+//    public RecipeProvider createRecipeProvider(PackOutput packOutput, RecipeProviderWrapper recipeProviderWrapper) {
+//        return new WrappedRecipeProvider(packOutput, recipeProviderWrapper);
+//    }
 
     @Override
     public TagsProvider<Item> createItemTagProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, ItemTagProviderWrapper itemTagProviderWrapper, @NotNull BlockTagProviderWrapper blockTagProviderWrapper) {
@@ -118,19 +118,14 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
         return new WrappedBlockLootTableProvider(packOutput, lookup, blockLootTableProviderWrapper);
     }
 
-    @Override
-    public DataProvider createBlockLootTableProvider(PackOutput packOutput, BlockLootTableProviderWrapper blockLootTableProviderWrapper) {
-        return new WrappedBlockLootTableProvider(packOutput, blockLootTableProviderWrapper);
-    }
+//    @Override
+//    public DataProvider createBlockLootTableProvider(PackOutput packOutput, BlockLootTableProviderWrapper blockLootTableProviderWrapper) {
+//        return new WrappedBlockLootTableProvider(packOutput, blockLootTableProviderWrapper);
+//    }
 
     @Override
     public DataProvider createAdvancementProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, AdvancementProviderWrapper advancementProviderWrapper, List<AdvancementSubProviderWrapper> subProviderWrappers) {
         return new WrappedAdvancementProvider(packOutput, lookup, subProviderWrappers, advancementProviderWrapper);
-    }
-
-    @Override
-    public DataProvider createAdvancementProvider(PackOutput packOutput, AdvancementProviderWrapper advancementProviderWrapper, List<AdvancementSubProviderWrapper> subProviderWrappers) {
-        return new WrappedAdvancementProvider(getVanillaGenerator().getPackOutput(), gatherDataEvent.getLookupProvider(), subProviderWrappers, advancementProviderWrapper);
     }
 
     @Override

@@ -30,7 +30,7 @@ public class OtyacraftEngineNeoForge {
         ModInvolvementTrigger
     > MOD_INVOLVEMENT_TRIGGER = CRITERIA_TRIGGERS.register(
         "mod_involvement",
-        ModInvolvementTrigger::new
+            () -> OECriteriaTriggers.MOD_INVOLVEMENT_TRIGGER
     );
 
     public OtyacraftEngineNeoForge(ModContainer modContainer) {
@@ -38,20 +38,6 @@ public class OtyacraftEngineNeoForge {
 
         // Register criteria triggers FIRST
         CRITERIA_TRIGGERS.register(modEventBus);
-
-        // Set up the trigger reference for common code
-        modEventBus.addListener(
-            (net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent event) -> {
-                event.enqueueWork(() -> {
-                    // Set the trigger instance so common code can access it
-                    OECriteriaTriggers.setModInvolvementTrigger(
-                        MOD_INVOLVEMENT_TRIGGER.get()
-                    );
-                    // Initialize common criteria triggers
-                    OECriteriaTriggers.init();
-                });
-            }
-        );
 
         // Register event handlers
         NeoForge.EVENT_BUS.register(CommonHandlerForge.class);

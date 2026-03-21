@@ -92,14 +92,16 @@ public interface CrossDataGeneratorAccess {
     RecipeProviderWrapper recipeProviderWrapper
   );
 
-  // Backward compatibility methods
-  default RecipeProvider createRecipeProvider(
-    PackOutput packOutput,
-    RecipeProviderWrapper recipeProviderWrapper
-  ) {
-    // For backward compatibility, use null lookup - implementations should handle this
-    return createRecipeProvider(packOutput, null, recipeProviderWrapper);
-  }
+//  // Backward compatibility methods
+//  default RecipeProvider createRecipeProvider(
+//    PackOutput packOutput,
+//    RecipeProviderWrapper recipeProviderWrapper
+//  ) {
+//    // For backward compatibility, use null lookup - implementations should handle this
+//    return createRecipeProvider(packOutput, null, recipeProviderWrapper);
+//  }
+
+  // wdf
 
   TagsProvider<Item> createItemTagProvider(
     PackOutput packOutput,
@@ -146,36 +148,12 @@ public interface CrossDataGeneratorAccess {
     BlockLootTableProviderWrapper blockLootTableProviderWrapper
   );
 
-  default DataProvider createBlockLootTableProvider(
-    PackOutput packOutput,
-    BlockLootTableProviderWrapper blockLootTableProviderWrapper
-  ) {
-    return createBlockLootTableProvider(
-      packOutput,
-      null,
-      blockLootTableProviderWrapper
-    );
-  }
-
   DataProvider createAdvancementProvider(
     PackOutput packOutput,
     CompletableFuture<HolderLookup.Provider> lookup,
     AdvancementProviderWrapper advancementProviderWrapper,
     List<AdvancementSubProviderWrapper> subProviderWrappers
   );
-
-  default DataProvider createAdvancementProvider(
-    PackOutput packOutput,
-    AdvancementProviderWrapper advancementProviderWrapper,
-    List<AdvancementSubProviderWrapper> subProviderWrappers
-  ) {
-    return createAdvancementProvider(
-      packOutput,
-      null,
-      advancementProviderWrapper,
-      subProviderWrappers
-    );
-  }
 
   DataProvider createItemModelProvider(
     PackOutput packOutput,

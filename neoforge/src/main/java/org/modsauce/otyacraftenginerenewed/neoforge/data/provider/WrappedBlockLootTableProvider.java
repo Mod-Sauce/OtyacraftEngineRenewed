@@ -19,10 +19,12 @@ import java.util.concurrent.CompletableFuture;
 public class WrappedBlockLootTableProvider extends LootTableProvider {
     private final BlockLootTableProviderWrapper blockLootTableProviderWrapper;
 
-    public WrappedBlockLootTableProvider(PackOutput arg, BlockLootTableProviderWrapper blockLootTableProviderWrapper) {
-        super(arg, Set.of(), ImmutableList.of(new LootTableProvider.SubProviderEntry((provider) -> new WrappedBlockLootSubProvider(blockLootTableProviderWrapper, provider), LootContextParamSets.BLOCK)), CompletableFuture.completedFuture(null));
-        this.blockLootTableProviderWrapper = blockLootTableProviderWrapper;
-    }
+//    public WrappedBlockLootTableProvider(PackOutput arg, BlockLootTableProviderWrapper blockLootTableProviderWrapper) {
+//        super(arg, Set.of(), ImmutableList.of(new LootTableProvider.SubProviderEntry((provider) -> new WrappedBlockLootSubProvider(blockLootTableProviderWrapper, provider), LootContextParamSets.BLOCK)), CompletableFuture.completedFuture(null));
+//        this.blockLootTableProviderWrapper = blockLootTableProviderWrapper;
+//    }
+
+    // tm的不懂别瞎鸡巴填null
 
     public WrappedBlockLootTableProvider(PackOutput arg, CompletableFuture<HolderLookup.Provider> lookup, BlockLootTableProviderWrapper blockLootTableProviderWrapper) {
         super(arg, Set.of(), ImmutableList.of(new LootTableProvider.SubProviderEntry((provider) -> new WrappedBlockLootSubProvider(blockLootTableProviderWrapper, provider), LootContextParamSets.BLOCK)), lookup);
