@@ -12,10 +12,10 @@ include("common")
 include("fabric")
 include("neoforge")
 
-if (System.getenv("GITHUB_REF") == null) {
-    include("testmod-common")
-    include("testmod-fabric")
-    include("testmod-neoforge")
-}
+//if (System.getenv("GITHUB_REF") == null) {
+//    include("testmod-common")
+//    include("testmod-fabric")
+//    include("testmod-neoforge")
+//}
 
 rootProject.name = "OtyacraftEngineRenewed"
