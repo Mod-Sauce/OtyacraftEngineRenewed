@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import org.modsauce.otyacraftenginerenewed.OtyacraftEngine;
 import org.modsauce.otyacraftenginerenewed.client.renderer.shader.OEShaders;
+import org.modsauce.otyacraftenginerenewed.client.util.OEClientUtils;
 
 import java.util.function.Function;
 
@@ -40,7 +41,11 @@ public class OERenderTypes extends RenderType {
   }
 
   public static RenderType simpleSpriteCutout(ResourceLocation location) {
-    return SIMPLE_SPRITE_CUTOUT.apply(location);
+    if(OEClientUtils.enableShader())
+      return RenderType.entityTranslucent(location);
+    else
+      return SIMPLE_SPRITE_CUTOUT.apply(location);
+    // 🤔
   }
 
   public static RenderType wave(ResourceLocation location) {

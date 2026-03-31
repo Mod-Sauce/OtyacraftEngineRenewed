@@ -2,6 +2,7 @@ package org.modsauce.otyacraftenginerenewed.client.util;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.InputConstants;
+import dev.architectury.platform.Platform;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import org.jetbrains.annotations.NotNull;
@@ -10,6 +11,7 @@ import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.system.MemoryStack;
 import org.lwjgl.util.tinyfd.TinyFileDialogs;
+import org.modsauce.otyacraftenginerenewed.client.IrisUtil;
 import org.modsauce.otyacraftenginerenewed.client.entity.ClientPlayerInfoManager;
 import org.modsauce.otyacraftenginerenewed.client.entity.PlayerNameByUUIDResult;
 import org.modsauce.otyacraftenginerenewed.client.entity.PlayerUUIDByNameResult;
@@ -259,5 +261,9 @@ public final class OEClientUtils {
       return sb.toString();
     }
     return text;
+  }
+
+  public static boolean enableShader(){
+    return Platform.isModLoaded("iris") && IrisUtil.enableShader();
   }
 }
