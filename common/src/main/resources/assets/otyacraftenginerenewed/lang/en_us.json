@@ -1,6 +1,6 @@
 {
   "_comment.k": "Key",
-  "key.categories.otyacraftengine": "Otyacraft Engine",
+  "key.categories.otyacraftengine": "Otyacraft Engine Renewed",
   "key.otyacraftengine.test": "Test",
   "_comment.cop": "Components",
   "gui.narrate.widget": "%s widget",
@@ -17,7 +17,7 @@
   "narration.fixedListWidget.usage.focused": "Press Enter to select",
   "narration.fixedListWidget.usage.hovered": "Left click to select",
   "_comment.con": "Config",
-  "text.autoconfig.otyacraftenginerenewed.title": "Otyacraft Engine Config",
+  "text.autoconfig.otyacraftenginerenewed.title": "Otyacraft Engine Renewed Config",
   "text.autoconfig.otyacraftenginerenewed.category.client": "Client",
   "text.autoconfig.otyacraftenginerenewed.category.client_debug": "Client Debug",
   "text.autoconfig.otyacraftenginerenewed.option.clientConfig.urlTextureConfig": "URL Texture",
@@ -28,6 +28,6 @@
   "text.autoconfig.otyacraftenginerenewed.option.debugConfig.showWidgetData": "Show widget data",
   "text.autoconfig.otyacraftenginerenewed.option.debugConfig.highlightVoxelShape": "Highlight voxel shape",
   "_comment.other": "Other",
-  "modmenu.descriptionTranslation.otyacraftengine": "Integrated library used by felnull developers.\nThe ikisugi dependency mod...",
+  "modmenu.descriptionTranslation.otyacraftengine": "Integrated library used by Mod-Sauce.\nThe ikisugi dependency mod...",
   "_comment.la": "Last"
 }
