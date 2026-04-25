@@ -2,6 +2,8 @@ package dev.felnull.otyacraftengine.client.util;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.InputConstants;
+import dev.architectury.platform.Platform;
+import dev.felnull.otyacraftengine.client.IrisUtil;
 import dev.felnull.otyacraftengine.client.entity.ClientPlayerInfoManager;
 import dev.felnull.otyacraftengine.client.entity.PlayerNameByUUIDResult;
 import dev.felnull.otyacraftengine.client.entity.PlayerUUIDByNameResult;
@@ -258,5 +260,9 @@ public final class OEClientUtils {
             return sb.toString();
         }
         return text;
+    }
+
+    public static boolean enableShader(){
+        return Platform.isModLoaded("iris") && IrisUtil.enableShader();
     }
 }

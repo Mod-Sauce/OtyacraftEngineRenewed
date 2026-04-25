@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import dev.felnull.otyacraftengine.OtyacraftEngine;
 import dev.felnull.otyacraftengine.client.renderer.shader.OEShaders;
+import dev.felnull.otyacraftengine.client.util.OEClientUtils;
 import net.minecraft.Util;
 import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
@@ -40,7 +41,11 @@ public class OERenderTypes extends RenderType {
     }
 
     public static RenderType simpleSpriteCutout(ResourceLocation location) {
-        return SIMPLE_SPRITE_CUTOUT.apply(location);
+        if(OEClientUtils.enableShader())
+            return RenderType.entityTranslucent(location);
+        else
+            return SIMPLE_SPRITE_CUTOUT.apply(location);
+        // 🤔
     }
 
     public static RenderType wave(ResourceLocation location) {

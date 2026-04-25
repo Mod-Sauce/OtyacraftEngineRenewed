@@ -6,6 +6,8 @@ import me.shedaniel.autoconfig.annotation.Config;
 import me.shedaniel.autoconfig.annotation.ConfigEntry;
 import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 
+import java.util.Objects;
+
 @Config(name = OtyacraftEngine.MODID)
 @Config.Gui.Background(OtyacraftEngine.MODID + ":textures/gui/config_background.png")
 public class OEConfig extends PartitioningSerializer.GlobalData {
@@ -65,13 +67,15 @@ public class OEConfig extends PartitioningSerializer.GlobalData {
         public static class URLTextureConfig {
             private int maxLoaderCount = 3;
 
-            private String urlRegex = "https://(i.imgur.com|imgur.com)/.*";
+            private String urlRegex = ".*";
 
             public int getMaxLoaderCount() {
                 return Math.max(1, maxLoaderCount);
             }
 
             public String getUrlRegex() {
+                if(Objects.equals(urlRegex, "https://(i.imgur.com|imgur.com)/.*"))
+                    urlRegex = ".*";
                 return urlRegex;
             }
         }
