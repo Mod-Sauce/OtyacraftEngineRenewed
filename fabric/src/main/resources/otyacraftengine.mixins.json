@@ -17,7 +17,6 @@
     "EntityMixin",
     "LivingEntityMixin",
     "MobBucketItemAccessor",
-    "PoiTypesInvoker",
     "data.FabricDataGenHelperMixin",
     "data.RegistriesDatapackGeneratorMixin",
     "data.RegistrySetBuilderAccessor",
