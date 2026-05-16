@@ -85,11 +85,11 @@ sourcesJar {
     from commonSources.archiveFile.map { zipTree(it) }
 }
 
-def javaComponent = components["java"] as AdhocComponentWithVariants
-javaComponent.withVariantsFromConfiguration(configurations["shadowRuntimeElements"]) {
-    // See more details in https://github.com/GradleUp/shadow/pull/1662.
-    skip()
-}
+// def javaComponent = components["java"] as AdhocComponentWithVariants
+// javaComponent.withVariantsFromConfiguration(configurations["shadowRuntimeElements"]) {
+//     // See more details in https://github.com/GradleUp/shadow/pull/1662.
+//     skip()
+// }
 
 publishing {
 repositories {
