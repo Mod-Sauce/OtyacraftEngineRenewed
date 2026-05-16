@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "8.1.1"
+    id("com.gradleup.shadow") version "9.4.1"
     id 'com.matthewprenger.cursegradle' version '1.4.0'
     id "com.modrinth.minotaur" version "2.8.0"
     id 'net.neoforged.moddev' version '2.0.115'
@@ -80,7 +80,7 @@ remapJar {
     input.set shadowJar.archiveFile
     dependsOn shadowJar
     archiveClassifier.set(null)
-    setArchivesBaseName("${rootProject.archives_base_name}-${project.name}-mc${rootProject.minecraft_version}")
+    archiveFileName.set("OtyacraftEngineRenewed-Fabric-${project.version}.jar")
 }
 
 jar {
@@ -93,16 +93,16 @@ sourcesJar {
     from commonSources.archiveFile.map { zipTree(it) }
 }
 
-components.java {
-    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
-        skip()
-    }
+def javaComponent = components["java"] as AdhocComponentWithVariants
+javaComponent.withVariantsFromConfiguration(configurations["shadowRuntimeElements"]) {
+    // See more details in https://github.com/GradleUp/shadow/pull/1662.
+    skip()
 }
 
 publishing {
 repositories {
     maven {
-      name = "CodebergPakages"
+      name = "CodebergPackages"
       url = "https://codeberg.org/api/packages/Mod-Sauce/maven"
 
       credentials(HttpHeaderCredentials) {
