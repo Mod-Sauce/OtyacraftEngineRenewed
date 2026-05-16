@@ -91,18 +91,19 @@ sourcesJar {
 //     skip()
 // }
 
-publishing {
-repositories {
-    maven {
-        name = "CodebergPackages"
-        url = "https://codeberg.org/api/packages/Mod-Sauce/maven"
 
-        credentials {
-            username = System.getenv("CODEBERG_USERNAME") ?: "shadowbee"
-            password = System.getenv("PKGTOKEN") ?: ""
+publishing {
+    repositories {
+        maven {
+            name = "CodebergPackages"
+            url = "https://codeberg.org/api/packages/Mod-Sauce/maven"
+
+            credentials {
+                username = System.getenv("CODEBERG_USERNAME") ?: "shadowbee"
+                password = System.getenv("PKGTOKEN") ?: ""
+            }
         }
     }
-}
 
 
     publications {
