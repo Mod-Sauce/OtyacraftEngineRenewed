@@ -98,8 +98,8 @@ repositories {
       url = "https://codeberg.org/api/packages/Mod-Sauce/maven"
 
       credentials(HttpHeaderCredentials) {
-        name = "Authorization"
-        value = "token " + (System.getenv("OER_TOKEN_SHADOWBEE") ?: "")
+        name = System.getenv("CODEBERG_USERNAME") ?: "shadowbee"
+        value = System.getenv("OER_TOKEN_SHADOWBEE") ?: ""
       }
 
       authentication {
