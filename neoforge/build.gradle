@@ -101,20 +101,18 @@ sourcesJar {
 
 publishing {
 repositories {
+repositories {
     maven {
-      name = "CodebergPackages"
-      url = "https://codeberg.org/api/packages/Mod-Sauce/maven"
+        name = "CodebergPackages"
+        url = "https://codeberg.org/api/packages/Mod-Sauce/maven"
 
-      credentials(HttpHeaderCredentials) {
-        name = System.getenv("CODEBERG_USERNAME") ?: "shadowbee"
-        value = System.getenv("OER_TOKEN_SHADOWBEE") ?: ""
-      }
-
-      authentication {
-        header(HttpHeaderAuthentication)
-      }
+        credentials {
+            username = System.getenv("CODEBERG_USERNAME") ?: "shadowbee"
+            password = System.getenv("PKGTOKEN") ?: ""
+        }
     }
-  }
+}
+
 
     publications {
         maven(MavenPublication) {

@@ -21,4 +21,4 @@ jobs:
         run: ./gradlew publish --no-daemon
         env:
           CODEBERG_USERNAME: shadowbee
-          OER_TOKEN_SHADOWBEE: ${{ secrets.DEPLOY_KEY }}
+          PKGTOKEN: ${{ secrets.PKGTOKEN }}
