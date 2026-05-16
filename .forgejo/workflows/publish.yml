@@ -19,3 +19,6 @@ jobs:
         run: chmod +x gradlew
       - name: Build
         run: ./gradlew publish --no-daemon
+        env:
+          CODEBERG_USERNAME: shadowbee
+          OER_TOKEN_SHADOWBEE: ${{ secrets.DEPLOY_KEY }}
