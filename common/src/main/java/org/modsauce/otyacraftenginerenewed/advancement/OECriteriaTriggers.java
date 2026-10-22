@@ -1,6 +1,5 @@
 package org.modsauce.otyacraftenginerenewed.advancement;
 
-import net.minecraft.advancements.CriterionTrigger;
 import org.modsauce.otyacraftenginerenewed.OtyacraftEngine;
 
 public class OECriteriaTriggers {

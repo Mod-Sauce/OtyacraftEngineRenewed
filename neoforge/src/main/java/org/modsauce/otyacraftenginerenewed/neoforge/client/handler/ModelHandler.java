@@ -7,8 +7,8 @@ import net.neoforged.neoforge.client.event.ModelEvent;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.api.distmarker.Dist;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.client.resources.model.ModelIdentifier;
 
 @EventBusSubscriber(modid = OtyacraftEngine.MODID, value = Dist.CLIENT)
 public class ModelHandler {
@@ -16,7 +16,7 @@ public class ModelHandler {
     @SubscribeEvent
     public static void onModelRegistry(ModelEvent.RegisterAdditional e) {
         ClientCallPointManager.getInstance().call().onModelRegistry(location -> {
-            ModelResourceLocation modelLocation = new ModelResourceLocation(location, "standalone");
+            ModelIdentifier modelLocation = new ModelIdentifier(location, "standalone");
             e.register(modelLocation);
         });
     }

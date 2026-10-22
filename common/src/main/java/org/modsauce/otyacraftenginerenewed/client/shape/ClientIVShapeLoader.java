@@ -3,7 +3,7 @@ package org.modsauce.otyacraftenginerenewed.client.shape;
 import com.google.common.collect.ImmutableMap;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.util.profiling.ProfilerFiller;
 import org.apache.logging.log4j.LogManager;
@@ -19,12 +19,12 @@ import java.util.Map;
 public class ClientIVShapeLoader {
   public static final Logger LOGGER = LogManager.getLogger(ClientIVShapeLoader.class);
   private static final Gson GSON = new Gson();
-  private final Map<ResourceLocation, VoxelClientShape> voxelClientShapes;
+  private final Map<Identifier, VoxelClientShape> voxelClientShapes;
 
   protected ClientIVShapeLoader(@NotNull ResourceManager resourceManager, @NotNull ProfilerFiller profilerFiller) {
     profilerFiller.startTick();
 
-    ImmutableMap.Builder<ResourceLocation, VoxelClientShape> builder = ImmutableMap.builder();
+    ImmutableMap.Builder<Identifier, VoxelClientShape> builder = ImmutableMap.builder();
 
     resourceManager.listResources("voxel_shape", loc -> loc.getPath().endsWith(".json")).forEach(((location, resource) -> {
       profilerFiller.push(location.toString());
@@ -33,7 +33,7 @@ public class ClientIVShapeLoader {
         var p = location.getPath();
         var vs = VoxelClientShape.parse(jo);
         if (vs != null)
-          builder.put(ResourceLocation.fromNamespaceAndPath(location.getNamespace(), p.substring("voxel_shape/".length(), p.length() - ".json".length())), vs);
+          builder.put(Identifier.fromNamespaceAndPath(location.getNamespace(), p.substring("voxel_shape/".length(), p.length() - ".json".length())), vs);
       } catch (Exception e) {
         LOGGER.error("Error occurred while loading shape resource json " + location, e);
       }
@@ -45,7 +45,7 @@ public class ClientIVShapeLoader {
     voxelClientShapes = builder.build();
   }
 
-  public Map<ResourceLocation, VoxelClientShape> getVoxelClientShapes() {
+  public Map<Identifier, VoxelClientShape> getVoxelClientShapes() {
     return voxelClientShapes;
   }
 }

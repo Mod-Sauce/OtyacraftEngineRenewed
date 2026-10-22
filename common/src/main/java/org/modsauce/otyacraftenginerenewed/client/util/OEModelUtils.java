@@ -2,10 +2,10 @@ package org.modsauce.otyacraftenginerenewed.client.util;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.player.AbstractClientPlayer;
-import net.minecraft.client.resources.PlayerSkin;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.block.model.BlockModel;
+import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.player.PlayerModelType;
 import net.minecraft.world.level.block.state.BlockState;
 import org.modsauce.otyacraftenginerenewed.explatform.client.OEClientExpectPlatform;
 
@@ -21,11 +21,11 @@ public final class OEModelUtils {
   /**
    * モデルを取得
    *
-   * @param resourceLocation ロケーション
+   * @param Identifier ロケーション
    * @return モデル
    */
-  public static BakedModel getModel(ResourceLocation resourceLocation) {
-    return OEClientExpectPlatform.getModel(resourceLocation);
+  public static BlockModel getModel(Identifier identifier) {
+    return OEClientExpectPlatform.getModel(identifier);
   }
 
   /**
@@ -34,8 +34,8 @@ public final class OEModelUtils {
    * @param location モデルリソースロケーション
    * @return モデル
    */
-  public static BakedModel getModelByMRL(ModelResourceLocation location) {
-    return mc.getModelManager().getModel(location);
+  public static ItemModel getItemModelByMRL(Identifier identifier) {
+    return mc.getModelManager().getItemModel(identifier);
   }
 
   /**
@@ -44,8 +44,8 @@ public final class OEModelUtils {
    * @param state ブロックステート
    * @return モデル
    */
-  public static BakedModel getModel(BlockState state) {
-    return mc.getModelManager().getBlockModelShaper().getBlockModel(state);
+  public static BlockModel getModel(BlockState state) {
+    return mc.getModelManager().getBlockModelSet().get(state);
   }
 
   /**
@@ -61,7 +61,7 @@ public final class OEModelUtils {
       .getConnection()
       .getPlayerInfo(player.getUUID());
     if (playerInfo != null) {
-      return playerInfo.getSkin().model() == PlayerSkin.Model.SLIM;
+      return playerInfo.getSkin().model() == PlayerModelType.SLIM;
     }
     return false;
   }

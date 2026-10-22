@@ -1,10 +1,8 @@
 package org.modsauce.otyacraftenginerenewed.util;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.authlib.properties.PropertyMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -119,7 +117,7 @@ public final class OEItemUtils {
    */
   @NotNull
   public static ItemStack createPlayerHead(@NotNull Player player) {
-    return createPlayerHead(player.getGameProfile().getName());
+    return createPlayerHead(player.getGameProfile().name());
   }
 
   /**
@@ -131,11 +129,7 @@ public final class OEItemUtils {
   @NotNull
   public static ItemStack createPlayerHead(@NotNull String name) {
     ItemStack playerhead = new ItemStack(Items.PLAYER_HEAD);
-    ResolvableProfile profile = new ResolvableProfile(
-      Optional.of(name),
-      Optional.empty(),
-      new PropertyMap()
-    );
+    ResolvableProfile profile =  ResolvableProfile.createUnresolved(name);
     playerhead.set(DataComponents.PROFILE, profile);
     return playerhead;
   }

@@ -1,8 +1,10 @@
 package org.modsauce.otyacraftenginerenewed.util;
 
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.IntArrayTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.NbtUtils;
+import net.minecraft.nbt.StringTag;
 import net.minecraft.nbt.Tag;
 import net.minecraft.util.StringRepresentable;
 import org.jetbrains.annotations.NotNull;
@@ -23,6 +25,7 @@ public final class OENbtUtils {
    * UUIDのTAG番号
    */
   public static final int TAG_UUID = Tag.TAG_INT_ARRAY;
+  public static final int TAG_STRING = Tag.TAG_STRING;
 
   /**
    * NBTにリストを書き込む
@@ -53,8 +56,12 @@ public final class OENbtUtils {
    * @return 書き込み済みNBT
    */
   @NotNull
-  public static CompoundTag writeUUIDList(@NotNull CompoundTag tag, @NotNull String name, @Nullable List<UUID> uuids) {
-    return writeList(tag, name, uuids, NbtUtils::createUUID);
+  public static CompoundTag writeUUIDList(
+      @NotNull CompoundTag tag,
+      @NotNull String name,
+      @Nullable List<UUID> uuids
+  ) {
+      return writeList(tag, name, uuids, uuid -> StringTag.valueOf(uuid.toString()));
   }
 
   /**
@@ -64,17 +71,16 @@ public final class OENbtUtils {
    * @param name   リストの名前
    * @param list   書き込むリスト
    * @param reader 読み込み方法
-   * @param num    TAG番号
    * @param <T>    リストの種類
    * @return 書き込み済みリスト
    */
   @NotNull
-  public static <T> List<T> readList(@NotNull CompoundTag tag, @NotNull String name, @Nullable List<T> list, @NotNull Function<Tag, T> reader, int num) {
+  public static <T> List<T> readList(@NotNull CompoundTag tag, @NotNull String name, @Nullable List<T> list, @NotNull Function<Tag, T> reader) {
     if (list != null) list.clear();
     else list = new ArrayList<>();
 
-    if (tag.contains(name, Tag.TAG_LIST)) {
-      ListTag listTag = tag.getList(name, num);
+    if (tag.contains(name)) {
+      ListTag listTag = tag.getList(name).get();
       for (Tag lstag : listTag) {
         list.add(reader.apply(lstag));
       }
@@ -83,18 +89,18 @@ public final class OENbtUtils {
     return list;
   }
 
-  /**
-   * NBTからUUIDリストを読み込む
-   *
-   * @param tag   NBTタグ
-   * @param name  リストの名前
-   * @param uuids UUIDリスト
-   * @return 書き込み済みリスト
-   */
-  @NotNull
-  public static List<UUID> readUUIDList(@NotNull CompoundTag tag, @NotNull String name, @Nullable List<UUID> uuids) {
-    return readList(tag, name, uuids, NbtUtils::loadUUID, TAG_UUID);
-  }
+  // /**
+  //  * NBTからUUIDリストを読み込む
+  //  *
+  //  * @param tag   NBTタグ
+  //  * @param name  リストの名前
+  //  * @param uuids UUIDリスト
+  //  * @return 書き込み済みリスト
+  //  */
+  // @NotNull
+  // public static List<UUID> readUUIDList(@NotNull CompoundTag tag, @NotNull String name, @Nullable List<UUID> uuids) {
+  //   return readList(tag, name, uuids, NbtUtils::loadUUID);
+  // }
 
   /**
    * NBTにTagSerializableを実装した値のリストを書き込む
@@ -122,7 +128,7 @@ public final class OENbtUtils {
    */
   @NotNull
   public static <T extends TagSerializable> List<T> readSerializableList(@NotNull CompoundTag tag, @NotNull String name, @Nullable List<T> serializableList, @NotNull Supplier<T> initSerializable) {
-    return readList(tag, name, serializableList, tag1 -> TagSerializable.loadSavedTag((CompoundTag) tag1, initSerializable.get()), Tag.TAG_COMPOUND);
+    return readList(tag, name, serializableList, tag1 -> TagSerializable.loadSavedTag((CompoundTag) tag1, initSerializable.get()));
   }
 
   /**
@@ -159,19 +165,17 @@ public final class OENbtUtils {
    * @param map         マップ
    * @param keyReader   キーの読み込み方法
    * @param valueReader 値の読み込み方法
-   * @param keyNum      キーのTAG番号
-   * @param valueNum    値のTAG番号
    * @param <T>         キー
    * @param <M>         値
    * @return 書き込み済みマップ
    */
   @NotNull
-  public static <T, M> Map<T, M> readMap(@NotNull CompoundTag tag, @NotNull String name, @Nullable Map<T, M> map, @NotNull Function<Tag, T> keyReader, @NotNull Function<Tag, M> valueReader, int keyNum, int valueNum) {
+  public static <T, M> Map<T, M> readMap(@NotNull CompoundTag tag, @NotNull String name, @Nullable Map<T, M> map, @NotNull Function<Tag, T> keyReader, @NotNull Function<Tag, M> valueReader) {
     if (map != null) map.clear();
     else map = new HashMap<>();
-    var mt = tag.getCompound(name);
-    var kr = readList(mt, "k", null, keyReader, keyNum);
-    var vr = readList(mt, "v", null, valueReader, valueNum);
+    var mt = tag.getCompound(name).get();
+    var kr = readList(mt, "k", null, keyReader);
+    var vr = readList(mt, "v", null, valueReader);
     if (kr.size() != vr.size()) throw new IllegalArgumentException("The count of key and value do not match.");
 
     for (int i = 0; i < kr.size(); i++) {
@@ -183,61 +187,32 @@ public final class OENbtUtils {
   }
 
   /**
-   * NBTにUUIDがキーのマップを書き込む
-   *
-   * @param tag         NBTタグ
-   * @param name        マップの名前
-   * @param map         マップ
-   * @param valueWriter 値の書き込み方法
-   * @param <T>         値
-   * @return 書き込み済みNBT
-   */
-  @NotNull
-  public static <T> CompoundTag writeUUIDKeyMap(@NotNull CompoundTag tag, @NotNull String name, @Nullable Map<UUID, T> map, @NotNull Function<T, Tag> valueWriter) {
-    return writeMap(tag, name, map, NbtUtils::createUUID, valueWriter);
-  }
+     * NBTにUUIDがキーのマップを書き込む
+     */
+    @NotNull
+    public static <T> CompoundTag writeUUIDKeyMap(@NotNull CompoundTag tag, @NotNull String name, @Nullable Map<UUID, T> map, @NotNull Function<T, Tag> valueWriter) {
+      return writeMap(tag, name, map, uuid -> new IntArrayTag(UUIDUtil.uuidToIntArray(uuid)), valueWriter);
+    }
 
-  /**
-   * NBTからUUIDがキーのマップを読み込む
-   *
-   * @param tag         NBTタグ
-   * @param name        マップの名前
-   * @param map         マップ
-   * @param valueReader 値の読み込み方法
-   * @param valueNum    値のTAG番号
-   * @param <T>         値
-   * @return 読み込み済みマップ
-   */
-  @NotNull
-  public static <T> Map<UUID, T> readUUIDKeyMap(@NotNull CompoundTag tag, @NotNull String name, @Nullable Map<UUID, T> map, @NotNull Function<Tag, T> valueReader, int valueNum) {
-    return readMap(tag, name, map, NbtUtils::loadUUID, valueReader, TAG_UUID, valueNum);
-  }
+    /**
+     * NBTからUUIDがキーのマップを読み込む
+     */
+    @NotNull
+    public static <T> Map<UUID, T> readUUIDKeyMap(@NotNull CompoundTag tag, @NotNull String name, @Nullable Map<UUID, T> map, @NotNull Function<Tag, T> valueReader, int valueNum) {
+      return readMap(tag, name, map, tag1 -> UUIDUtil.uuidFromIntArray(((net.minecraft.nbt.IntArrayTag) tag1).getAsIntArray()), valueReader);
+    }
 
-  /**
-   * NBTにUUIDマップを書き込む
-   *
-   * @param tag  NBTタグ
-   * @param name マップの名前
-   * @param map  マップ
-   * @return 書き込み済みNBT
-   */
-  @NotNull
-  public static CompoundTag writeUUIDMap(@NotNull CompoundTag tag, @NotNull String name, @Nullable Map<UUID, UUID> map) {
-    return writeUUIDKeyMap(tag, name, map, NbtUtils::createUUID);
-  }
-
-  /**
-   * NBTからUUIDマップを読み込む
-   *
-   * @param tag  NBTタグ
-   * @param name マップの名前
-   * @param map  マップ
-   * @return 読み込み済みマップ
-   */
-  @NotNull
-  public static Map<UUID, UUID> readUUIDMap(@NotNull CompoundTag tag, @NotNull String name, @Nullable Map<UUID, UUID> map) {
-    return readUUIDKeyMap(tag, name, map, NbtUtils::loadUUID, TAG_UUID);
-  }
+    /**
+     * NBTからUUIDマップを読み込む
+     */
+    @NotNull
+    public static Map<UUID, UUID> readUUIDMap(
+        @NotNull CompoundTag tag,
+        @NotNull String name,
+        @Nullable Map<UUID, UUID> map
+    ) {
+      return readUUIDKeyMap(tag, name, map, tag1 -> UUIDUtil.uuidFromIntArray(((net.minecraft.nbt.IntArrayTag) tag1).getAsIntArray()), Tag.TAG_INT_ARRAY);
+    }
 
 
   @NotNull
@@ -311,7 +286,7 @@ public final class OENbtUtils {
    */
   public static <T extends Enum<T>> T readEnumByOrdinal(@NotNull CompoundTag tag, @NotNull String name, @NotNull Class<T> enumClass, @Nullable T defaultEnum) {
     var ens = ((T[]) enumClass.getEnumConstants());
-    int num = tag.getInt(name);
+    int num = tag.getInt(name).get();
     if (num < 0 || ens.length <= num) return defaultEnum;
     return ens[num];
   }

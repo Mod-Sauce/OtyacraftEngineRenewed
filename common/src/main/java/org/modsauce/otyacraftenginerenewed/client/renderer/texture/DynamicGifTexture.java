@@ -4,7 +4,7 @@ import com.madgag.gif.fmsware.GifDecoder;
 import com.mojang.blaze3d.platform.NativeImage;
 import dev.felnull.fnjl.util.FNImageUtil;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.Tickable;
+import net.minecraft.client.renderer.texture.TickableTexture;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -12,14 +12,15 @@ import org.modsauce.otyacraftenginerenewed.client.renderer.texture.impl.TextureL
 
 import java.io.IOException;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
-public final class DynamicGifTexture extends DynamicTexture implements Tickable {
+public final class DynamicGifTexture extends DynamicTexture implements TickableTexture {
   private final ImageFrame[] frames;
   private final long duration;
   private int last;
 
-  private DynamicGifTexture(long duration, ImageFrame... frames) {
-    super(frames[0].image());
+  private DynamicGifTexture(long duration, Supplier<String> label,ImageFrame... frames) {
+    super(label,frames[0].image());
     this.duration = duration;
     this.frames = frames;
   }
@@ -50,7 +51,7 @@ public final class DynamicGifTexture extends DynamicTexture implements Tickable 
   }
 
   @NotNull
-  public static DynamicGifTexture create(@NotNull GifDecoder decoder, @Nullable Consumer<TextureLoadProgress> progress) throws IOException {
+  public static DynamicGifTexture create(@NotNull GifDecoder decoder, @Nullable Consumer<TextureLoadProgress> progress, Supplier<String> supplier) throws IOException {
     ImageFrame[] frames = new ImageFrame[decoder.getFrameCount()];
     if (progress != null)
       progress.accept(new TextureLoadProgressImpl("Gif decoding", decoder.getFrameCount(), 0));
@@ -65,7 +66,7 @@ public final class DynamicGifTexture extends DynamicTexture implements Tickable 
         frames[i] = new ImageFrame(NativeImage.read(stream), duration);
       }
     }
-    return new DynamicGifTexture(duration, frames);
+    return new DynamicGifTexture(duration, supplier,frames);
   }
 
   private static record ImageFrame(NativeImage image, long timestamp) {

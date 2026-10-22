@@ -2,7 +2,7 @@ package org.modsauce.otyacraftenginerenewed.tag;
 
 import com.google.common.base.Suppliers;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -58,7 +58,7 @@ public class OEItemTags {
     return Suppliers.memoize(() -> TagKey.create(Registries.ITEM, cLoc(id)));
   }
 
-  private static ResourceLocation cLoc(String path) {
-    return ResourceLocation.fromNamespaceAndPath("c", path);
+  private static Identifier cLoc(String path) {
+    return Identifier.fromNamespaceAndPath("c", path);
   }
 }

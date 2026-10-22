@@ -1,66 +1,80 @@
 package org.modsauce.otyacraftenginerenewed.client.renderer;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import net.minecraft.Util;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.resources.ResourceLocation;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.rendertype.RenderSetup;
+import net.minecraft.client.renderer.rendertype.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
 import org.modsauce.otyacraftenginerenewed.OtyacraftEngine;
-import org.modsauce.otyacraftenginerenewed.client.renderer.shader.OEShaders;
 import org.modsauce.otyacraftenginerenewed.client.util.OEClientUtils;
 
 import java.util.function.Function;
 
-public class OERenderTypes extends RenderType {
-  private static final ShaderStateShard SIMPLE_SPRITE_SOLID_SHADER = new ShaderStateShard(OEShaders::getRendertypeSimpleSpriteSolidShader);
-  private static final ShaderStateShard SIMPLE_SPRITE_CUTOUT_SHADER = new ShaderStateShard(OEShaders::getRendertypeSimpleSpriteCutoutShader);
-  private static final ShaderStateShard WAVE_SHADER = new ShaderStateShard(OEShaders::getRendertypeWave);
+public final class OERenderTypes {
 
-  private static final Function<ResourceLocation, RenderType> SIMPLE_SPRITE_SOLID = Util.memoize((resourceLocation) -> {
-    RenderType.CompositeState compositeState = RenderType.CompositeState.builder().setShaderState(SIMPLE_SPRITE_SOLID_SHADER).setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, false)).setTransparencyState(NO_TRANSPARENCY).setLightmapState(LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(true);
-    return OERenderTypes.create(OtyacraftEngine.MODID + "_simple_sprite_solid", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, compositeState);
-  });
+  public static final RenderPipeline SIMPLE_SPRITE_SOLID_PIPELINE = RenderPipelines.register(
+      RenderPipeline.builder(RenderPipelines.ENTITY_SNIPPET)
+          .withLocation(id("pipeline/simple_sprite_solid"))
+          .withVertexShader(id("core/simple_sprite_solid"))
+          .withFragmentShader(id("core/simple_sprite_solid"))
+          .withSampler("Sampler0")
+          .withSampler("Sampler2")
+          .build());
 
-  private static final Function<ResourceLocation, RenderType> SIMPLE_SPRITE_CUTOUT = Util.memoize((resourceLocation) -> {
-    RenderType.CompositeState compositeState = RenderType.CompositeState.builder().setShaderState(SIMPLE_SPRITE_CUTOUT_SHADER).setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, false)).setTransparencyState(NO_TRANSPARENCY).setLightmapState(LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(true);
-    return OERenderTypes.create(OtyacraftEngine.MODID + "_simple_sprite_cutout", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, compositeState);
-  });
+  public static final RenderPipeline SIMPLE_SPRITE_CUTOUT_PIPELINE = RenderPipelines.register(
+      RenderPipeline.builder(RenderPipelines.ENTITY_SNIPPET)
+          .withLocation(id("pipeline/simple_sprite_cutout"))
+          .withVertexShader(id("core/simple_sprite_cutout"))
+          .withFragmentShader(id("core/simple_sprite_cutout"))
+          .withSampler("Sampler0")
+          .withSampler("Sampler2")
+          .build());
 
-  private static final Function<ResourceLocation, RenderType> WAVE = Util.memoize((resourceLocation) -> {
-    RenderType.CompositeState compositeState = RenderType.CompositeState.builder().setShaderState(WAVE_SHADER).setTextureState(new RenderStateShard.TextureStateShard(resourceLocation, false, false)).setTransparencyState(NO_TRANSPARENCY).setLightmapState(LIGHTMAP).setOverlayState(OVERLAY).createCompositeState(true);
-    return OERenderTypes.create(OtyacraftEngine.MODID + "_wave", DefaultVertexFormat.NEW_ENTITY, VertexFormat.Mode.QUADS, 256, true, false, compositeState);
-  });
+  public static final RenderPipeline WAVE_PIPELINE = RenderPipelines.register(
+      RenderPipeline.builder(RenderPipelines.ENTITY_SNIPPET)
+          .withLocation(id("pipeline/wave"))
+          .withVertexShader(id("core/wave"))
+          .withFragmentShader(id("core/wave"))
+          .withSampler("Sampler0")
+          .withSampler("Sampler2")
+          .build());
 
-  public OERenderTypes(String string, VertexFormat vertexFormat, VertexFormat.Mode mode, int i, boolean bl, boolean bl2, Runnable runnable, Runnable runnable2) {
-    super(string, vertexFormat, mode, i, bl, bl2, runnable, runnable2);
+  private static final Function<Identifier, RenderType> SIMPLE_SPRITE_SOLID = Util.memoize(
+      tex -> RenderType.create(OtyacraftEngine.MODID + "_simple_sprite_solid", setup(SIMPLE_SPRITE_SOLID_PIPELINE, tex)));
+
+  private static final Function<Identifier, RenderType> SIMPLE_SPRITE_CUTOUT = Util.memoize(
+      tex -> RenderType.create(OtyacraftEngine.MODID + "_simple_sprite_cutout", setup(SIMPLE_SPRITE_CUTOUT_PIPELINE, tex)));
+
+  private static final Function<Identifier, RenderType> WAVE = Util.memoize(
+      tex -> RenderType.create(OtyacraftEngine.MODID + "_wave", setup(WAVE_PIPELINE, tex)));
+
+  private static RenderSetup setup(RenderPipeline pipeline, Identifier texture) {
+    return RenderSetup.builder(pipeline)
+        .withTexture("Sampler0", texture)
+        .useLightmap()
+        .useOverlay()
+        .createRenderSetup();
   }
 
-  public static RenderType simpleSpriteSolid(ResourceLocation location) {
+  private static Identifier id(String path) {
+    return Identifier.fromNamespaceAndPath(OtyacraftEngine.MODID, path);
+  }
+
+  public static RenderType simpleSpriteSolid(Identifier location) {
     return SIMPLE_SPRITE_SOLID.apply(location);
   }
 
-  public static RenderType simpleSpriteCutout(ResourceLocation location) {
-    if(OEClientUtils.enableShader())
-      return RenderType.entityTranslucent(location);
-    else
-      return SIMPLE_SPRITE_CUTOUT.apply(location);
-    // 🤔
+  public static RenderType simpleSpriteCutout(Identifier location) {
+    return OEClientUtils.enableShader()
+        ? RenderTypes.entityTranslucent(location)
+        : SIMPLE_SPRITE_CUTOUT.apply(location);
   }
 
-  public static RenderType wave(ResourceLocation location) {
+  public static RenderType wave(Identifier location) {
     return WAVE.apply(location);
   }
 
-  public static ShaderStateShard getSimpleSpriteCutoutShader() {
-    return SIMPLE_SPRITE_CUTOUT_SHADER;
-  }
-
-  public static ShaderStateShard getSimpleSpriteSolidShader() {
-    return SIMPLE_SPRITE_SOLID_SHADER;
-  }
-
-  public static ShaderStateShard getWaveShader() {
-    return WAVE_SHADER;
-  }
+  private OERenderTypes() {}
 }

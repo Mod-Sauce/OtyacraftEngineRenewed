@@ -3,11 +3,11 @@ package org.modsauce.otyacraftenginerenewed.data.provider;
 import com.google.common.collect.ImmutableList;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
@@ -39,7 +39,7 @@ public abstract class ModelProcessProviderWrapper extends InputBaseProviderWrapp
   @Override
   protected @Nullable CompletableFuture<?> runTask(CachedOutput cachedOutput, Path inputRoot, Path target) {
     return CompletableFuture.supplyAsync(() -> {
-      var locEx = toResourceLocationAndExtension(inputRoot, target);
+      var locEx = toIdentifierAndExtension(inputRoot, target);
       try (Reader reader = new FileReader(target.toFile()); Reader bufReadr = new BufferedReader(reader)) {
         return new ModelData(locEx.getLeft(), GSON.fromJson(bufReadr, JsonObject.class));
       } catch (IOException e) {
@@ -66,7 +66,7 @@ public abstract class ModelProcessProviderWrapper extends InputBaseProviderWrapp
     return cf;
   }
 
-  public static record ModelData(ResourceLocation location, JsonObject model) {
+  public static record ModelData(Identifier location, JsonObject model) {
     public String getName() {
       var sp = location.getPath().split("/");
       return sp[sp.length - 1];

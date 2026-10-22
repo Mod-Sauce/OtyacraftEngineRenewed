@@ -7,7 +7,7 @@ import java.util.UUID;
 import net.fabricmc.api.EnvType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.modsauce.otyacraftenginerenewed.OtyacraftEngine;
 import org.modsauce.otyacraftenginerenewed.client.handler.ClientMessageHandler;
 import org.modsauce.otyacraftenginerenewed.networking.existence.BlockEntityExistence;
@@ -16,23 +16,23 @@ import org.modsauce.otyacraftenginerenewed.server.handler.ServerMessageHandler;
 
 public class OEPackets {
 
-  public static final ResourceLocation BLOCK_ENTITY_INSTRUCTION =
-    ResourceLocation.fromNamespaceAndPath(
+  public static final Identifier BLOCK_ENTITY_INSTRUCTION =
+          Identifier.fromNamespaceAndPath(
       OtyacraftEngine.MODID,
       "block_entity_instruction"
     );
-  public static final ResourceLocation BLOCK_ENTITY_INSTRUCTION_RETURN =
-    ResourceLocation.fromNamespaceAndPath(
+  public static final Identifier BLOCK_ENTITY_INSTRUCTION_RETURN =
+          Identifier.fromNamespaceAndPath(
       OtyacraftEngine.MODID,
       "block_entity_instruction_return"
     );
-  public static final ResourceLocation ITEM_INSTRUCTION =
-    ResourceLocation.fromNamespaceAndPath(
+  public static final Identifier ITEM_INSTRUCTION =
+          Identifier.fromNamespaceAndPath(
       OtyacraftEngine.MODID,
       "item_instruction"
     );
-  public static final ResourceLocation ITEM_INSTRUCTION_RETURN =
-    ResourceLocation.fromNamespaceAndPath(
+  public static final Identifier ITEM_INSTRUCTION_RETURN =
+          Identifier.fromNamespaceAndPath(
       OtyacraftEngine.MODID,
       "item_instruction_return"
     );

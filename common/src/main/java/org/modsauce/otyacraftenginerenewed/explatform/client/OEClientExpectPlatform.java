@@ -3,8 +3,8 @@ package org.modsauce.otyacraftenginerenewed.explatform.client;
 import com.mojang.blaze3d.platform.InputConstants;
 import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.client.KeyMapping;
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.block.model.BlockModel;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.ItemLike;
 import org.modsauce.otyacraftenginerenewed.client.renderer.item.BEWLItemRenderer;
 
@@ -15,7 +15,7 @@ public class OEClientExpectPlatform {
   }
 
   @ExpectPlatform
-  public static BakedModel getModel(ResourceLocation location) {
+  public static BlockModel getModel(Identifier location) {
     throw new AssertionError();
   }
 

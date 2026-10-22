@@ -4,7 +4,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
 import org.modsauce.otyacraftenginerenewed.tag.ManualTagHolder;
@@ -37,9 +37,9 @@ public abstract class TagProviderWrapper<T, A extends TagProviderWrapper.TagProv
 
     TagAppenderWrapper<T> add(ResourceKey<T>... resourceKeys);
 
-    TagAppenderWrapper<T> addOptional(ResourceLocation resourceLocation);
+    TagAppenderWrapper<T> addOptional(Identifier Identifier);
 
-    TagAppenderWrapper<T> addOptionalTag(ResourceLocation resourceLocation);
+    TagAppenderWrapper<T> addOptionalTag(Identifier Identifier);
 
     default TagAppenderWrapper<T> addTags(List<TagKey<T>> tagKeys) {
       TagAppenderWrapper<T> appenderWrapper = this;
@@ -59,11 +59,11 @@ public abstract class TagProviderWrapper<T, A extends TagProviderWrapper.TagProv
       return appenderWrapper;
     }
 
-    default TagAppenderWrapper<T> addOptionalTag(ResourceLocation... resourceLocations) {
+    default TagAppenderWrapper<T> addOptionalTag(Identifier... Identifiers) {
       TagAppenderWrapper<T> appenderWrapper = this;
 
-      for (ResourceLocation resourceLocation : resourceLocations)
-        appenderWrapper = appenderWrapper.addOptionalTag(resourceLocation);
+      for (Identifier Identifier : Identifiers)
+        appenderWrapper = appenderWrapper.addOptionalTag(Identifier);
 
       return appenderWrapper;
     }

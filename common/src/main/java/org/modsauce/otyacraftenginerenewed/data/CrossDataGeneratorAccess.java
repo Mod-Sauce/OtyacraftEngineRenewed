@@ -40,47 +40,49 @@ public interface CrossDataGeneratorAccess {
     > dataProviderSupplier
   );
 
-  default <T extends DataProviderWrapper<?>> T addProviderWrapper(
+  default <T extends DataProviderWrapper<? extends DataProvider>> T addProviderWrapper(
     @NotNull DataProviderWrapper.GeneratorAccessedFactory<T> factory
   ) {
-    return addProviderWrapper(packOutput ->
-      factory.create(packOutput, CrossDataGeneratorAccess.this)
-    );
+    DataProviderWrapper.Factory<T> wrapped =
+      packOutput -> factory.create(packOutput, CrossDataGeneratorAccess.this);
+    return addProviderWrapper(wrapped);
   }
 
-  default <T extends DataProviderWrapper<?>> T addProviderWrapper(
+  default <T extends DataProviderWrapper<? extends DataProvider>> T addProviderWrapper(
     @NotNull DataProviderWrapper.Factory<T> factory
   ) {
-    AtomicReference<T> providerWrapper = new AtomicReference<>();
+    AtomicReference<T> ref = new AtomicReference<>();
 
-    addProvider(packOutput -> {
-      providerWrapper.set(factory.create(packOutput));
-      return providerWrapper.get().getProvider();
-    });
+    DataProvider.Factory<DataProvider> providerFactory = packOutput -> {
+      ref.set(factory.create(packOutput));          // one arg: Factory
+      return ref.get().getProvider();
+    };
+    this.<DataProvider>addProvider(providerFactory);
 
-    return providerWrapper.get();
+    return ref.get();
   }
 
-  default <T extends DataProviderWrapper<?>> T addProviderWrapper(
+  default <T extends DataProviderWrapper<? extends DataProvider>> T addProviderWrapper(
     @NotNull DataProviderWrapper.LookupGeneratorAccessedFactory<T> factory
   ) {
-    return addProviderWrapper(
-      (DataProviderWrapper.LookupFactory<T>) (packOutput, lookup) ->
-        factory.create(packOutput, lookup, CrossDataGeneratorAccess.this)
-    );
+    DataProviderWrapper.LookupFactory<T> wrapped =
+      (packOutput, lookup) -> factory.create(packOutput, lookup, CrossDataGeneratorAccess.this);
+    return addProviderWrapper(wrapped);
   }
 
-  default <T extends DataProviderWrapper<?>> T addProviderWrapper(
+  default <T extends DataProviderWrapper<? extends DataProvider>> T addProviderWrapper(
     @NotNull DataProviderWrapper.LookupFactory<T> factory
   ) {
-    AtomicReference<T> providerWrapper = new AtomicReference<>();
+    AtomicReference<T> ref = new AtomicReference<>();
 
-    addProvider((packOutput, lookup) -> {
-      providerWrapper.set(factory.create(packOutput, lookup));
-      return providerWrapper.get().getProvider();
-    });
+    BiFunction<PackOutput, CompletableFuture<HolderLookup.Provider>, DataProvider> providerFactory =
+      (packOutput, lookup) -> {
+        ref.set(factory.create(packOutput, lookup)); // two args: LookupFactory
+        return ref.get().getProvider();
+      };
+    this.<DataProvider>addProvider(providerFactory);
 
-    return providerWrapper.get();
+    return ref.get();
   }
 
   Mod getMod();

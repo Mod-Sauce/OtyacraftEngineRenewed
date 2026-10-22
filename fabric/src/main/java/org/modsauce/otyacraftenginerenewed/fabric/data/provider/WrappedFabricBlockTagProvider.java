@@ -1,9 +1,9 @@
 package org.modsauce.otyacraftenginerenewed.fabric.data.provider;
 
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import org.modsauce.otyacraftenginerenewed.data.provider.BlockTagProviderWrapper;
 import org.modsauce.otyacraftenginerenewed.data.provider.IntrinsicHolderTagsProviderWrapper;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.level.block.Block;
@@ -11,10 +11,10 @@ import net.minecraft.world.level.block.Block;
 import java.util.concurrent.CompletableFuture;
 
 
-public class WrappedFabricBlockTagProvider extends FabricTagProvider.BlockTagProvider {
+public class WrappedFabricBlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
     private final BlockTagProviderWrapper tagProviderWrapper;
 
-    public WrappedFabricBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture, BlockTagProviderWrapper tagProviderWrapper) {
+    public WrappedFabricBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture, BlockTagProviderWrapper tagProviderWrapper) {
         super(output, registriesFuture);
         this.tagProviderWrapper = tagProviderWrapper;
     }

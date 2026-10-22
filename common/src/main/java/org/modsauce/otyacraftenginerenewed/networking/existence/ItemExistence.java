@@ -2,16 +2,15 @@ package org.modsauce.otyacraftenginerenewed.networking.existence;
 
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
-import org.modsauce.otyacraftenginerenewed.item.IInstructionItem;
 import org.modsauce.otyacraftenginerenewed.item.location.PlayerItemLocation;
 import org.modsauce.otyacraftenginerenewed.item.location.PlayerItemLocations;
 
-public record ItemExistence(PlayerItemLocation location, ResourceLocation itemRegistryName) {
+public record ItemExistence(PlayerItemLocation location, Identifier itemRegistryName) {
   public static ItemExistence read(FriendlyByteBuf buf) {
-    return new ItemExistence(PlayerItemLocations.loadFromTag(buf.readNbt()), buf.readResourceLocation());
+    return new ItemExistence(PlayerItemLocations.loadFromTag(buf.readNbt()), buf.readIdentifier());
   }
 
   public static ItemExistence getByItemLocation(ItemStack stack, PlayerItemLocation location) {
@@ -24,11 +23,11 @@ public record ItemExistence(PlayerItemLocation location, ResourceLocation itemRe
     var litm = location.getItem(player);
     if (litm.isEmpty()) return false;
     var itm = BuiltInRegistries.ITEM.get(itemRegistryName);
-    return litm.getItem() == itm && itm instanceof IInstructionItem;
+    return litm.getItem() == itm.get().value();
   }
 
   public void write(FriendlyByteBuf buf) {
     buf.writeNbt(PlayerItemLocations.saveToTag(location));
-    buf.writeResourceLocation(itemRegistryName);
+    buf.writeIdentifier(itemRegistryName);
   }
 }

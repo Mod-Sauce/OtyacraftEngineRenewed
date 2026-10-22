@@ -6,15 +6,20 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Container;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.ContainerUser;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.component.CustomData;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
+
 import org.modsauce.otyacraftenginerenewed.item.location.PlayerItemLocation;
 
 public class ItemContainer implements Container {
@@ -75,7 +80,7 @@ public class ItemContainer implements Container {
 
   @Override
   public void setItem(int i, ItemStack stack) {
-    ItemStack itemstack = items.get(i);
+    // ItemStack itemstack = items.get(i);
     /* boolean flag = !stack.isEmpty() && stack.sameItem(itemstack) && ItemStack.tagMatches(stack, itemstack);*/
     items.set(i, stack);
     if (stack.getCount() > this.getMaxStackSize()) {
@@ -113,8 +118,8 @@ public class ItemContainer implements Container {
   }
 
   @Override
-  public void stopOpen(Player player) {
-    Container.super.stopOpen(player);
+  public void stopOpen(final ContainerUser containerUser) {
+    Container.super.stopOpen(containerUser);
     saveItems();
   }
 
@@ -140,7 +145,7 @@ public class ItemContainer implements Container {
     if (customData != null) {
       var tag = customData.copyTag();
       if (tag.contains(tagName)) {
-        ContainerHelper.loadAllItems(tag.getCompound(tagName), items, provider);
+        ContainerHelper.loadAllItems(TagValueInput.create(ProblemReporter.DISCARDING, provider, tag), items);
       }
     }
   }
@@ -157,7 +162,7 @@ public class ItemContainer implements Container {
     );
     var tag = customData.copyTag();
     if (!tag.contains(tagName)) tag.put(tagName, new CompoundTag());
-    ContainerHelper.saveAllItems(tag.getCompound(tagName), items, provider);
+    ContainerHelper.saveAllItems(TagValueOutput.createWithContext(ProblemReporter.DISCARDING, provider), items);
     itemStack.set(DataComponents.CUSTOM_DATA, CustomData.of(tag));
   }
 

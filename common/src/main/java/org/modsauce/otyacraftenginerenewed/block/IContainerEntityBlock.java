@@ -27,7 +27,7 @@ public interface IContainerEntityBlock {
   }
 
   default boolean isOpenContainer(BlockState blockState, Level level, BlockPos blockPos, Player player, InteractionHand interactionHand, BlockHitResult blockHitResult) {
-    return level.getBlockEntity(blockPos) instanceof BaseContainerBlockEntity oeBaseContainerBlock;
+    return level.getBlockEntity(blockPos) instanceof BaseContainerBlockEntity;
   }
 
   default void openContainer(BlockState blockState, ServerLevel level, BlockPos blockPos, ServerPlayer player, InteractionHand interactionHand, BlockHitResult blockHitResult) {

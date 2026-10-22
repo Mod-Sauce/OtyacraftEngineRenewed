@@ -2,7 +2,7 @@ package org.modsauce.otyacraftenginerenewed.neoforge.data.model;
 
 import net.neoforged.neoforge.client.model.generators.ModelBuilder;
 import org.modsauce.otyacraftenginerenewed.data.model.MutableFileModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class MutableFileModelImpl extends FileModelImpl implements MutableFileModel {
@@ -14,7 +14,7 @@ public abstract class MutableFileModelImpl extends FileModelImpl implements Muta
     }
 
     @Override
-    public MutableFileModel texture(@NotNull String id, @NotNull ResourceLocation location) {
+    public MutableFileModel texture(@NotNull String id, @NotNull Identifier location) {
         this.modelBuilder.texture(id, location);
         return this;
     }

@@ -2,7 +2,7 @@ package org.modsauce.otyacraftenginerenewed.neoforge.mixin.data;
 
 import com.google.common.base.Preconditions;
 import org.modsauce.otyacraftenginerenewed.neoforge.data.model.UncheckedTextureModelBuilder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.neoforge.client.model.generators.ModelBuilder;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,7 +17,7 @@ public class ModelBuilderMixin implements UncheckedTextureModelBuilder {
     protected Map<String, String> textures;
 
     @Override
-    public void uncheckedTexture(String key, ResourceLocation texture) {
+    public void uncheckedTexture(String key, Identifier texture) {
         Preconditions.checkNotNull(key, "Key must not be null");
         Preconditions.checkNotNull(texture, "Texture must not be null");
 

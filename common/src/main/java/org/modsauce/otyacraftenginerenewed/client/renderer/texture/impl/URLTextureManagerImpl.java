@@ -2,6 +2,7 @@ package org.modsauce.otyacraftenginerenewed.client.renderer.texture.impl;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
+
 import dev.felnull.fnjl.util.FNDataUtil;
 import dev.felnull.fnjl.util.FNStringUtil;
 import dev.felnull.fnjl.util.FNURLUtil;
@@ -18,7 +19,7 @@ import org.modsauce.otyacraftenginerenewed.util.OEPaths;
 import org.modsauce.otyacraftenginerenewed.util.OEUtils;
 
 import java.io.*;
-import java.net.URL;
+import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.security.NoSuchAlgorithmException;
@@ -179,7 +180,7 @@ public class URLTextureManagerImpl implements URLTextureManager {
   }
 
   private ExecutorService createExecutor() {
-    return Executors.newFixedThreadPool(OtyacraftEngine.getConfig().getClientConfig().getUrlTextureConfig().getMaxLoaderCount(), new BasicThreadFactory.Builder().namingPattern(OtyacraftEngine.MODID + "-url-texture-loader-%d").daemon(true).build());
+    return Executors.newFixedThreadPool(OtyacraftEngine.getConfig().getClientConfig().getUrlTextureConfig().getMaxLoaderCount(), BasicThreadFactory.builder().namingPattern(OtyacraftEngine.MODID + "-url-texture-loader-%d").daemon(true).build());
   }
 
   private Function<String, String> createHashCache() {
@@ -317,7 +318,7 @@ public class URLTextureManagerImpl implements URLTextureManager {
   }
 
   private Pair<InputStream, Long> connect(String url) throws IOException {
-    var con = FNURLUtil.getConnection(new URL(OEClientEventHooks.onSwapTextureURL(url)));
+    var con = FNURLUtil.getConnection(URI.create(OEClientEventHooks.onSwapTextureURL(url)).toURL());
     long max = 1024L * 1024L * 10;
 
     try (InputStream in = con.getInputStream(); InputStream bin = new BufferedInputStream(in); ByteArrayOutputStream out = new ByteArrayOutputStream()) {

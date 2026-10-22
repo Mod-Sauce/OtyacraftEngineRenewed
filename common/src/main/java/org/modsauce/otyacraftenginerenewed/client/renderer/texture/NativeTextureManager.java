@@ -1,7 +1,7 @@
 package org.modsauce.otyacraftenginerenewed.client.renderer.texture;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.modsauce.otyacraftenginerenewed.OtyacraftEngine;
@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 public class NativeTextureManager {
   private static final Minecraft mc = Minecraft.getInstance();
@@ -61,7 +62,7 @@ public class NativeTextureManager {
       r = NATIVE_TEXTURE_LOADS.get(uuid);
     }
     if (r == null) {
-      r = loadNativeTexture(stream, progress);
+        r = loadNativeTexture(stream, progress, Identifier.fromNamespaceAndPath(OtyacraftEngine.MODID, "native_texture"), () -> "native_texture");
       synchronized (NATIVE_TEXTURE_LOADS) {
         NATIVE_TEXTURE_LOADS.put(uuid, r);
       }
@@ -95,14 +96,15 @@ public class NativeTextureManager {
     }
   }
 
-  private static NativeTextureLoadResult loadNativeTexture(InputStream stream, Consumer<TextureLoadProgress> progress) {
-    ResourceLocation[] loc = new ResourceLocation[1];
+  private static NativeTextureLoadResult loadNativeTexture(InputStream stream, Consumer<TextureLoadProgress> progress, Identifier identifier, Supplier<String> supplier) {
+    Identifier[] loc = new Identifier[1];
     try (BufferedInputStream bufstream = new BufferedInputStream(stream)) {
-      var tx = OETextureUtils.createNativeTexture(bufstream, progress);
+      var tx = OETextureUtils.createNativeTexture(bufstream, progress, identifier, supplier);
       if (progress != null)
         progress.accept(new TextureLoadProgressImpl("Texture registering", 1, 0));
       mc.submit(() -> {
-        loc[0] = mc.getTextureManager().register("native_texture", tx);
+        loc[0] = Identifier.fromNamespaceAndPath(OtyacraftEngine.MODID, "native_texture");
+        mc.getTextureManager().register(Identifier.fromNamespaceAndPath(OtyacraftEngine.MODID, "native_texture"), tx);
       }).get();
       if (progress != null)
         progress.accept(new TextureLoadProgressImpl("Texture registering", 1, 1));
@@ -130,7 +132,7 @@ public class NativeTextureManager {
         finish();
         return;
       }
-      var ret = loadNativeTexture(stream, result::setProgress);
+      var ret = loadNativeTexture(stream, result::setProgress, Identifier.fromNamespaceAndPath(OtyacraftEngine.MODID, "native_texture"), () -> "native_texture");
       if (isStopped()) {
         if (ret.getLocation() != null)
           OETextureUtils.freeTexture(ret.getLocation());

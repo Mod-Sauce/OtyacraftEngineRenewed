@@ -1,6 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.client.gui;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
  * @param u1       テクスチャの終了地点X
  * @param v1       テクスチャの終了地点Y
  */
-public record TextureRegion(@NotNull ResourceLocation location, float width, float height, float u0, float v0, float u1,
+public record TextureRegion(@NotNull Identifier location, float width, float height, float u0, float v0, float u1,
                             float v1) {
   /**
    * テクスチャの画像ロケーション、表示位置の指定
@@ -25,7 +25,7 @@ public record TextureRegion(@NotNull ResourceLocation location, float width, flo
    * @param u1       テクスチャの終了地点X
    * @param v1       テクスチャの終了地点Y
    */
-  public TextureRegion(@NotNull ResourceLocation location, float u0, float v0, float u1, float v1) {
+  public TextureRegion(@NotNull Identifier location, float u0, float v0, float u1, float v1) {
     this(location, 256, 256, u0, v0, u1, v1);
   }
 
@@ -41,7 +41,7 @@ public record TextureRegion(@NotNull ResourceLocation location, float width, flo
    * @param rv1      テクスチャの相対終了地点Y
    * @return TextureRegion
    */
-  public static TextureRegion relative(@NotNull ResourceLocation location, float width, float height, float u0, float v0, float ru1, float rv1) {
+  public static TextureRegion relative(@NotNull Identifier location, float width, float height, float u0, float v0, float ru1, float rv1) {
     return new TextureRegion(location, width, height, u0, v0, u0 + ru1, v0 + rv1);
   }
 
@@ -55,7 +55,7 @@ public record TextureRegion(@NotNull ResourceLocation location, float width, flo
    * @param rv1      テクスチャの相対終了地点Y
    * @return TextureRegion
    */
-  public static TextureRegion relative(@NotNull ResourceLocation location, float u0, float v0, float ru1, float rv1) {
+  public static TextureRegion relative(@NotNull Identifier location, float u0, float v0, float ru1, float rv1) {
     return new TextureRegion(location, u0, v0, u0 + ru1, v0 + rv1);
   }
 

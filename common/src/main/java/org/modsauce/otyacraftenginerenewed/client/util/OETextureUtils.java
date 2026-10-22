@@ -8,8 +8,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.AbstractTexture;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.client.renderer.texture.Tickable;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.renderer.texture.TickableTexture;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.util.Objects;
 import java.util.UUID;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 /**
  * テクスチャ関係のユーティリティ
@@ -35,8 +36,8 @@ import java.util.function.Consumer;
  */
 public final class OETextureUtils {
   private static final Minecraft mc = Minecraft.getInstance();
-  private static final ResourceLocation ERROR_ICON = ResourceLocation.fromNamespaceAndPath(OtyacraftEngine.MODID, "textures/gui/error_icon.png");
-  private static ResourceLocation LOADING_ICON;
+  private static final Identifier ERROR_ICON = Identifier.fromNamespaceAndPath(OtyacraftEngine.MODID, "textures/gui/error_icon.png");
+  private static Identifier LOADING_ICON;
 
   /**
    * ネイティブ画像のテクスチャを読み込む
@@ -46,7 +47,7 @@ public final class OETextureUtils {
    * @throws IOException 例外
    */
   @NotNull
-  public static DynamicTexture createNativeTexture(@NotNull InputStream stream, @Nullable Consumer<TextureLoadProgress> progress) throws IOException {
+  public static AbstractTexture createNativeTexture(@NotNull InputStream stream, @Nullable Consumer<TextureLoadProgress> progress, Identifier identifier, Supplier<String> supplier) throws IOException {
     if (progress != null) progress.accept(new TextureLoadProgressImpl("Image loading", 1, 0));
 
     byte[] data = stream.readAllBytes();
@@ -55,15 +56,15 @@ public final class OETextureUtils {
 
     try (var istream = new ByteArrayInputStream(data)) {
       GifDecoder decoder = new GifDecoder();
-      if (decoder.read(istream) == 0) return DynamicGifTexture.create(decoder, progress);
+      if (decoder.read(istream) == 0) return DynamicGifTexture.create(decoder, progress, supplier);
     }
 
     try (var istream = new ByteArrayInputStream(data)) {
-      return tryToPNG(istream);
+      return tryToPNG(istream, identifier);
     }
   }
 
-  private static DynamicTexture tryToPNG(InputStream stream) throws IOException {
+  private static DynamicTexture tryToPNG(InputStream stream, Identifier identifier) throws IOException {
       BufferedImage bufferedImage = ImageIO.read(stream);
       if (bufferedImage == null) {
           throw new IOException("无法读取图片 - 不支持的格式或损坏的文件");
@@ -77,10 +78,10 @@ public final class OETextureUtils {
               int g = (argb >> 8) & 0xFF;
               int b = argb & 0xFF;
               int rgba = (a << 24) | (b << 16) | (g << 8) | r;
-              nativeImage.setPixelRGBA(x, y, rgba | 0xFF000000);
+              nativeImage.setPixelABGR(x, y, rgba | 0xFF000000);
           }
       }
-      return new DynamicTexture(nativeImage);
+      return new DynamicTexture(identifier::toString, nativeImage);
   }
 
   /**
@@ -88,11 +89,11 @@ public final class OETextureUtils {
    *
    * @param location テクスチャID
    */
-  public synchronized static void freeTexture(@NotNull ResourceLocation location) {
+  public synchronized static void freeTexture(@NotNull Identifier location) {
     TextureManager textureManager = mc.getTextureManager();
     AbstractTexture abstractTexture = textureManager.byPath.get(location);
     if (abstractTexture != null) {
-      if (abstractTexture instanceof Tickable) textureManager.tickableTextures.remove(abstractTexture);
+      if (abstractTexture instanceof TickableTexture) textureManager.tickableTextures.remove(abstractTexture);
       textureManager.safeClose(location, abstractTexture);
     }
   }
@@ -150,10 +151,10 @@ public final class OETextureUtils {
    * @return ロケーション
    */
   @NotNull
-  public static ResourceLocation getLoadingIcon() {
+  public static Identifier getLoadingIcon() {
     if (LOADING_ICON == null) {
       ResourceManager rm = mc.getResourceManager();
-      var r = rm.getResource(ResourceLocation.fromNamespaceAndPath(OtyacraftEngine.MODID, "textures/gui/loading_icon.gif"));
+      var r = rm.getResource(Identifier.fromNamespaceAndPath(OtyacraftEngine.MODID, "textures/gui/loading_icon.gif"));
       if (r.isPresent()) {
         try (var st = r.get().open()) {
           var ret = getAndLoadNativeTexture(UUID.randomUUID(), st);
@@ -176,7 +177,7 @@ public final class OETextureUtils {
    * @return ロケーション
    */
   @NotNull
-  public static ResourceLocation getErrorIcon() {
+  public static Identifier getErrorIcon() {
     return ERROR_ICON;
   }
 
@@ -190,7 +191,7 @@ public final class OETextureUtils {
    * @since 2.0
    */
   @Nullable
-  public static ResourceLocation getPlayerTexture(MinecraftProfileTexture.Type type, @NotNull UUID uuid) {
+  public static Identifier getPlayerTexture(MinecraftProfileTexture.Type type, @NotNull UUID uuid) {
     return ClientPlayerInfoManager.getInstance().getPlayerTexture(type, uuid);
   }
 
@@ -203,7 +204,7 @@ public final class OETextureUtils {
    * @return プレイヤーテクスチャロケーション
    */
   @Nullable
-  public static ResourceLocation getPlayerTexture(MinecraftProfileTexture.Type type, @NotNull String name) {
+  public static Identifier getPlayerTexture(MinecraftProfileTexture.Type type, @NotNull String name) {
     return ClientPlayerInfoManager.getInstance().getPlayerTexture(type, name);
   }
 
@@ -215,7 +216,7 @@ public final class OETextureUtils {
    * @return プレイヤーエリトラテクスチャID
    */
   @Nullable
-  public static ResourceLocation getPlayerElytraTexture(@NotNull String name) {
+  public static Identifier getPlayerElytraTexture(@NotNull String name) {
     return getPlayerTexture(MinecraftProfileTexture.Type.ELYTRA, name);
   }
 
@@ -227,7 +228,7 @@ public final class OETextureUtils {
    * @return プレイヤーマントテクスチャID
    */
   @Nullable
-  public static ResourceLocation getPlayerCapeTexture(@NotNull String name) {
+  public static Identifier getPlayerCapeTexture(@NotNull String name) {
     return getPlayerTexture(MinecraftProfileTexture.Type.CAPE, name);
   }
 
@@ -238,7 +239,7 @@ public final class OETextureUtils {
    * @return プレイヤースキンテクスチャID
    */
   @NotNull
-  public static ResourceLocation getPlayerSkinTexture(@NotNull String name) {
+  public static Identifier getPlayerSkinTexture(@NotNull String name) {
     return Objects.requireNonNull(getPlayerTexture(MinecraftProfileTexture.Type.SKIN, name));
   }
 
@@ -251,7 +252,7 @@ public final class OETextureUtils {
    * @since 2.0
    */
   @Nullable
-  public static ResourceLocation getPlayerElytraTexture(@NotNull UUID uuid) {
+  public static Identifier getPlayerElytraTexture(@NotNull UUID uuid) {
     return getPlayerTexture(MinecraftProfileTexture.Type.ELYTRA, uuid);
   }
 
@@ -264,7 +265,7 @@ public final class OETextureUtils {
    * @since 2.0
    */
   @Nullable
-  public static ResourceLocation getPlayerCapeTexture(@NotNull UUID uuid) {
+  public static Identifier getPlayerCapeTexture(@NotNull UUID uuid) {
     return getPlayerTexture(MinecraftProfileTexture.Type.CAPE, uuid);
   }
 
@@ -276,7 +277,7 @@ public final class OETextureUtils {
    * @since 2.0
    */
   @NotNull
-  public static ResourceLocation getPlayerSkinTexture(@NotNull UUID uuid) {
+  public static Identifier getPlayerSkinTexture(@NotNull UUID uuid) {
     return Objects.requireNonNull(getPlayerTexture(MinecraftProfileTexture.Type.SKIN, uuid));
   }
 
@@ -286,7 +287,7 @@ public final class OETextureUtils {
    * @param location テクスチャロケーション
    * @return スケール
    */
-  public static TextureScale getTextureScale(ResourceLocation location) {
+  public static TextureScale getTextureScale(Identifier location) {
     if (location != null && mc.getTextureManager().getTexture(location) instanceof DynamicTexture texture) {
       int w = texture.getPixels().getWidth();
       int h = texture.getPixels().getHeight();

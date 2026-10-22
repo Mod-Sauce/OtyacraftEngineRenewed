@@ -34,42 +34,55 @@ public abstract class LevelRendererMixin {
   private ClientLevel level;
 
   @Inject(method = "renderHitOutline", at = @At("HEAD"), cancellable = true)
-  private void renderHitOutline(
-    PoseStack poseStack,
-    VertexConsumer vertexConsumer,
-    Entity entity,
-    double d,
-    double e,
-    double f,
-    BlockPos blockPos,
-    BlockState blockState,
-    CallbackInfo ci
-  ) {
-    var shapeType =
-      OtyacraftEngineClientDebug.getInstance().getHighlightVoxelShape();
-    if (shapeType != HighlightVoxelShapeType.OFF) {
-      var shape = shapeType.getGetter();
-      if (shape != null) LevelRenderer.renderVoxelShape(
-        poseStack,
-        vertexConsumer,
-        shape.getShape(
-          blockState,
-          level,
-          blockPos,
-          CollisionContext.of(entity)
-        ),
-        (double) blockPos.getX() - d,
-        (double) blockPos.getY() - e,
-        (double) blockPos.getZ() - f,
-        0.0F,
-        0.0F,
-        0.0F,
-        0.4F,
-        true
-      );
-      ci.cancel();
+    private void renderHitOutline(
+        PoseStack poseStack,
+        VertexConsumer vertexConsumer,
+        Entity entity,
+        double d,
+        double e,
+        double f,
+        BlockPos blockPos,
+        BlockState blockState,
+        CallbackInfo ci
+    ) {
+      var shapeType =
+          OtyacraftEngineClientDebug.getInstance().getHighlightVoxelShape();
+      if (shapeType != HighlightVoxelShapeType.OFF) {
+        var shape = shapeType.getGetter();
+        if (shape != null) {
+          VoxelShape voxelShape = shape.getShape(
+              blockState,
+              level,
+              blockPos,
+              CollisionContext.of(entity)
+          );
+
+          renderShapeOutline(
+              poseStack,
+              vertexConsumer,
+              voxelShape,
+              (double) blockPos.getX() - d,
+              (double) blockPos.getY() - e,
+              (double) blockPos.getZ() - f,
+              0.0F, 0.0F, 0.0F, 0.4F
+          );
+
+          ci.cancel();
+        }
+      }
     }
-  }
+
+    private void renderShapeOutline(PoseStack poseStack, VertexConsumer consumer, VoxelShape shape, double x, double y, double z, float red, float green, float blue, float alpha) {
+      PoseStack.Pose pose = poseStack.last();
+      shape.forAllEdges((minX, minY, minZ, maxX, maxY, maxZ) -> {
+        consumer.addVertex(pose, (float)(minX + x), (float)(minY + y), (float)(minZ + z))
+            .setColor(red, green, blue, alpha)
+            .setNormal(pose, 1.0F, 0.0F, 0.0F);
+        consumer.addVertex(pose, (float)(maxX + x), (float)(maxY + y), (float)(maxZ + z))
+            .setColor(red, green, blue, alpha)
+            .setNormal(pose, 1.0F, 0.0F, 0.0F);
+      });
+    }
 
   @Inject(method = "renderShape", at = @At("HEAD"), cancellable = true)
   private static void renderShape(

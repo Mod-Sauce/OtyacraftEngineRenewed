@@ -7,7 +7,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.modsauce.otyacraftenginerenewed.data.model.FileModel;
 import org.modsauce.otyacraftenginerenewed.data.model.OverridePredicate;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,15 +16,15 @@ import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 
 public class JsonModelInjector {
-    private final BiConsumer<ResourceLocation, Supplier<JsonElement>> originalModelOutput;
+    private final BiConsumer<Identifier, Supplier<JsonElement>> originalModelOutput;
     private final Multimap<FileModel, OverridePredicate> overrides = LinkedHashMultimap.create();
-    private final Map<String, ResourceLocation> textures = new LinkedHashMap<>();
+    private final Map<String, Identifier> textures = new LinkedHashMap<>();
 
-    public JsonModelInjector(BiConsumer<ResourceLocation, Supplier<JsonElement>> originalModelOutput) {
+    public JsonModelInjector(BiConsumer<Identifier, Supplier<JsonElement>> originalModelOutput) {
         this.originalModelOutput = originalModelOutput;
     }
 
-    public BiConsumer<ResourceLocation, Supplier<JsonElement>> injectedModelOutput() {
+    public BiConsumer<Identifier, Supplier<JsonElement>> injectedModelOutput() {
         return (location, jsonElementSupplier) -> originalModelOutput.accept(location, () -> injectJsonModel(jsonElementSupplier.get()));
     }
 
@@ -68,7 +68,7 @@ public class JsonModelInjector {
         this.overrides.putAll(model, predicates);
     }
 
-    public void putTexture(String id, ResourceLocation location) {
+    public void putTexture(String id, Identifier location) {
         this.textures.put(id, location);
     }
 }

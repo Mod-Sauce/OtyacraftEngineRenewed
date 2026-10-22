@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemDisplayContext;
@@ -18,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ItemInHandLayerMixin {
   @Inject(method = "renderArmWithItem", at = @At("HEAD"), cancellable = true)
   private void renderArmWithItem(LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext displayContext, HumanoidArm humanoidArm, PoseStack poseStack, MultiBufferSource multiBufferSource, int i, CallbackInfo ci) {
-    if (!OEClientEventHooks.onRenderArmWithItem((ItemInHandLayer<? extends LivingEntity, ? extends EntityModel<?>>) (Object) this, livingEntity, itemStack, displayContext, humanoidArm, poseStack, multiBufferSource, i))
+    if (!OEClientEventHooks.onRenderArmWithItem((ItemInHandLayer<? extends ArmedEntityRenderState, ? extends EntityModel<?>>) (Object) this, livingEntity, itemStack, displayContext, humanoidArm, poseStack, multiBufferSource, i))
       ci.cancel();
   }
 }

@@ -2,6 +2,8 @@ package org.modsauce.otyacraftenginerenewed.client.util;
 
 import com.mojang.authlib.GameProfile;
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Window;
+
 import dev.architectury.platform.Platform;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -148,12 +150,15 @@ public final class OEClientUtils {
     if (keyCode < GLFW.GLFW_MOUSE_BUTTON_1)
       return false;
 
-    long winID = Minecraft.getInstance().getWindow().getWindow();
+    long winID = Minecraft.getInstance().getWindow().handle();
 
     if (keyCode <= GLFW.GLFW_MOUSE_BUTTON_8)
       return GLFW.glfwGetMouseButton(winID, keyCode) == 1;
 
-    return InputConstants.isKeyDown(winID, keyCode);
+
+    Window window = Minecraft.getInstance().getWindow();
+
+    return InputConstants.isKeyDown(window, keyCode);
   }
 
   /**

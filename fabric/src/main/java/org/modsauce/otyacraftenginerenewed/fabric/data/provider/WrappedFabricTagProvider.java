@@ -1,21 +1,22 @@
 package org.modsauce.otyacraftenginerenewed.fabric.data.provider;
 
+import net.minecraft.data.tags.TagAppender;
 import org.modsauce.otyacraftenginerenewed.data.provider.TagProviderWrapper;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 
 import java.util.concurrent.CompletableFuture;
 
 
-public class WrappedFabricTagProvider<T> extends FabricTagProvider<T> {
+public class WrappedFabricTagProvider<T> extends FabricTagsProvider<T> {
     private final TagProviderWrapper<T, TagProviderWrapper.TagProviderAccess<T, TagProviderWrapper.TagAppenderWrapper<T>>> tagProviderWrapper;
 
-    public WrappedFabricTagProvider(FabricDataOutput output, ResourceKey<? extends Registry<T>> registryKey, CompletableFuture<HolderLookup.Provider> registriesFuture, TagProviderWrapper<T, TagProviderWrapper.TagProviderAccess<T, TagProviderWrapper.TagAppenderWrapper<T>>> tagProviderWrapper) {
+    public WrappedFabricTagProvider(FabricPackOutput output, ResourceKey<? extends Registry<T>> registryKey, CompletableFuture<HolderLookup.Provider> registriesFuture, TagProviderWrapper<T, TagProviderWrapper.TagProviderAccess<T, TagProviderWrapper.TagAppenderWrapper<T>>> tagProviderWrapper) {
         super(output, registryKey, registriesFuture);
         this.tagProviderWrapper = tagProviderWrapper;
     }
@@ -53,19 +54,20 @@ public class WrappedFabricTagProvider<T> extends FabricTagProvider<T> {
             return of(appender.add(resourceKey));
         }
 
+        @SafeVarargs
         @Override
-        public TagProviderWrapper.TagAppenderWrapper<T> add(ResourceKey<T>... resourceKeys) {
+        public final TagProviderWrapper.TagAppenderWrapper<T> add(ResourceKey<T>... resourceKeys) {
             return of(appender.add(resourceKeys));
         }
 
         @Override
-        public TagProviderWrapper.TagAppenderWrapper<T> addOptional(ResourceLocation resourceLocation) {
-            return of(appender.addOptional(resourceLocation));
+        public TagProviderWrapper.TagAppenderWrapper<T> addOptional(Identifier Identifier) {
+            return of(appender.addOptional(Identifier));
         }
 
         @Override
-        public TagProviderWrapper.TagAppenderWrapper<T> addOptionalTag(ResourceLocation resourceLocation) {
-            return of(appender.addOptionalTag(resourceLocation));
+        public TagProviderWrapper.TagAppenderWrapper<T> addOptionalTag(Identifier Identifier) {
+            return of(appender.addOptionalTag(Identifier));
         }
 
         @Override
@@ -74,4 +76,3 @@ public class WrappedFabricTagProvider<T> extends FabricTagProvider<T> {
         }
     }
 }
-

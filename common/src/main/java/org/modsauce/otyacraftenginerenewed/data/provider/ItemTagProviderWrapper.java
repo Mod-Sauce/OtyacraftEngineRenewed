@@ -11,7 +11,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
-import org.modsauce.otyacraftenginerenewed.data.provider.IntrinsicHolderTagsProviderWrapper.IntrinsicTagProviderAccess;
 
 public abstract class ItemTagProviderWrapper
   extends IntrinsicHolderTagsProviderWrapper<

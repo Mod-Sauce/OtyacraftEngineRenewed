@@ -7,7 +7,6 @@ import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,13 +19,14 @@ public class ClientPacketListenerMixin {
     private ClientLevel level;
 
     @Inject(method = "handleBlockEntityData", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/game/ClientboundBlockEntityDataPacket;getPos()Lnet/minecraft/core/BlockPos;", ordinal = 0), cancellable = true)
-    private void handleBlockEntityData(ClientboundBlockEntityDataPacket clientboundBlockEntityDataPacket, CallbackInfo ci) {
-        BlockPos blockPos = clientboundBlockEntityDataPacket.getPos();
+    private void handleBlockEntityData(ClientboundBlockEntityDataPacket packet, CallbackInfo ci) {
+        BlockPos blockPos = packet.getPos();
         // 就是这行代码导致的网络协议错误
         // fuck
-        Minecraft.getInstance().level.getBlockEntity(blockPos, clientboundBlockEntityDataPacket.getType()).ifPresent((blockEntity) -> {
+        assert Minecraft.getInstance().level != null;
+        Minecraft.getInstance().level.getBlockEntity(blockPos, packet.getType()).ifPresent((blockEntity) -> {
             if (blockEntity instanceof IClientSyncableBlockEntity syncableBlockEntity) {
-                CompoundTag tag = clientboundBlockEntityDataPacket.getTag();
+                CompoundTag tag = packet.getTag();
                 syncableBlockEntity.loadToUpdateTag(tag, level.registryAccess());
                 ci.cancel();
             }

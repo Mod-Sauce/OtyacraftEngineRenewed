@@ -35,6 +35,7 @@ public final class OEDataGenUtils {
    * @param path         Path
    * @throws IOException Error
    */
+  @SuppressWarnings("deprecation")
   public static void save(CachedOutput cachedOutput, InputStream stream, Path path) throws IOException {
     byte[] bs;
     HashCode hashCode;

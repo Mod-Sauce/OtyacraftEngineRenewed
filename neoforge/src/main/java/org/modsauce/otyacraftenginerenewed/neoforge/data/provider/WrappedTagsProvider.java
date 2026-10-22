@@ -6,7 +6,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.tags.TagsProvider;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import org.jetbrains.annotations.Nullable;
@@ -60,13 +60,13 @@ public class WrappedTagsProvider<T> extends TagsProvider<T> {
         }
 
         @Override
-        public TagProviderWrapper.TagAppenderWrapper<A> addOptional(ResourceLocation resourceLocation) {
-            return of(this.appender.addOptional(resourceLocation));
+        public TagProviderWrapper.TagAppenderWrapper<A> addOptional(Identifier Identifier) {
+            return of(this.appender.addOptional(Identifier));
         }
 
         @Override
-        public TagProviderWrapper.TagAppenderWrapper<A> addOptionalTag(ResourceLocation resourceLocation) {
-            return of(this.appender.addOptionalTag(resourceLocation));
+        public TagProviderWrapper.TagAppenderWrapper<A> addOptionalTag(Identifier Identifier) {
+            return of(this.appender.addOptionalTag(Identifier));
         }
     }
    /* protected static class TagAppenderWrapperImpl<A> implements TagProviderWrapper.TagAppenderWrapper<A> {
@@ -95,8 +95,8 @@ public class WrappedTagsProvider<T> extends TagsProvider<T> {
         }
 
         @Override
-        public TagProviderWrapper.TagAppenderWrapper<A> addOptional(ResourceLocation resourceLocation) {
-            return new TagAppenderWrapperImpl<>(provider, appender.addOptional(resourceLocation));
+        public TagProviderWrapper.TagAppenderWrapper<A> addOptional(Identifier Identifier) {
+            return new TagAppenderWrapperImpl<>(provider, appender.addOptional(Identifier));
         }
 
         @Override
@@ -105,8 +105,8 @@ public class WrappedTagsProvider<T> extends TagsProvider<T> {
         }
 
         @Override
-        public TagProviderWrapper.TagAppenderWrapper<A> addOptionalTag(ResourceLocation resourceLocation) {
-            return new TagAppenderWrapperImpl<>(provider, appender.addOptionalTag(resourceLocation));
+        public TagProviderWrapper.TagAppenderWrapper<A> addOptionalTag(Identifier Identifier) {
+            return new TagAppenderWrapperImpl<>(provider, appender.addOptionalTag(Identifier));
         }
 
         @Override

@@ -1,6 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.data.model;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,7 +24,7 @@ public interface ItemModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default MutableFileModel basicFlatItem(@NotNull ResourceLocation itemLocation) {
+  default MutableFileModel basicFlatItem(@NotNull Identifier itemLocation) {
     return basicFlatItem(FileTexture.of(itemLocation));
   }
 
@@ -45,7 +45,7 @@ public interface ItemModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default MutableFileModel basicFlatItem(@NotNull Item item, @NotNull ResourceLocation textureLocation) {
+  default MutableFileModel basicFlatItem(@NotNull Item item, @NotNull Identifier textureLocation) {
     return basicFlatItem(item, FileTexture.of(textureLocation));
   }
 
@@ -67,7 +67,7 @@ public interface ItemModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default MutableFileModel basicFlatItem(@NotNull ResourceLocation itemLocation, @NotNull ResourceLocation textureLocation) {
+  default MutableFileModel basicFlatItem(@NotNull Identifier itemLocation, @NotNull Identifier textureLocation) {
     return basicFlatItem(itemLocation, FileTexture.of(textureLocation));
   }
 
@@ -79,7 +79,7 @@ public interface ItemModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  MutableFileModel basicFlatItem(@NotNull ResourceLocation itemLocation, @NotNull FileTexture itemTexture);
+  MutableFileModel basicFlatItem(@NotNull Identifier itemLocation, @NotNull FileTexture itemTexture);
 
   /**
    * 剣や棒の持ち方をする板状アイテムを生成
@@ -97,7 +97,7 @@ public interface ItemModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default MutableFileModel handheldFlatItem(@NotNull ResourceLocation itemLocation) {
+  default MutableFileModel handheldFlatItem(@NotNull Identifier itemLocation) {
     return handheldFlatItem(FileTexture.of(itemLocation));
   }
 
@@ -118,7 +118,7 @@ public interface ItemModelProviderAccess {
    */
   @NotNull
   default MutableFileModel builtinEntityItem(@NotNull Item item) {
-    return parentedItem(item, ResourceLocation.withDefaultNamespace("builtin/entity"));
+    return parentedItem(item, Identifier.withDefaultNamespace("builtin/entity"));
   }
 
   /**
@@ -128,8 +128,8 @@ public interface ItemModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default MutableFileModel builtinEntityItem(@NotNull ResourceLocation itemLocation) {
-    return parentedItem(itemLocation, ResourceLocation.withDefaultNamespace("builtin/entity"));
+  default MutableFileModel builtinEntityItem(@NotNull Identifier itemLocation) {
+    return parentedItem(itemLocation, Identifier.withDefaultNamespace("builtin/entity"));
   }
 
   /**
@@ -140,7 +140,7 @@ public interface ItemModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  MutableFileModel parentedItem(@NotNull Item item, @NotNull ResourceLocation parentLocation);
+  MutableFileModel parentedItem(@NotNull Item item, @NotNull Identifier parentLocation);
 
   /**
    * 親モデルを継承するアイテム
@@ -150,7 +150,7 @@ public interface ItemModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  MutableFileModel parentedItem(@NotNull ResourceLocation itemLocation, @NotNull ResourceLocation parentLocation);
+  MutableFileModel parentedItem(@NotNull Identifier itemLocation, @NotNull Identifier parentLocation);
 
   /**
    * 既存のモデル
@@ -159,5 +159,5 @@ public interface ItemModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  FileModel existingModel(@NotNull ResourceLocation location);
+  FileModel existingModel(@NotNull Identifier location);
 }

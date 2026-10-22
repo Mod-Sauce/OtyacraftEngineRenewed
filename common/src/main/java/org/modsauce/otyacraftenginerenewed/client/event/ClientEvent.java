@@ -5,9 +5,9 @@ import dev.architectury.event.EventFactory;
 import dev.architectury.event.EventResult;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,11 +25,11 @@ public interface ClientEvent {
   }
 
   interface PoseHumanoidArm {
-    EventResult poseHumanoidArm(HumanoidArm arm, InteractionHand hand, HumanoidModel<? extends LivingEntity> model, LivingEntity livingEntity);
+    EventResult poseHumanoidArm(HumanoidArm arm, InteractionHand hand, HumanoidModel<? extends HumanoidRenderState> model, HumanoidRenderState state);
   }
 
   interface PoseHumanoidArmPost {
-    void poseHumanoidArm(HumanoidArm arm, InteractionHand hand, HumanoidModel<? extends LivingEntity> model, LivingEntity livingEntity);
+    void poseHumanoidArm(HumanoidArm arm, InteractionHand hand, HumanoidModel<? extends HumanoidRenderState> model, HumanoidRenderState state);
   }
 
   interface PauseChange {
@@ -57,6 +57,6 @@ public interface ClientEvent {
   }
 
   interface SetupHumanoidAnimPost {
-    void setupHumanoidAnimPost(HumanoidModel<? extends LivingEntity> model, LivingEntity livingEntity, float walkAnimationPosition, float walkAnimationSpeed, float deltaTick, float headYRot, float xRot);
+    void setupHumanoidAnimPost(HumanoidModel<? extends HumanoidRenderState> model, HumanoidRenderState state);
   }
 }

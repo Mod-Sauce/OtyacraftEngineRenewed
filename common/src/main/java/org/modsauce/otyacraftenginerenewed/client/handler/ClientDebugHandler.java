@@ -4,7 +4,7 @@ import dev.architectury.event.events.client.ClientTooltipEvent;
 import dev.architectury.platform.Platform;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.*;
@@ -28,8 +28,8 @@ public class ClientDebugHandler {
 
       if (stack.getItem() instanceof BlockItem blockItem) {
         var blockTags = new ArrayList<>(blockItem.getBlock().defaultBlockState().getTags().map(TagKey::location).toList());
-        Set<ResourceLocation> bothTags = new TreeSet<>();
-        for (ResourceLocation tag : itemTags) {
+        Set<Identifier> bothTags = new TreeSet<>();
+        for (Identifier tag : itemTags) {
           if (blockTags.contains(tag))
             bothTags.add(tag);
         }
@@ -54,10 +54,10 @@ public class ClientDebugHandler {
     }
   }
 
-  private static void addTagList(List<Component> lines, String text, Collection<ResourceLocation> tags) {
+  private static void addTagList(List<Component> lines, String text, Collection<Identifier> tags) {
     if (tags.isEmpty()) return;
     lines.add(Component.literal(text).withStyle(ChatFormatting.GRAY));
-    for (ResourceLocation tag : tags) {
+    for (Identifier tag : tags) {
       lines.add(Component.literal("- " + tag));
     }
   }

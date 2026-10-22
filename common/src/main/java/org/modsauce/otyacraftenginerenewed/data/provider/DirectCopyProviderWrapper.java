@@ -1,6 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.data.provider;
 
-import net.minecraft.Util;
+import net.minecraft.util.Util;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
 import org.jetbrains.annotations.Nullable;
@@ -26,7 +26,7 @@ public class DirectCopyProviderWrapper extends InputBaseProviderWrapper {
   @Override
   protected @Nullable CompletableFuture<?> runTask(CachedOutput cachedOutput, Path inputRoot, Path target) {
     return CompletableFuture.runAsync(() -> {
-      var locEx = toResourceLocationAndExtension(inputRoot, target);
+      var locEx = toIdentifierAndExtension(inputRoot, target);
       try (InputStream stream = new FileInputStream(target.toFile()); InputStream bufStream = new BufferedInputStream(stream)) {
         OEDataGenUtils.save(cachedOutput, bufStream, pathProvider.file(locEx.getKey(), locEx.getValue()));
       } catch (IOException e) {

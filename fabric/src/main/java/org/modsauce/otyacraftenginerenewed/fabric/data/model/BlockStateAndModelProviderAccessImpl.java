@@ -1,15 +1,16 @@
 package org.modsauce.otyacraftenginerenewed.fabric.data.model;
 
-import com.google.gson.JsonElement;
 import java.util.function.BiConsumer;
-import java.util.function.Supplier;
-import net.minecraft.data.models.BlockModelGenerators;
-import net.minecraft.data.models.blockstates.BlockStateGenerator;
-import net.minecraft.data.models.blockstates.MultiVariantGenerator;
-import net.minecraft.data.models.blockstates.Variant;
-import net.minecraft.data.models.blockstates.VariantProperties;
-import net.minecraft.data.models.model.*;
-import net.minecraft.resources.ResourceLocation;
+
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.MultiVariant;
+import net.minecraft.client.data.models.blockstates.BlockStateGenerator;
+import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
+import net.minecraft.client.data.models.blockstates.Variant;
+import net.minecraft.client.data.models.blockstates.VariantProperties;
+import net.minecraft.client.data.models.model.*;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -38,12 +39,12 @@ public class BlockStateAndModelProviderAccessImpl
 
   @Override
   public void simpleFlatBlockItemModel(@NotNull Block block) {
-    this.blockModelGenerators.createSimpleFlatItemModel(block);
+    this.blockModelGenerators.createFlatItemModel(Item.byBlock(block));
   }
 
   @Override
   public @NotNull FileModel uncheckedModel(
-    @NotNull ResourceLocation modelLocation
+    @NotNull Identifier modelLocation
   ) {
     return of(modelLocation);
   }
@@ -54,17 +55,17 @@ public class BlockStateAndModelProviderAccessImpl
     @NotNull FileModel baseBlockModel
   ) {
     TextureMapping mapping = TextureMapping.cube(baseBlockModel.getLocation());
-    ResourceLocation innerModel = ModelTemplates.STAIRS_INNER.create(
+    MultiVariant innerModel = ModelTemplates.STAIRS_INNER.create(
       stairBlock,
       mapping,
       this.blockModelGenerators.modelOutput
     );
-    ResourceLocation straightModel = ModelTemplates.STAIRS_STRAIGHT.create(
+    MultiVariant straightModel = ModelTemplates.STAIRS_STRAIGHT.create(
       stairBlock,
       mapping,
       this.blockModelGenerators.modelOutput
     );
-    ResourceLocation outerModel = ModelTemplates.STAIRS_OUTER.create(
+    MultiVariant outerModel = ModelTemplates.STAIRS_OUTER.create(
       stairBlock,
       mapping,
       this.blockModelGenerators.modelOutput
@@ -86,15 +87,15 @@ public class BlockStateAndModelProviderAccessImpl
     @NotNull SlabBlock slabBlock,
     @NotNull FileModel baseBlockModel
   ) {
-    ResourceLocation fullBlockModel = baseBlockModel.getLocation();
+    Block fullBlockModel = baseBlockModel.getLocation();
     TextureMapping mapping = TextureMapping.cube(fullBlockModel);
 
-    ResourceLocation slabBottomModel = ModelTemplates.SLAB_BOTTOM.create(
+    Identifier slabBottomModel = ModelTemplates.SLAB_BOTTOM.create(
       slabBlock,
       mapping,
       this.blockModelGenerators.modelOutput
     );
-    ResourceLocation slabTop = ModelTemplates.SLAB_TOP.create(
+    Identifier slabTop = ModelTemplates.SLAB_TOP.create(
       slabBlock,
       mapping,
       this.blockModelGenerators.modelOutput
@@ -116,10 +117,7 @@ public class BlockStateAndModelProviderAccessImpl
   }
 
   @Override
-  public @NotNull BiConsumer<
-    ResourceLocation,
-    Supplier<JsonElement>
-  > modelOutput() {
+  public @NotNull BiConsumer<Identifier, ModelInstance> modelOutput() {
     return this.blockModelGenerators.modelOutput;
   }
 
@@ -128,13 +126,13 @@ public class BlockStateAndModelProviderAccessImpl
     this.blockModelGenerators.createTrivialCube(block);
   }
 
-  private FileModel of(ResourceLocation location) {
+  private FileModel of(Identifier location) {
     return new FileModelImpl(location);
   }
 
   @Override
   public @NotNull FileModel cubeAllBlockModel(
-    @NotNull ResourceLocation blockLocation,
+    @NotNull Identifier blockLocation,
     @NotNull FileTexture fileTexture
   ) {
     return of(
@@ -162,7 +160,7 @@ public class BlockStateAndModelProviderAccessImpl
 
   @Override
   public @NotNull FileModel cubeBlockModel(
-    @NotNull ResourceLocation blockLocation,
+    @NotNull Identifier blockLocation,
     @NotNull FileTexture down,
     @NotNull FileTexture up,
     @NotNull FileTexture north,
@@ -218,7 +216,7 @@ public class BlockStateAndModelProviderAccessImpl
 
   @Override
   public @NotNull FileModel cubeBottomTopBlockModel(
-    @NotNull ResourceLocation blockLocation,
+    @NotNull Identifier blockLocation,
     @NotNull FileTexture bottom,
     @NotNull FileTexture side,
     @NotNull FileTexture top
@@ -258,15 +256,15 @@ public class BlockStateAndModelProviderAccessImpl
     );
   }
 
-  private ResourceLocation blockLoc(ResourceLocation loc) {
-    return ResourceLocation.fromNamespaceAndPath(
+  private Identifier blockLoc(Identifier loc) {
+    return Identifier.fromNamespaceAndPath(
       loc.getNamespace(),
       "block/" + loc.getPath()
     );
   }
 
-  private ResourceLocation blockLoc(String name) {
-    return ResourceLocation.fromNamespaceAndPath(
+  private Identifier blockLoc(String name) {
+    return Identifier.fromNamespaceAndPath(
       crossDataGeneratorAccess.getMod().getModId(),
       "block/" + name
     );
@@ -275,7 +273,7 @@ public class BlockStateAndModelProviderAccessImpl
   @Override
   public @NotNull MutableFileModel parentedBlockModel(
     @NotNull Block block,
-    @NotNull ResourceLocation parentLocation
+    @NotNull Identifier parentLocation
   ) {
     var ji = new JsonModelInjector(this.blockModelGenerators.modelOutput);
     var loc = ModelLocationUtils.getModelLocation(block);
@@ -284,7 +282,7 @@ public class BlockStateAndModelProviderAccessImpl
   }
 
   @Override
-  public @NotNull FileModel existingModel(@NotNull ResourceLocation location) {
+  public @NotNull FileModel existingModel(@NotNull Identifier location) {
     return of(location);
   }
 
@@ -322,28 +320,28 @@ public class BlockStateAndModelProviderAccessImpl
 
   @Override
   public void horizontalBlockState(
-    @NotNull Block block,
-    @NotNull FileModel model
+      @NotNull Block block,
+      @NotNull FileModel model
   ) {
-    this.blockModelGenerators.blockStateOutput.accept(
-      MultiVariantGenerator.multiVariant(
-        block,
-        Variant.variant().with(VariantProperties.MODEL, model.getLocation())
-      ).with(BlockModelGenerators.createHorizontalFacingDispatch())
-    );
+      this.blockModelGenerators.blockStateOutput.accept(
+          MultiVariantGenerator.dispatch(
+              block,
+              BlockModelGenerators.plainVariant(model.getLocation())
+          ).with(BlockModelGenerators.ROTATION_HORIZONTAL_FACING)
+      );
   }
 
   @Override
   public void parentedBlockItemModel(
     @NotNull Block block,
-    @NotNull ResourceLocation parentLocation
+    @NotNull Identifier parentLocation
   ) {
     this.blockModelGenerators.delegateItemModel(block, parentLocation);
   }
 
   @Override
   public void addBlockStateGenerator(
-    @NotNull BlockStateGenerator blockStateGenerator
+          @NotNull BlockStateGenerator blockStateGenerator
   ) {
     this.blockModelGenerators.blockStateOutput.accept(blockStateGenerator);
   }

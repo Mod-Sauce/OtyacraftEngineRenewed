@@ -4,8 +4,8 @@ import com.mojang.blaze3d.platform.InputConstants;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.resources.model.ModelIdentifier;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.ItemLike;
 import org.modsauce.otyacraftenginerenewed.client.renderer.item.BEWLItemRenderer;
 import org.modsauce.otyacraftenginerenewed.neoforge.client.renderer.item.ItemRendererRegisterForge;
@@ -18,8 +18,8 @@ public class OEClientExpectPlatformImpl {
     return key.getKey();
   }
 
-  public static BakedModel getModel(ResourceLocation location) {
-    ModelResourceLocation modelLocation = new ModelResourceLocation(location, "standalone");
+  public static BakedModel getModel(Identifier location) {
+    ModelIdentifier modelLocation = new ModelIdentifier(location, "standalone");
     return mc.getModelManager().getModel(modelLocation);
   }
 

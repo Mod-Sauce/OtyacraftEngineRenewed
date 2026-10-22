@@ -3,7 +3,7 @@ package org.modsauce.otyacraftenginerenewed.fabric.data.model;
 import org.modsauce.otyacraftenginerenewed.data.model.FileModel;
 import org.modsauce.otyacraftenginerenewed.data.model.MutableFileModel;
 import org.modsauce.otyacraftenginerenewed.data.model.OverridePredicate;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
 public class MutableFileModelImpl extends FileModelImpl implements MutableFileModel {
     private final JsonModelInjector jsonModelInjector;
 
-    public MutableFileModelImpl(ResourceLocation location, JsonModelInjector jsonModelInjector) {
+    public MutableFileModelImpl(Identifier location, JsonModelInjector jsonModelInjector) {
         super(location);
         this.jsonModelInjector = jsonModelInjector;
     }
@@ -23,7 +23,7 @@ public class MutableFileModelImpl extends FileModelImpl implements MutableFileMo
     }
 
     @Override
-    public MutableFileModel texture(@NotNull String id, @NotNull ResourceLocation location) {
+    public MutableFileModel texture(@NotNull String id, @NotNull Identifier location) {
         this.jsonModelInjector.putTexture(id, location);
         return this;
     }

@@ -1,6 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.data.model;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public record OverridePredicate(ResourceLocation key, float value) {
+public record OverridePredicate(Identifier key, float value) {
 }

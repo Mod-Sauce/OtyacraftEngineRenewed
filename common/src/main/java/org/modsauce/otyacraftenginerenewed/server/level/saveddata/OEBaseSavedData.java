@@ -1,18 +1,27 @@
 package org.modsauce.otyacraftenginerenewed.server.level.saveddata;
 
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.datafix.DataFixTypes;
 import net.minecraft.world.level.saveddata.SavedData;
+import net.minecraft.world.level.saveddata.SavedDataType;
 
-import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
+import com.mojang.serialization.Codec;
+
 public abstract class OEBaseSavedData extends SavedData {
-    public static <T extends OEBaseSavedData> SavedData.Factory<T> createFactory(
+
+    public static <T extends OEBaseSavedData> SavedDataType<T> createFactory(
+            Identifier identifier,
             Supplier<T> constructor,
-            BiFunction<CompoundTag, HolderLookup.Provider, T> loader,
+            Codec<T> codec,
             DataFixTypes dataFixTypes) {
-        return new SavedData.Factory<>(constructor, loader, dataFixTypes);
+
+        return new SavedDataType<T>(
+            identifier,
+            constructor,
+            codec,
+            dataFixTypes
+        );
     }
 }

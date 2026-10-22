@@ -1,7 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.fabric.mixin.client;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.world.InteractionHand;
@@ -26,9 +25,7 @@ public class MinecraftMixin {
 
   @Inject(method = "setLevel", at = @At("HEAD"))
   private void setLevel(
-    ClientLevel clientLevel,
-    net.minecraft.client.gui.screens.ReceivingLevelScreen.Reason reason,
-    CallbackInfo ci
+          ClientLevel level, CallbackInfo ci
   ) {
     if (level != null) OEClientEventHooks.onLevelUnload(level);
   }

@@ -1,40 +1,22 @@
 package org.modsauce.otyacraftenginerenewed.client.renderer.shader;
 
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import dev.architectury.event.events.client.ClientReloadShadersEvent;
-import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.server.packs.resources.ResourceProvider;
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.resources.Identifier; // was ResourceLocation before 26.1
 import org.modsauce.otyacraftenginerenewed.OtyacraftEngine;
 
-import java.io.IOException;
-
 public class OEShaders {
-  private static ShaderInstance RENDERTYPE_SIMPLE_SPRITE_SOLID_SHADER;
-  private static ShaderInstance RENDERTYPE_SIMPLE_SPRITE_CUTOUT_SHADER;
-  private static ShaderInstance RENDERTYPE_WAVE;
+  public static final RenderPipeline SIMPLE_SPRITE_SOLID = pipeline("rendertype_simple_sprite_solid");
+  public static final RenderPipeline SIMPLE_SPRITE_CUTOUT = pipeline("rendertype_simple_sprite_cutout");
+  public static final RenderPipeline WAVE = pipeline("rendertype_wave");
 
-  public static void reload(ResourceProvider provider, ClientReloadShadersEvent.ShadersSink sink) throws IOException {
-
-    sink.registerShader(new ShaderInstance(provider, OtyacraftEngine.MODID + "_rendertype_simple_sprite_solid", DefaultVertexFormat.NEW_ENTITY), shaderInstance -> {
-      RENDERTYPE_SIMPLE_SPRITE_SOLID_SHADER = shaderInstance;
-    });
-    sink.registerShader(new ShaderInstance(provider, OtyacraftEngine.MODID + "_rendertype_simple_sprite_cutout", DefaultVertexFormat.NEW_ENTITY), shaderInstance -> {
-      RENDERTYPE_SIMPLE_SPRITE_CUTOUT_SHADER = shaderInstance;
-    });
-    sink.registerShader(new ShaderInstance(provider, OtyacraftEngine.MODID + "_rendertype_wave", DefaultVertexFormat.NEW_ENTITY), shaderInstance -> {
-      RENDERTYPE_WAVE = shaderInstance;
-    });
-  }
-
-  public static ShaderInstance getRendertypeSimpleSpriteSolidShader() {
-    return RENDERTYPE_SIMPLE_SPRITE_SOLID_SHADER;
-  }
-
-  public static ShaderInstance getRendertypeSimpleSpriteCutoutShader() {
-    return RENDERTYPE_SIMPLE_SPRITE_CUTOUT_SHADER;
-  }
-
-  public static ShaderInstance getRendertypeWave() {
-    return RENDERTYPE_WAVE;
+  private static RenderPipeline pipeline(String name) {
+    Identifier shader = Identifier.fromNamespaceAndPath(OtyacraftEngine.MODID, "core/" + name);
+    return RenderPipelines.register(
+        RenderPipeline.builder(RenderPipelines.ENTITY_SNIPPET)
+            .withLocation(Identifier.fromNamespaceAndPath(OtyacraftEngine.MODID, "pipeline/" + name))
+            .withVertexShader(shader)
+            .withFragmentShader(shader)
+            .build());
   }
 }

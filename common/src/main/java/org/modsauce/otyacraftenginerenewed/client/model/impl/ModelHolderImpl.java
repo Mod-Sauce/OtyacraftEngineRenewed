@@ -1,24 +1,22 @@
 package org.modsauce.otyacraftenginerenewed.client.model.impl;
 
-import net.minecraft.client.resources.model.BakedModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.modsauce.otyacraftenginerenewed.client.callpoint.ModelRegister;
 import org.modsauce.otyacraftenginerenewed.client.model.ModelHolder;
-import org.modsauce.otyacraftenginerenewed.client.util.OEModelUtils;
 
 import java.util.Objects;
 
 public class ModelHolderImpl implements ModelHolder {
-  private final ResourceLocation modelLocation;
+  private final Identifier modelLocation;
 
-  public ModelHolderImpl(ResourceLocation modelLocation) {
+  public ModelHolderImpl(Identifier modelLocation) {
     this.modelLocation = modelLocation;
   }
 
   @Override
-  public @NotNull BakedModel get() {
-    return OEModelUtils.getModel(modelLocation);
+  public @NotNull ModelHolder get() {
+    return ModelHolder.create(modelLocation);
   }
 
   @Override

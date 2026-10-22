@@ -2,9 +2,11 @@ package org.modsauce.otyacraftenginerenewed.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
-import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.ScheduledTickAccess;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SimpleWaterloggedBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -23,7 +25,6 @@ public abstract class EquipmentEntityBlock extends OEBaseEntityBlock implements 
     this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
   }
 
-  @Override
   public boolean propagatesSkylightDown(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos) {
     return !blockState.getValue(WATERLOGGED);
   }
@@ -41,11 +42,12 @@ public abstract class EquipmentEntityBlock extends OEBaseEntityBlock implements 
   }
 
   @Override
-  public BlockState updateShape(BlockState blockState, Direction direction, BlockState blockState2, LevelAccessor levelAccessor, BlockPos blockPos, BlockPos blockPos2) {
-    if (blockState.getValue(WATERLOGGED))
-      levelAccessor.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
+  public BlockState updateShape(final BlockState blockState, final LevelReader levelAccessor, final ScheduledTickAccess ticks, final BlockPos blockPos, final Direction directionToNeighbour, final BlockPos neighbourPos, final BlockState neighbourState, final RandomSource random) {
+    // if (blockState.getValue(WATERLOGGED)) {
+    //   levelAccessor.scheduleTick(blockPos, Fluids.WATER, Fluids.WATER.getTickDelay(levelAccessor));
+    // }
 
-    return super.updateShape(blockState, direction, blockState2, levelAccessor, blockPos, blockPos2);
+    return super.updateShape(blockState, levelAccessor, ticks, blockPos, directionToNeighbour, neighbourPos, neighbourState, random);
   }
 
   @Override

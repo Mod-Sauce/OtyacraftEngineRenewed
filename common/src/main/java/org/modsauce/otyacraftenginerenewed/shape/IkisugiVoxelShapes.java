@@ -5,7 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import dev.architectury.utils.Env;
 import dev.architectury.utils.EnvExecutor;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import org.apache.commons.lang3.ArrayUtils;
 import org.modsauce.otyacraftenginerenewed.client.shape.ClientIVShapeManager;
@@ -23,7 +23,7 @@ public class IkisugiVoxelShapes {
     return INSTANCE;
   }
 
-  public VoxelShape getShapeFromJson(JsonObject shapeJson, ResourceLocation location) {
+  public VoxelShape getShapeFromJson(JsonObject shapeJson, Identifier location) {
     var version = shapeJson.get("version");
 
     if (version != null && version.isJsonPrimitive()) {
@@ -48,7 +48,7 @@ public class IkisugiVoxelShapes {
     return OEVoxelShapeUtils.uniteBox(shapes);
   }
 
-  private VoxelShape getShapeFromJsonV2(JsonObject shapeJ, ResourceLocation location) {
+  private VoxelShape getShapeFromJsonV2(JsonObject shapeJ, Identifier location) {
     List<VoxelShape> shapes = new ArrayList<>();
     for (JsonElement jshape : shapeJ.getAsJsonArray("shapes")) {
       JsonArray ja = jshape.getAsJsonArray();
@@ -70,7 +70,7 @@ public class IkisugiVoxelShapes {
     return shape;
   }
 
-  private VoxelShape getShapeFromJsonV3(JsonObject shapeJ, ResourceLocation location) {
+  private VoxelShape getShapeFromJsonV3(JsonObject shapeJ, Identifier location) {
     List<VoxelShape> shapes = new ArrayList<>();
     for (JsonElement jshape : shapeJ.getAsJsonArray("shapes")) {
       JsonArray ja = jshape.getAsJsonArray();
@@ -79,10 +79,10 @@ public class IkisugiVoxelShapes {
     }
 
     var shape = OEVoxelShapeUtils.uniteBox(shapes);
-    ResourceLocation relocation;
+    Identifier relocation;
     if (shapeJ.has("render_edges") && shapeJ.get("render_edges").isJsonPrimitive()) {
       var reloc = shapeJ.get("render_edges").getAsString();
-      relocation = ResourceLocation.parse(reloc);
+      relocation = Identifier.parse(reloc);
     } else {
       relocation = location;
     }

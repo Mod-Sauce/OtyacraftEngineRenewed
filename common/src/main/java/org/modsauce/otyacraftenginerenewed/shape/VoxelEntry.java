@@ -1,21 +1,21 @@
 package org.modsauce.otyacraftenginerenewed.shape;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class VoxelEntry {
-  private final ResourceLocation location;
+  private final Identifier location;
   private final VoxelPose pose;
 
-  public VoxelEntry(ResourceLocation location, VoxelPose pose) {
+  public VoxelEntry(Identifier location, VoxelPose pose) {
     this.location = location;
     this.pose = pose;
   }
 
-  public VoxelEntry(ResourceLocation location) {
+  public VoxelEntry(Identifier location) {
     this(location, new VoxelPose(0, 0, 0));
   }
 
-  public ResourceLocation getLocation() {
+  public Identifier getLocation() {
     return location;
   }
 

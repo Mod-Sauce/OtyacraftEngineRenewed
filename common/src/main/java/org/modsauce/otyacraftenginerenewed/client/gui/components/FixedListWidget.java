@@ -1,12 +1,16 @@
 package org.modsauce.otyacraftenginerenewed.client.gui.components;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import java.util.List;
 import java.util.function.Function;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.chat.FormattedText;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -14,9 +18,13 @@ import org.lwjgl.glfw.GLFW;
 import org.modsauce.otyacraftenginerenewed.client.gui.TextureRegion;
 import org.modsauce.otyacraftenginerenewed.client.gui.components.base.OEBasedWidget;
 import org.modsauce.otyacraftenginerenewed.client.util.OEClientUtils;
-import org.modsauce.otyacraftenginerenewed.client.util.OERenderUtils;
 
 public abstract class FixedListWidget<E> extends OEBasedWidget {
+
+    private static final Identifier BTN = Identifier.withDefaultNamespace("widget/button");
+    private static final Identifier BTN_HOVER = Identifier.withDefaultNamespace("widget/button_highlighted");
+    private static final Identifier BTN_OFF = Identifier.withDefaultNamespace("widget/button_disabled");
+
 
   private static final TextureRegion DEFAULT_TEXTURE = TextureRegion.relative(
     OE_WIDGETS,
@@ -25,8 +33,6 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
     18,
     42
   );
-  private static final ResourceLocation WIDGETS_LOCATION =
-    ResourceLocation.withDefaultNamespace("textures/gui/widgets.png");
 
   @NotNull
   private List<E> entryList;
@@ -130,9 +136,9 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
     copyValue(old);
   }
 
-  @Override
+
   public void renderWidget(
-    GuiGraphics guiGraphics,
+    GuiGraphicsExtractor guiGraphics,
     int mx,
     int my,
     float parTick
@@ -172,189 +178,50 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
     );
   }
 
-  protected void renderScrollbar(
-    GuiGraphics guiGraphics,
-    int x,
-    int y,
-    int w,
-    int h
-  ) {
-    PoseStack poseStack = guiGraphics.pose();
-    boolean hv = isScrollBarHovered() || isFocused();
-
-    OERenderUtils.drawTexture(
-      getTexture().location(),
-      poseStack,
-      x,
-      y,
-      getTexture().u0() + (hv ? 9 : 0),
-      getTexture().v0(),
-      9,
-      3,
-      getTexture().width(),
-      getTexture().height()
-    );
-    int bsct = (height - 6) / 16;
-    for (int i = 0; i < bsct; i++) {
-      OERenderUtils.drawTexture(
-        getTexture().location(),
-        poseStack,
-        x,
-        y + 3 + (i * 16),
-        getTexture().u0() + (hv ? 9 : 0),
-        getTexture().v0() + 3,
-        9,
-        16,
-        getTexture().width(),
-        getTexture().height()
-      );
-    }
-    int bsam = (height - 6) % 16;
-    OERenderUtils.drawTexture(
-      getTexture().location(),
-      poseStack,
-      x,
-      y + 3 + (bsct * 16),
-      getTexture().u0() + (hv ? 9 : 0),
-      getTexture().v0() + 3,
-      9,
-      bsam,
-      getTexture().width(),
-      getTexture().height()
-    );
-    OERenderUtils.drawTexture(
-      getTexture().location(),
-      poseStack,
-      x,
-      y + height - 3,
-      getTexture().u0() + (hv ? 9 : 0),
-      getTexture().v0() + 19,
-      9,
-      3,
-      getTexture().width(),
-      getTexture().height()
-    );
-
-    int barHeight = getBarHeight();
-    float barY = (getActualHeight() - barHeight) * scrollAmount;
-
-    OERenderUtils.drawTexture(
-      getTexture().location(),
-      poseStack,
-      x + 1,
-      y + 1 + barY,
-      getTexture().u0() + (hv ? 7 : 0),
-      getTexture().v0() + 22,
-      7,
-      3,
-      getTexture().width(),
-      getTexture().height()
-    );
-    int ssct = (barHeight - 6) / 14;
-    for (int i = 0; i < ssct; i++) {
-      OERenderUtils.drawTexture(
-        getTexture().location(),
-        poseStack,
-        x + 1,
-        y + 4 + (i * 14) + barY,
-        getTexture().u0() + (hv ? 7 : 0),
-        getTexture().v0() + 25,
-        7,
-        14,
-        getTexture().width(),
-        getTexture().height()
-      );
-    }
-    int ssam = (barHeight - 6) % 14;
-    OERenderUtils.drawTexture(
-      getTexture().location(),
-      poseStack,
-      x + 1,
-      y + 4 + (ssct * 14) + barY,
-      getTexture().u0() + (hv ? 7 : 0),
-      getTexture().v0() + 25,
-      7,
-      ssam,
-      getTexture().width(),
-      getTexture().height()
-    );
-    OERenderUtils.drawTexture(
-      getTexture().location(),
-      poseStack,
-      x + 1,
-      y + 1 + barHeight - 3 + barY,
-      getTexture().u0() + (hv ? 7 : 0),
-      getTexture().v0() + 39,
-      7,
-      3,
-      getTexture().width(),
-      getTexture().height()
-    );
+  private void piece(GuiGraphicsExtractor g, int x, int y, int u, int v, int w, int h) {
+    if (w <= 0 || h <= 0) return;
+    var t = getTexture();
+    g.blit(RenderPipelines.GUI_TEXTURED, t.location(), x, y, (float) u, (float) v, w, h,
+        (int) t.width(), (int) t.height(), ARGB.white(this.alpha));
   }
 
-  protected void renderOneButton(
-    GuiGraphics guiGraphics,
-    E item,
-    int lnum,
-    int bnum,
-    int bX,
-    int bY,
-    int mx,
-    int my,
-    float parTick,
-    boolean selected
-  ) {
-    /*  RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-        RenderSystem.enableBlend();
-        RenderSystem.enableDepthTest();
-        blitNineSliced(poseStack, bX, bY, this.getIndividualWidth(), this.getIndividualHeight(), 20, 4, 200, 20, 0, this.getTextureY(this.isEntryHovered(bnum)));*/
+  protected void renderScrollbar(GuiGraphicsExtractor guiGraphics, int x, int y, int w, int h) {
+    boolean hv = isScrollBarHovered() || isFocused();
+    int u = (int) getTexture().u0();
+    int v = (int) getTexture().v0();
+    int tu = u + (hv ? 9 : 0);   // track
+    int bu = u + (hv ? 7 : 0);   // thumb
 
-    guiGraphics.setColor(1.0F, 1.0F, 1.0F, this.alpha);
-    guiGraphics.blit(
-      WIDGETS_LOCATION,
-      bX,
-      bY,
-      this.getIndividualWidth(),
-      this.getIndividualHeight(),
-      20,
-      4,
-      200,
-      20,
-      0,
-      this.getTextureY(this.isEntryHovered(bnum))
-    );
-    guiGraphics.setColor(1.0F, 1.0F, 1.0F, 1.0F);
+    // Track: top cap, repeated middle, remainder, bottom cap
+    piece(guiGraphics, x, y, tu, v, 9, 3);
+    int bsct = (height - 6) / 16;
+    for (int i = 0; i < bsct; i++) piece(guiGraphics, x, y + 3 + i * 16, tu, v + 3, 9, 16);
+    piece(guiGraphics, x, y + 3 + bsct * 16, tu, v + 3, 9, (height - 6) % 16);
+    piece(guiGraphics, x, y + height - 3, tu, v + 19, 9, 3);
 
-    /* RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);*/
+    // Thumb
+    int barHeight = getBarHeight();
+    int barY = (int) ((getActualHeight() - barHeight) * scrollAmount);
+    piece(guiGraphics, x + 1, y + 1 + barY, bu, v + 22, 7, 3);
+    int ssct = (barHeight - 6) / 14;
+    for (int i = 0; i < ssct; i++) piece(guiGraphics, x + 1, y + 4 + i * 14 + barY, bu, v + 25, 7, 14);
+    piece(guiGraphics, x + 1, y + 4 + ssct * 14 + barY, bu, v + 25, 7, (barHeight - 6) % 14);
+    piece(guiGraphics, x + 1, y + 1 + barHeight - 3 + barY, bu, v + 39, 7, 3);
+  }
+
+
+  protected void renderOneButton(GuiGraphicsExtractor guiGraphics, E item, int lnum, int bnum,
+      int bX, int bY, int mx, int my, float parTick, boolean selected) {
+    Identifier sprite = !this.active ? BTN_OFF : (this.isEntryHovered(bnum) ? BTN_HOVER : BTN);
+    guiGraphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite, bX, bY,
+        this.getIndividualWidth(), this.getIndividualHeight(), ARGB.white(this.alpha));
+
     int k = this.active ? 16777215 : 10526880;
-    this.renderString(
-      guiGraphics,
-      this.getMessage(lnum),
-      k | (Mth.ceil(this.alpha * 255.0F) << 24),
-      bX,
-      bY
-    );
-
-    //  RenderSystem.setShader(GameRenderer::getPositionTexShader);
-    /*   RenderSystem.setShaderTexture(0, WIDGETS_LOCATION);
-        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, this.alpha);
-        int k = this.getYImage(this.isEntryHovered(bnum));
-        if (selected) k = 0;
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.enableDepthTest();
-        blit(poseStack, bX, bY, 0, 46 + k * 20, getIndividualWidth() / 2, getIndividualHeight());
-        blit(poseStack, bX + getIndividualWidth() / 2, bY, 200 - getIndividualWidth() / 2, 46 + k * 20, getIndividualWidth() / 2, getIndividualHeight());
-        this.renderBg(poseStack, mc, mx, my);
-
-        int l = this.active ? 16777215 : 10526880;
-        drawCenteredString(poseStack, mc.font, this.getMessage(lnum), this.getX() + getIndividualWidth() / 2, bY + (getIndividualHeight() - 8) / 2, l | Mth.ceil(this.alpha * 255.0F) << 24);*/
-    // drawCenteredString(poseStack, mc.font, this.getMessage(lnum), this.x + getIndividualWidth() / 2, y + (getIndividualHeight() - 8) / 2, l | Mth.ceil(this.alpha * 255.0F) << 24);
+    this.renderString(guiGraphics, this.getMessage(lnum), k | (Mth.ceil(this.alpha * 255.0F) << 24), bX, bY);
   }
 
   public void renderString(
-    GuiGraphics guiGraphics,
+    GuiGraphicsExtractor guiGraphics,
     Component message,
     int i,
     int x,
@@ -364,36 +231,26 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   }
 
   protected void renderScrollingString(
-    GuiGraphics guiGraphics,
-    Component message,
-    int i,
-    int j,
-    int x,
-    int y
-  ) {
-    int k = x + i;
-    int l = x + this.getIndividualWidth() - i;
-    renderScrollingString(
-      guiGraphics,
-      mc.font,
-      message,
-      k,
-      y,
-      l,
-      y + this.getIndividualHeight(),
-      j
-    );
-  }
+      GuiGraphicsExtractor guiGraphics, Component message, int i, int j, int x, int y) {
+    int minX = x + i;
+    int maxX = x + this.getIndividualWidth() - i;
+    int minY = y;
+    int maxY = y + this.getIndividualHeight();
 
-  private int getTextureY(boolean hoverd) {
-    int i = 1;
-    if (!this.active) {
-      i = 0;
-    } else if (hoverd) {
-      i = 2;
+    var font = mc.font;
+    int available = maxX - minX;
+    int textY = (minY + maxY - font.lineHeight) / 2 + 1;
+
+    if (font.width(message) <= available) {
+      // fits: center it
+      int textX = minX + (available - font.width(message)) / 2;
+      guiGraphics.text(font, message, textX, textY, j);
+    } else {
+      // too long: truncate with an ellipsis
+      FormattedText cut = font.substrByWidth(message, available - font.width("..."));
+      guiGraphics.text(font, Language.getInstance().getVisualOrder(
+          FormattedText.composite(cut, FormattedText.of("..."))), minX, textY, j);
     }
-
-    return 46 + i * 20;
   }
 
   @Override
@@ -407,22 +264,21 @@ public abstract class FixedListWidget<E> extends OEBasedWidget {
   }
 
   @Override
-  public void onClick(double mx, double my) {
-    onPress((int) ((my - getY()) / getIndividualHeight()));
-    super.onClick(mx, my);
+  public void onClick(final MouseButtonEvent event, final boolean doubleClick) {
+    super.onClick(event, doubleClick);
+  }
+
+
+  public boolean mouseDragged(final MouseButtonEvent event, final double dx, final double dy) {
+    scroll(dy);
+    return super.mouseDragged(event, dx, dy);
   }
 
   @Override
-  public boolean mouseDragged(double mx, double my, int i, double f, double g) {
-    scroll(my);
-    return super.mouseDragged(mx, my, i, f, g);
-  }
-
-  @Override
-  public boolean mouseClicked(double mx, double my, int i) {
+  public boolean mouseClicked(final MouseButtonEvent event, final boolean doubleClick) {
     canScroll = isScrollBarHovered();
-    scroll(my);
-    return super.mouseClicked(mx, my, i);
+    // scroll(my);
+    return super.mouseClicked(event, doubleClick);
   }
 
   public boolean mouseScrolled(double d, double e, double f, double g) {

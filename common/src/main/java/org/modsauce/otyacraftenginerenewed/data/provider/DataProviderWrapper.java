@@ -1,17 +1,20 @@
+
 package org.modsauce.otyacraftenginerenewed.data.provider;
 
 import net.minecraft.core.HolderLookup;
-import net.minecraft.data.DataProvider;
 import net.minecraft.data.PackOutput;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
 
 import java.util.concurrent.CompletableFuture;
 
-public abstract class DataProviderWrapper<T extends DataProvider> implements DataProviderWrapperBase {
+public abstract class DataProviderWrapper<T> implements DataProviderWrapperBase {
   private final CrossDataGeneratorAccess crossDataGeneratorAccess;
   public final PackOutput packOutput;
 
-  public DataProviderWrapper(PackOutput packOutput, CrossDataGeneratorAccess crossDataGeneratorAccess) {
+  public DataProviderWrapper(
+      PackOutput packOutput,
+      CrossDataGeneratorAccess crossDataGeneratorAccess
+  ) {
     this.packOutput = packOutput;
     this.crossDataGeneratorAccess = crossDataGeneratorAccess;
   }
@@ -22,19 +25,29 @@ public abstract class DataProviderWrapper<T extends DataProvider> implements Dat
 
   public abstract T getProvider();
 
-  public static interface Factory<T extends DataProviderWrapper<?>> {
+  public interface Factory<T extends DataProviderWrapper<?>> {
     T create(PackOutput packOutput);
   }
 
-  public static interface LookupFactory<T extends DataProviderWrapper<?>> {
-    T create(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup);
+  public interface LookupFactory<T extends DataProviderWrapper<?>> {
+    T create(
+        PackOutput packOutput,
+        CompletableFuture<HolderLookup.Provider> lookup
+    );
   }
 
-  public static interface GeneratorAccessedFactory<T extends DataProviderWrapper<?>> {
-    T create(PackOutput packOutput, CrossDataGeneratorAccess generatorAccess);
+  public interface GeneratorAccessedFactory<T extends DataProviderWrapper<?>> {
+    T create(
+        PackOutput packOutput,
+        CrossDataGeneratorAccess generatorAccess
+    );
   }
 
-  public static interface LookupGeneratorAccessedFactory<T extends DataProviderWrapper<?>> {
-    T create(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookup, CrossDataGeneratorAccess generatorAccess);
+  public interface LookupGeneratorAccessedFactory<T extends DataProviderWrapper<?>> {
+    T create(
+        PackOutput packOutput,
+        CompletableFuture<HolderLookup.Provider> lookup,
+        CrossDataGeneratorAccess generatorAccess
+    );
   }
 }

@@ -1,8 +1,8 @@
 package org.modsauce.otyacraftenginerenewed.data.model;
 
-import com.google.gson.JsonElement;
-import net.minecraft.data.models.blockstates.BlockStateGenerator;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.client.data.models.blockstates.BlockModelDefinitionGenerator;
+import net.minecraft.client.data.models.model.ModelInstance;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -10,7 +10,6 @@ import net.minecraft.world.level.block.StairBlock;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.function.BiConsumer;
-import java.util.function.Supplier;
 
 /**
  * それぞれのプラットフォームで同じ動作をするブロックステータスとブロックモデル生成
@@ -31,7 +30,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  FileModel uncheckedModel(@NotNull ResourceLocation modelLocation);
+  FileModel uncheckedModel(@NotNull Identifier modelLocation);
 
   /**
    * 階段ブロックのモデルとブロックステータスの生成、アイテムモデルの生成
@@ -60,8 +59,7 @@ public interface BlockStateAndModelProviderAccess {
    *
    * @return モデル出力
    */
-  @NotNull
-  BiConsumer<ResourceLocation, Supplier<JsonElement>> modelOutput();
+  @NotNull BiConsumer<Identifier, ModelInstance> modelOutput();
 
   /**
    * 簡素な立方体ブロックのステート、ブロックモデル、アイテムモデルを生成する
@@ -78,7 +76,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default FileModel cubeAllBlockModel(@NotNull ResourceLocation blockLocation, @NotNull ResourceLocation textureLocation) {
+  default FileModel cubeAllBlockModel(@NotNull Identifier blockLocation, @NotNull Identifier textureLocation) {
     return cubeAllBlockModel(blockLocation, FileTexture.of(textureLocation));
   }
 
@@ -90,7 +88,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  FileModel cubeAllBlockModel(@NotNull ResourceLocation blockLocation, @NotNull FileTexture fileTexture);
+  FileModel cubeAllBlockModel(@NotNull Identifier blockLocation, @NotNull FileTexture fileTexture);
 
   /**
    * 全面同じテクスチャのブロックモデルを生成
@@ -100,7 +98,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default FileModel cubeAllBlockModel(@NotNull Block block, @NotNull ResourceLocation textureLocation) {
+  default FileModel cubeAllBlockModel(@NotNull Block block, @NotNull Identifier textureLocation) {
     return cubeAllBlockModel(block, FileTexture.of(textureLocation));
   }
 
@@ -127,7 +125,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  FileModel cubeBlockModel(@NotNull ResourceLocation blockLocation, @NotNull FileTexture down, @NotNull FileTexture up, @NotNull FileTexture north, @NotNull FileTexture south, @NotNull FileTexture east, @NotNull FileTexture west);
+  FileModel cubeBlockModel(@NotNull Identifier blockLocation, @NotNull FileTexture down, @NotNull FileTexture up, @NotNull FileTexture north, @NotNull FileTexture south, @NotNull FileTexture east, @NotNull FileTexture west);
 
   /**
    * それぞれの方向で違うテクスチャを指定する
@@ -142,7 +140,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default FileModel cubeBlockModel(@NotNull ResourceLocation blockLocation, @NotNull ResourceLocation down, @NotNull ResourceLocation up, @NotNull ResourceLocation north, @NotNull ResourceLocation south, @NotNull ResourceLocation east, @NotNull ResourceLocation west) {
+  default FileModel cubeBlockModel(@NotNull Identifier blockLocation, @NotNull Identifier down, @NotNull Identifier up, @NotNull Identifier north, @NotNull Identifier south, @NotNull Identifier east, @NotNull Identifier west) {
     return cubeBlockModel(blockLocation, FileTexture.of(down), FileTexture.of(up), FileTexture.of(north), FileTexture.of(south), FileTexture.of(east), FileTexture.of(west));
   }
 
@@ -159,7 +157,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default FileModel cubeBlockModel(@NotNull Block block, @NotNull ResourceLocation down, @NotNull ResourceLocation up, @NotNull ResourceLocation north, @NotNull ResourceLocation south, @NotNull ResourceLocation east, @NotNull ResourceLocation west) {
+  default FileModel cubeBlockModel(@NotNull Block block, @NotNull Identifier down, @NotNull Identifier up, @NotNull Identifier north, @NotNull Identifier south, @NotNull Identifier east, @NotNull Identifier west) {
     return cubeBlockModel(block, FileTexture.of(down), FileTexture.of(up), FileTexture.of(north), FileTexture.of(south), FileTexture.of(east), FileTexture.of(west));
   }
 
@@ -188,7 +186,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default FileModel cubeBottomTopBlockModel(@NotNull ResourceLocation blockLocation, @NotNull ResourceLocation bottom, @NotNull ResourceLocation side, @NotNull ResourceLocation top) {
+  default FileModel cubeBottomTopBlockModel(@NotNull Identifier blockLocation, @NotNull Identifier bottom, @NotNull Identifier side, @NotNull Identifier top) {
     return cubeBottomTopBlockModel(blockLocation, FileTexture.of(bottom), FileTexture.of(side), FileTexture.of(top));
   }
 
@@ -202,7 +200,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  FileModel cubeBottomTopBlockModel(@NotNull ResourceLocation blockLocation, @NotNull FileTexture bottom, @NotNull FileTexture side, @NotNull FileTexture top);
+  FileModel cubeBottomTopBlockModel(@NotNull Identifier blockLocation, @NotNull FileTexture bottom, @NotNull FileTexture side, @NotNull FileTexture top);
 
   /**
    * 上下と側面ごとに違うテクスチャを指定する
@@ -214,7 +212,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default FileModel cubeBottomTopBlockModel(@NotNull Block block, @NotNull ResourceLocation bottom, @NotNull ResourceLocation side, @NotNull ResourceLocation top) {
+  default FileModel cubeBottomTopBlockModel(@NotNull Block block, @NotNull Identifier bottom, @NotNull Identifier side, @NotNull Identifier top) {
     return cubeBottomTopBlockModel(bottom, FileTexture.of(bottom), FileTexture.of(side), FileTexture.of(top));
   }
 
@@ -238,7 +236,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  MutableFileModel parentedBlockModel(@NotNull Block block, @NotNull ResourceLocation parentLocation);
+  MutableFileModel parentedBlockModel(@NotNull Block block, @NotNull Identifier parentLocation);
 
   /**
    * 既存のモデル
@@ -247,7 +245,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  FileModel existingModel(@NotNull ResourceLocation location);
+  FileModel existingModel(@NotNull Identifier location);
 
   /**
    * パーティクルのみのモデル
@@ -257,7 +255,7 @@ public interface BlockStateAndModelProviderAccess {
    * @return モデル
    */
   @NotNull
-  default FileModel particleOnlyModel(@NotNull Block block, @NotNull ResourceLocation particleLocation) {
+  default FileModel particleOnlyModel(@NotNull Block block, @NotNull Identifier particleLocation) {
     return particleOnlyModel(block, FileTexture.of(particleLocation));
   }
 
@@ -296,7 +294,7 @@ public interface BlockStateAndModelProviderAccess {
    * @param block ブロック
    */
   default void builtinEntityBlockItemModel(@NotNull Block block) {
-    parentedBlockItemModel(block, ResourceLocation.withDefaultNamespace("builtin/entity"));
+    parentedBlockItemModel(block, Identifier.withDefaultNamespace("builtin/entity"));
   }
 
   /**
@@ -305,14 +303,20 @@ public interface BlockStateAndModelProviderAccess {
    * @param block          ブロック
    * @param parentLocation 親モデルのロケーション
    */
-  void parentedBlockItemModel(@NotNull Block block, @NotNull ResourceLocation parentLocation);
+  void parentedBlockItemModel(@NotNull Block block, @NotNull Identifier parentLocation);
 
   /**
    * ブロックステートジェネレーターを登録
    *
    * @param blockStateGenerator ブロックステートジェネレーター
    */
-  void addBlockStateGenerator(@NotNull BlockStateGenerator blockStateGenerator);
+
+  /**
+   * ブロックステートジェネレーターを登録
+   *
+   * @param blockStateGenerator ブロックステートジェネレーター
+   */
+  void addBlockStateGenerator(@NotNull BlockModelDefinitionGenerator blockStateGenerator);
 
   /**
    * アイテムのモデルを生成する場合に利用するアイテム生成へのアクセスを取得

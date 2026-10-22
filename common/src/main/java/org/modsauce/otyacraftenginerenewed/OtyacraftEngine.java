@@ -8,14 +8,11 @@ import me.shedaniel.autoconfig.serializer.PartitioningSerializer;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.modsauce.otyacraftenginerenewed.advancement.OECriteriaTriggers;
 import org.modsauce.otyacraftenginerenewed.client.OtyacraftEngineClient;
 import org.modsauce.otyacraftenginerenewed.handler.CommonHandler;
 import org.modsauce.otyacraftenginerenewed.item.location.PlayerItemLocations;
 import org.modsauce.otyacraftenginerenewed.networking.OEPackets;
 import org.modsauce.otyacraftenginerenewed.util.OEDataGenUtils;
-
-import java.util.Objects;
 
 public class OtyacraftEngine {
 

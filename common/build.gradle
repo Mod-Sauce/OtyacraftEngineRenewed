@@ -11,13 +11,13 @@ repositories {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "dev.architectury:architectury:${rootProject.architectury_version}"
-    modApi "me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}"
+    implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    implementation "dev.architectury:architectury:${rootProject.architectury_version}"
+    implementation "me.shedaniel.cloth:cloth-config:${rootProject.cloth_config_version}"
     implementation "dev.felnull:felnull-java-library:${rootProject.felnull_version}"
     implementation 'com.madgag:animated-gif-lib:1.4'
 
-    compileOnly "maven.modrinth:iris:1.8.8+1.21.1-fabric"
+    compileOnly "maven.modrinth:iris:1.11.4+26.1-fabric"
 }
 
 publishing {

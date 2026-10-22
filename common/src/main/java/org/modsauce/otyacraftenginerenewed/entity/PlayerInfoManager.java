@@ -9,7 +9,7 @@ import org.modsauce.otyacraftenginerenewed.OtyacraftEngine;
 import org.modsauce.otyacraftenginerenewed.util.OEUtils;
 
 import java.io.IOException;
-import java.net.URL;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -24,7 +24,7 @@ public class PlayerInfoManager {
   private static final String UUID_BY_NAME_URL = "https://api.mojang.com/users/profiles/minecraft/%s";
   private final Map<UUID, Optional<String>> NAME_BY_UUID_CACHE = new HashMap<>();
   private final Map<String, Optional<UUID>> UUID_BY_NAME_CACHE = new HashMap<>();
-  private final ExecutorService executorService = Executors.newSingleThreadExecutor(new BasicThreadFactory.Builder().namingPattern(OtyacraftEngine.MODID + "-player-info-loader").daemon(true).build());
+  private final ExecutorService executorService = Executors.newSingleThreadExecutor(BasicThreadFactory.builder().namingPattern(OtyacraftEngine.MODID + "-player-info-loader").daemon(true).build());
 
   public static PlayerInfoManager getInstance() {
     return INSTANCE;
@@ -41,10 +41,10 @@ public class PlayerInfoManager {
 
   public void clear(@NotNull GameProfile profile) {
     synchronized (NAME_BY_UUID_CACHE) {
-      NAME_BY_UUID_CACHE.remove(profile.getId());
+      NAME_BY_UUID_CACHE.remove(profile.id());
     }
     synchronized (UUID_BY_NAME_CACHE) {
-      UUID_BY_NAME_CACHE.remove(profile.getName());
+      UUID_BY_NAME_CACHE.remove(profile.name());
     }
   }
 
@@ -73,7 +73,7 @@ public class PlayerInfoManager {
   @NotNull
   private synchronized Optional<JsonObject> getJson(@NotNull String url) {
     try {
-      return Optional.ofNullable(OEUtils.readJson(new URL(url), JsonObject.class));
+      return Optional.ofNullable(OEUtils.readJson(URI.create(url).toURL(), JsonObject.class));
     } catch (IOException e) {
       return Optional.empty();
     }

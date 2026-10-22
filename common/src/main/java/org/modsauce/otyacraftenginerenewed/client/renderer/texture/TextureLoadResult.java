@@ -1,11 +1,11 @@
 package org.modsauce.otyacraftenginerenewed.client.renderer.texture;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.modsauce.otyacraftenginerenewed.client.util.OETextureUtils;
 
 public interface TextureLoadResult {
-  ResourceLocation getLocation();
+  Identifier getLocation();
 
   boolean isLoading();
 
@@ -16,19 +16,19 @@ public interface TextureLoadResult {
   Throwable getThrowable();
 
   @NotNull
-  default ResourceLocation of(@NotNull ResourceLocation loadingLocation, @NotNull ResourceLocation errorlLocation) {
+  default Identifier of(@NotNull Identifier loadingLocation, @NotNull Identifier errorlLocation) {
     if (isLoading()) return loadingLocation;
     if (isError()) return errorlLocation;
     return getLocation();
   }
 
   @NotNull
-  default ResourceLocation of(@NotNull ResourceLocation errorLocation) {
+  default Identifier of(@NotNull Identifier errorLocation) {
     return of(OETextureUtils.getLoadingIcon(), errorLocation);
   }
 
   @NotNull
-  default ResourceLocation of() {
+  default Identifier of() {
     return of(OETextureUtils.getLoadingIcon(), OETextureUtils.getErrorIcon());
   }
 

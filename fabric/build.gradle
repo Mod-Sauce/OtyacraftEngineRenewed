@@ -29,17 +29,15 @@ repositories {
 }
 
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
-    modApi "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+    implementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
 
-    modApi "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
+    implementation "dev.architectury:architectury-fabric:${rootProject.architectury_version}"
 
-    common(project(path: ":common", configuration: "namedElements")) { transitive = false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive = false }
-
-    modApi "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
-    modApi "me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}"
-    modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
+    implementation "com.terraformersmc:modmenu:${rootProject.modmenu_version}"
+    implementation "me.shedaniel.cloth:cloth-config-fabric:${rootProject.cloth_config_version}"
+    implementation project(':common')
+    compileOnly "me.shedaniel:RoughlyEnoughItems-fabric:${rootProject.rei_version}"
 
     shadowIn "dev.felnull:felnull-java-library:${rootProject.felnull_version}"
     shadowIn 'com.madgag:animated-gif-lib:1.4'
@@ -66,14 +64,6 @@ shadowJar {
     archiveClassifier.set("dev-shadow")
 }
 
-remapJar {
-    injectAccessWidener = true
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    archiveClassifier.set(null)
-    archiveFileName.set("OtyacraftEngineRenewed-Fabric-${project.version}.jar")
-
-}
 
 jar {
     archiveClassifier.set("dev")

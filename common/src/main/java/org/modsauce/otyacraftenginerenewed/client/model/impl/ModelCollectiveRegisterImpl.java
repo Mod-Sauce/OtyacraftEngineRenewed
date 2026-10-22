@@ -1,6 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.client.model.impl;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.modsauce.otyacraftenginerenewed.client.callpoint.ModelRegister;
 import org.modsauce.otyacraftenginerenewed.client.model.ModelBundle;
@@ -14,7 +14,7 @@ public class ModelCollectiveRegisterImpl implements ModelCollectiveRegister {
   private final Set<ModelHolder> models = new HashSet<>();
 
   @Override
-  public @NotNull ModelHolder register(@NotNull ResourceLocation location) {
+  public @NotNull ModelHolder register(@NotNull Identifier location) {
     var holder = ModelHolder.create(location);
     models.add(holder);
     return holder;

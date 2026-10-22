@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import dev.felnull.fnjl.util.FNDataUtil;
 import net.minecraft.core.Direction;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.AABB;
 import net.minecraft.world.phys.shapes.Shapes;
@@ -318,7 +318,7 @@ public final class OEVoxelShapeUtils {
    * @param classLoader 対象パッケージのクラス
    * @return 読み込まれたVoxelShape
    */
-  public static VoxelShape getShapeFromResource(ResourceLocation location, Class<?> classLoader) {
+  public static VoxelShape getShapeFromResource(Identifier location, Class<?> classLoader) {
     InputStream stream = FNDataUtil.resourceExtractor(classLoader, "data/" + location.getNamespace() + "/voxel_shape/" + location.getPath() + ".json");
     if (stream == null)
       throw new IllegalStateException("Failed to load shape: " + location);

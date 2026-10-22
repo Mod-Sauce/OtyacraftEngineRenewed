@@ -7,7 +7,7 @@ import org.modsauce.otyacraftenginerenewed.neoforge.data.WrappedBlockStateBuilde
 import org.modsauce.otyacraftenginerenewed.neoforge.mixin.data.BlockStateProviderAccessor;
 import net.minecraft.data.models.blockstates.BlockStateGenerator;
 import net.minecraft.data.models.model.ModelLocationUtils;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RotatedPillarBlock;
 import net.minecraft.world.level.block.SlabBlock;
@@ -32,8 +32,8 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
 
     @Override
     public void simpleFlatBlockItemModel(@NotNull Block block) {
-        ResourceLocation itemLoc = ModelLocationUtils.getModelLocation(block.asItem());
-        ResourceLocation blockLoc = this.blockStateProvider.blockTexture(block);
+        Identifier itemLoc = ModelLocationUtils.getModelLocation(block.asItem());
+        Identifier blockLoc = this.blockStateProvider.blockTexture(block);
 
         this.blockStateProvider.itemModels().getBuilder(itemLoc.toString())
                 .parent(new ModelFile.UncheckedModelFile("item/generated"))
@@ -41,7 +41,7 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     @Override
-    public @NotNull FileModel uncheckedModel(@NotNull ResourceLocation modelLocation) {
+    public @NotNull FileModel uncheckedModel(@NotNull Identifier modelLocation) {
         return of(new ModelFile.UncheckedModelFile(modelLocation));
     }
 
@@ -53,7 +53,7 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
 
     @Override
     public void slabBlockItemModel(@NotNull SlabBlock slabBlock, @NotNull FileModel baseBlockModel) {
-        ResourceLocation loc = baseBlockModel.getLocation();
+        Identifier loc = baseBlockModel.getLocation();
         this.blockStateProvider.slabBlock(slabBlock, loc, loc, loc, loc);
         simpleBlockItemModel(slabBlock, existingModel(key(slabBlock)));
     }
@@ -64,7 +64,7 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     @Override
-    public @NotNull BiConsumer<ResourceLocation, Supplier<JsonElement>> modelOutput() {
+    public @NotNull BiConsumer<Identifier, Supplier<JsonElement>> modelOutput() {
         return (loc, jsonSupplier) -> this.blockStateProvider.models().generatedModels.put(loc, new SimpleJsonModelBuilder(loc, this.blockStateProvider.models().existingFileHelper, (JsonObject) jsonSupplier.get()));
     }
 
@@ -84,12 +84,12 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     @Override
-    public @NotNull FileModel cubeAllBlockModel(@NotNull ResourceLocation blockLocation, @NotNull ResourceLocation textureLocation) {
+    public @NotNull FileModel cubeAllBlockModel(@NotNull Identifier blockLocation, @NotNull Identifier textureLocation) {
         return of(this.blockStateProvider.models().cubeAll(blockLocation.toString(), textureLocation));
     }
 
     @Override
-    public @NotNull FileModel cubeAllBlockModel(@NotNull ResourceLocation blockLocation, @NotNull FileTexture fileTexture) {
+    public @NotNull FileModel cubeAllBlockModel(@NotNull Identifier blockLocation, @NotNull FileTexture fileTexture) {
         var bm = this.blockStateProvider.models()
                 .withExistingParent(blockLocation.toString(), "block/cube_all");
 
@@ -97,7 +97,7 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     @Override
-    public @NotNull FileModel cubeAllBlockModel(@NotNull Block block, @NotNull ResourceLocation texture) {
+    public @NotNull FileModel cubeAllBlockModel(@NotNull Block block, @NotNull Identifier texture) {
         return of(this.blockStateProvider.models().cubeAll(name(block), texture));
     }
 
@@ -110,12 +110,12 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     @Override
-    public @NotNull FileModel cubeBlockModel(@NotNull ResourceLocation blockLocation, @NotNull ResourceLocation down, @NotNull ResourceLocation up, @NotNull ResourceLocation north, @NotNull ResourceLocation south, @NotNull ResourceLocation east, @NotNull ResourceLocation west) {
+    public @NotNull FileModel cubeBlockModel(@NotNull Identifier blockLocation, @NotNull Identifier down, @NotNull Identifier up, @NotNull Identifier north, @NotNull Identifier south, @NotNull Identifier east, @NotNull Identifier west) {
         return of(this.blockStateProvider.models().cube(blockLocation.toString(), down, up, north, south, east, west));
     }
 
     @Override
-    public @NotNull FileModel cubeBlockModel(@NotNull ResourceLocation blockLocation, @NotNull FileTexture down, @NotNull FileTexture up, @NotNull FileTexture north, @NotNull FileTexture south, @NotNull FileTexture east, @NotNull FileTexture west) {
+    public @NotNull FileModel cubeBlockModel(@NotNull Identifier blockLocation, @NotNull FileTexture down, @NotNull FileTexture up, @NotNull FileTexture north, @NotNull FileTexture south, @NotNull FileTexture east, @NotNull FileTexture west) {
         var bm = this.blockStateProvider.models().withExistingParent(blockLocation.toString(), "cube");
 
         setTexture(bm, "down", down);
@@ -129,7 +129,7 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     @Override
-    public @NotNull FileModel cubeBlockModel(@NotNull Block block, @NotNull ResourceLocation down, @NotNull ResourceLocation up, @NotNull ResourceLocation north, @NotNull ResourceLocation south, @NotNull ResourceLocation east, @NotNull ResourceLocation west) {
+    public @NotNull FileModel cubeBlockModel(@NotNull Block block, @NotNull Identifier down, @NotNull Identifier up, @NotNull Identifier north, @NotNull Identifier south, @NotNull Identifier east, @NotNull Identifier west) {
         return of(this.blockStateProvider.models().cube(name(block), down, up, north, south, east, west));
     }
 
@@ -148,12 +148,12 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     @Override
-    public @NotNull FileModel cubeBottomTopBlockModel(@NotNull ResourceLocation blockLocation, @NotNull ResourceLocation bottom, @NotNull ResourceLocation side, @NotNull ResourceLocation top) {
+    public @NotNull FileModel cubeBottomTopBlockModel(@NotNull Identifier blockLocation, @NotNull Identifier bottom, @NotNull Identifier side, @NotNull Identifier top) {
         return of(this.blockStateProvider.models().cubeBottomTop(blockLocation.toString(), side, bottom, top));
     }
 
     @Override
-    public @NotNull FileModel cubeBottomTopBlockModel(@NotNull ResourceLocation blockLocation, @NotNull FileTexture bottom, @NotNull FileTexture side, @NotNull FileTexture top) {
+    public @NotNull FileModel cubeBottomTopBlockModel(@NotNull Identifier blockLocation, @NotNull FileTexture bottom, @NotNull FileTexture side, @NotNull FileTexture top) {
         var bm = this.blockStateProvider.models().withExistingParent(blockLocation.toString(), "block/cube_bottom_top");
 
         setTexture(bm, "side", side);
@@ -164,7 +164,7 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     @Override
-    public @NotNull FileModel cubeBottomTopBlockModel(@NotNull Block block, @NotNull ResourceLocation bottom, @NotNull ResourceLocation side, @NotNull ResourceLocation top) {
+    public @NotNull FileModel cubeBottomTopBlockModel(@NotNull Block block, @NotNull Identifier bottom, @NotNull Identifier side, @NotNull Identifier top) {
         return of(this.blockStateProvider.models().cubeBottomTop(name(block), side, bottom, top));
     }
 
@@ -180,17 +180,17 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     @Override
-    public @NotNull MutableFileModel parentedBlockModel(@NotNull Block block, @NotNull ResourceLocation parentLocation) {
+    public @NotNull MutableFileModel parentedBlockModel(@NotNull Block block, @NotNull Identifier parentLocation) {
         return of(this.blockStateProvider.models().withExistingParent(name(block), parentLocation));
     }
 
     @Override
-    public @NotNull FileModel existingModel(@NotNull ResourceLocation location) {
+    public @NotNull FileModel existingModel(@NotNull Identifier location) {
         return of(this.blockStateProvider.models().getExistingFile(location));
     }
 
     @Override
-    public @NotNull FileModel particleOnlyModel(@NotNull Block block, @NotNull ResourceLocation particleLocation) {
+    public @NotNull FileModel particleOnlyModel(@NotNull Block block, @NotNull Identifier particleLocation) {
         return of(this.blockStateProvider.models().getBuilder(name(block)).texture("particle", particleLocation));
     }
 
@@ -217,7 +217,7 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     }
 
     @Override
-    public void parentedBlockItemModel(@NotNull Block block, @NotNull ResourceLocation parentLocation) {
+    public void parentedBlockItemModel(@NotNull Block block, @NotNull Identifier parentLocation) {
         var name = Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(block.asItem()));
         this.blockStateProvider.itemModels().getBuilder(name.toString()).parent(new ModelFile.UncheckedModelFile(parentLocation));
     }
@@ -240,7 +240,7 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
         return this.key(block).getPath();
     }
 
-    private ResourceLocation key(Block block) {
+    private Identifier key(Block block) {
         return BuiltInRegistries.BLOCK.getKey(block);
     }
 
@@ -256,7 +256,7 @@ public class BlockStateAndModelProviderAccessImpl implements BlockStateAndModelP
     private static class SimpleJsonModelBuilder extends BlockModelBuilder {
         private final JsonObject jsonObject;
 
-        protected SimpleJsonModelBuilder(ResourceLocation outputLocation, ExistingFileHelper existingFileHelper, JsonObject jsonObject) {
+        protected SimpleJsonModelBuilder(Identifier outputLocation, ExistingFileHelper existingFileHelper, JsonObject jsonObject) {
             super(outputLocation, existingFileHelper);
             this.jsonObject = jsonObject;
         }

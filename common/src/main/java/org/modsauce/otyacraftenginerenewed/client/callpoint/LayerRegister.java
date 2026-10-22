@@ -5,29 +5,41 @@ import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.entity.LivingEntityRenderer;
 import net.minecraft.client.renderer.entity.RenderLayerParent;
 import net.minecraft.client.renderer.entity.layers.RenderLayer;
+import net.minecraft.client.renderer.entity.state.LivingEntityRenderState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 
 import java.util.function.Function;
 
 public interface LayerRegister {
-  /**
-   * {@link #addLayerV2(EntityType, LayerFactory)}を利用してください
-   */
+
   @Deprecated
-  default <T extends LivingEntity> void addLayer(EntityType<T> entityType, Function<LivingEntityRenderer<T, ? extends EntityModel<T>>, RenderLayer<T, ? extends EntityModel<T>>> layer) {
-    addLayerV2(entityType, new LayerFactory<T, EntityModel<T>>() {
+  default <T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>> void addLayer(
+          EntityType<T> entityType,
+          Function<LivingEntityRenderer<T, S, M>, RenderLayer<S, M>> layer) {
+    addLayerV2(entityType, new LayerFactory<S, M>() {
       @Override
-      public RenderLayer<T, EntityModel<T>> create(RenderLayerParent<T, EntityModel<T>> parentLayer, EntityModelSet modelSet) {
-        return (RenderLayer<T, EntityModel<T>>) layer.apply((LivingEntityRenderer<T, ? extends EntityModel<T>>) parentLayer);
+      public RenderLayer<S, M> create(RenderLayerParent<S, M> parentLayer, EntityModelSet modelSet) {
+        return layer.apply((LivingEntityRenderer<T, S, M>) parentLayer);
       }
     });
   }
 
-  default <T extends LivingEntity, M extends EntityModel<T>> void addLayerV2(EntityType<T> entityType, LayerFactory<T, M> layer) {
-  }
+  // Primary modern method using RenderState and EntityModel
+  <T extends LivingEntity, S extends LivingEntityRenderState, M extends EntityModel<? super S>> void addLayerV2(
+          EntityType<T> entityType,
+          LayerFactory<S, M> layerFactory
+  );
 
-  interface LayerFactory<T extends LivingEntity, M extends EntityModel<T>> {
-    RenderLayer<T, M> create(RenderLayerParent<T, M> parentLayer, EntityModelSet modelSet);
+  // Optional: If you need legacy/direct entity-model factories without state,
+  // give them distinct method names (e.g., addLegacyLayer) to prevent erasure clashes completely.
+  //
+  // <T extends LivingEntity, M extends EntityModel<T>> void addLegacyLayer(
+  //         EntityType<T> entityType,
+  //         LegacyLayerFactory<T, M> layer
+  // );
+
+  interface LayerFactory<S extends LivingEntityRenderState, M extends EntityModel<? super S>> {
+    RenderLayer<S, M> create(RenderLayerParent<S, M> parentLayer, EntityModelSet modelSet);
   }
 }

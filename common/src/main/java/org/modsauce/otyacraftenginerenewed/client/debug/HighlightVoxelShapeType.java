@@ -14,7 +14,7 @@ public enum HighlightVoxelShapeType {
   COLLISION_SHAPE(BlockBehaviour.BlockStateBase::getCollisionShape),
   INTERACTION_SHAPE((blockState, blockGetter, blockPos, collisionContext) -> blockState.getInteractionShape(blockGetter, blockPos)),
   BLOCKSUPPORT_SHAPE((blockState, blockGetter, blockPos, collisionContext) -> blockState.getBlockSupportShape(blockGetter, blockPos)),
-  OCCLUSION_SHAPE((blockState, blockGetter, blockPos, collisionContext) -> blockState.getOcclusionShape(blockGetter, blockPos)),
+  OCCLUSION_SHAPE((blockState, blockGetter, blockPos, collisionContext) -> blockState.getOcclusionShape()),
   SHAPE_NOCOLLISION((blockState, blockGetter, blockPos, collisionContext) -> blockState.getShape(blockGetter, blockPos)),
   COLLISION_SHAPE_NOCOLLISION((blockState, blockGetter, blockPos, collisionContext) -> blockState.getCollisionShape(blockGetter, blockPos));
   private final HighlightVoxelShapeGetter getter;

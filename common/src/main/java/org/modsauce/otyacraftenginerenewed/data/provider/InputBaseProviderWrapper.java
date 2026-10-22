@@ -3,7 +3,7 @@ package org.modsauce.otyacraftenginerenewed.data.provider;
 import dev.felnull.fnjl.util.FNStringUtil;
 import net.minecraft.data.CachedOutput;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
@@ -83,7 +83,7 @@ public abstract class InputBaseProviderWrapper extends BasicProviderWrapper {
     throw new RuntimeException("Unexpected target.");
   }
 
-  protected Pair<ResourceLocation, String> toResourceLocationAndExtension(Path inputRoot, Path target) {
+  protected Pair<Identifier, String> toIdentifierAndExtension(Path inputRoot, Path target) {
     var relativePath = inputRoot.relativize(target);
 
     var sb = new StringBuilder();
@@ -99,6 +99,6 @@ public abstract class InputBaseProviderWrapper extends BasicProviderWrapper {
       }
     }
 
-    return Pair.of(ResourceLocation.fromNamespaceAndPath(relativePath.getName(1).toFile().getName(), sb.toString()), ex);
+    return Pair.of(Identifier.fromNamespaceAndPath(relativePath.getName(1).toFile().getName(), sb.toString()), ex);
   }
 }

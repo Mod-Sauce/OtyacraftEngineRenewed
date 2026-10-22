@@ -1,6 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.client.renderer.texture.impl;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.modsauce.otyacraftenginerenewed.client.renderer.texture.TextureLoadProgress;
 import org.modsauce.otyacraftenginerenewed.client.renderer.texture.TextureLoadResult;
@@ -28,7 +28,7 @@ public class URLTextureLoadResult implements TextureLoadResult {
   }
 
   @Override
-  public ResourceLocation getLocation() {
+  public Identifier getLocation() {
     if (loadResult == null)
       return null;
     return loadResult.getLocation();

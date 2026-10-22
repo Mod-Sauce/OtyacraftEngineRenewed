@@ -40,7 +40,7 @@ side = "BOTH"
 [[dependencies.otyacraftenginerenewed]]
 modId = "minecraft"
 mandatory = true
-versionRange = "1.21.1"
+versionRange = "26.1.2"
 ordering = "NONE"
 side = "BOTH"
 

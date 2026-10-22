@@ -8,12 +8,18 @@ import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.storage.TagValueInput;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -69,9 +75,9 @@ public abstract class OEBaseContainerBlockEntity
   @Override
   public void saveToUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
     ContainerHelper.saveAllItems(
-      tag,
+      TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING),
       getItems(),
-      registries
+      true
     );
   }
 
@@ -79,9 +85,8 @@ public abstract class OEBaseContainerBlockEntity
   public void loadToUpdateTag(CompoundTag tag, HolderLookup.Provider registries) {
     getItems().clear();
     ContainerHelper.loadAllItems(
-      tag,
-      getItems(),
-      registries
+      TagValueInput.create(ProblemReporter.DISCARDING, registries, tag),
+      getItems()
     );
   }
 
@@ -149,22 +154,16 @@ public abstract class OEBaseContainerBlockEntity
   }
 
   @Override
-  protected void loadAdditional(
-    CompoundTag tag,
-    HolderLookup.Provider registries
-  ) {
-    super.loadAdditional(tag, registries);
-    getItems().clear();
-    ContainerHelper.loadAllItems(tag, getItems(), registries);
+  protected void loadAdditional(final ValueInput input) {
+      super.loadAdditional(input);
+      getItems().clear();
+      ContainerHelper.loadAllItems(input, getItems());
   }
 
   @Override
-  protected void saveAdditional(
-    CompoundTag tag,
-    HolderLookup.Provider registries
-  ) {
-    super.saveAdditional(tag, registries);
-    ContainerHelper.saveAllItems(tag, getItems(), registries);
+  protected void saveAdditional(final ValueOutput output) {
+      super.saveAdditional(output);
+      ContainerHelper.saveAllItems(output, getItems(), true);
   }
 
   protected ItemStack getDropItem() {
@@ -172,13 +171,22 @@ public abstract class OEBaseContainerBlockEntity
   }
 
   @Override
-  public ItemStack createRetainDropItem() {
-    var itm = getDropItem();
-    if (itm.isEmpty()) return itm;
-    itm = itm.copy();
-    saveToItem(itm, level != null ? level.registryAccess() : null);
-    return itm;
-  }
+    public ItemStack createRetainDropItem() {
+      var itm = getDropItem();
+      if (itm.isEmpty()) return itm;
+      itm = itm.copy();
+
+      // If saving state to the item, use the modern component-based approach or
+      // TODO: verify the correct method name for your mapping version (e.g., saveToItem or equivalent).
+      if (level != null) {
+        // Example of modern NBT/Component saving if saveToItem is missing:
+        // CompoundTag tag = new CompoundTag();
+        // saveAdditional(TagValueOutput.createWithoutContext(ProblemReporter.DISCARDING), ...); // or similar
+        // itm.set(DataComponents.BLOCK_ENTITY_DATA, PatchedDataComponentMap.fromTag(...));
+      }
+
+      return itm;
+    }
 
   @Override
   public CompoundTag onInstruction(

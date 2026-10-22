@@ -1,7 +1,7 @@
 package org.modsauce.otyacraftenginerenewed.tag;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -13,15 +13,15 @@ import java.util.List;
 import java.util.Optional;
 
 public class PlatformItemTags {
-    private static ResourceLocation cLoc(String path) {
-        return ResourceLocation.fromNamespaceAndPath("c", path);
+    private static Identifier cLoc(String path) {
+        return Identifier.fromNamespaceAndPath("c", path);
     }
 
     private static TagKey<Item> cLocItem(String path){
         return TagKey.create(Registries.ITEM, cLoc(path));
     }
-    private static ResourceLocation mLoc(String path) {
-        return ResourceLocation.withDefaultNamespace(path);
+    private static Identifier mLoc(String path) {
+        return Identifier.withDefaultNamespace(path);
     }
 
     private static TagKey<Item> mLocItem(String path){

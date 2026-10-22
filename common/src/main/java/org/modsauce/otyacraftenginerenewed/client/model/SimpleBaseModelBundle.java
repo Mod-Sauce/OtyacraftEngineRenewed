@@ -1,6 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.client.model;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public abstract class SimpleBaseModelBundle implements ModelBundle {
   }
 
   @NotNull
-  protected ModelHolder holder(@NotNull ResourceLocation location) {
+  protected ModelHolder holder(@NotNull Identifier location) {
     var hol = ModelHolder.create(location);
     holders.add(hol);
     return hol;

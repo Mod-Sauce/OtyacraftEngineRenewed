@@ -2,7 +2,7 @@ package org.modsauce.otyacraftenginerenewed.neoforge.data.model;
 
 import java.util.Objects;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.neoforged.neoforge.client.model.generators.ItemModelBuilder;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
@@ -32,7 +32,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
   @Override
   public @NotNull MutableFileModel basicFlatItem(
-    @NotNull ResourceLocation itemLocation
+    @NotNull Identifier itemLocation
   ) {
     return of(this.itemModelProvider.basicItem(itemLocation));
   }
@@ -51,7 +51,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
         mb,
         "layer0",
         FileTexture.of(
-          ResourceLocation.fromNamespaceAndPath(
+          Identifier.fromNamespaceAndPath(
             loc.getNamespace(),
             "item/" + loc.getPath()
           ),
@@ -64,7 +64,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
   @Override
   public @NotNull MutableFileModel basicFlatItem(
     @NotNull Item item,
-    @NotNull ResourceLocation texture
+    @NotNull Identifier texture
   ) {
     return basicFlatItem(
       Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)),
@@ -85,8 +85,8 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
   @Override
   public @NotNull MutableFileModel basicFlatItem(
-    @NotNull ResourceLocation itemLocation,
-    @NotNull ResourceLocation texture
+    @NotNull Identifier itemLocation,
+    @NotNull Identifier texture
   ) {
     return of(
       this.itemModelProvider.getBuilder(itemLocation.toString())
@@ -97,7 +97,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
   @Override
   public @NotNull MutableFileModel basicFlatItem(
-    @NotNull ResourceLocation itemLocation,
+    @NotNull Identifier itemLocation,
     @NotNull FileTexture itemTexture
   ) {
     var mb = this.itemModelProvider.getBuilder(itemLocation.toString()).parent(
@@ -116,14 +116,14 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
   @Override
   public @NotNull MutableFileModel handheldFlatItem(
-    @NotNull ResourceLocation itemLocation
+    @NotNull Identifier itemLocation
   ) {
     return of(
       this.itemModelProvider.getBuilder(itemLocation.toString())
         .parent(new ModelFile.UncheckedModelFile("item/handheld"))
         .texture(
           "layer0",
-          ResourceLocation.fromNamespaceAndPath(
+          Identifier.fromNamespaceAndPath(
             itemLocation.getNamespace(),
             "item/" + itemLocation.getPath()
           )
@@ -145,7 +145,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
         mb,
         "layer0",
         FileTexture.of(
-          ResourceLocation.fromNamespaceAndPath(
+          Identifier.fromNamespaceAndPath(
             loc.getNamespace(),
             "item/" + loc.getPath()
           ),
@@ -158,7 +158,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
   @Override
   public @NotNull MutableFileModel parentedItem(
     @NotNull Item item,
-    @NotNull ResourceLocation parentLocation
+    @NotNull Identifier parentLocation
   ) {
     return parentedItem(
       Objects.requireNonNull(BuiltInRegistries.ITEM.getKey(item)),
@@ -168,8 +168,8 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
   @Override
   public @NotNull MutableFileModel parentedItem(
-    @NotNull ResourceLocation itemLocation,
-    @NotNull ResourceLocation parentLocation
+    @NotNull Identifier itemLocation,
+    @NotNull Identifier parentLocation
   ) {
     return of(
       this.itemModelProvider.getBuilder(itemLocation.toString()).parent(
@@ -179,7 +179,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
   }
 
   @Override
-  public @NotNull FileModel existingModel(@NotNull ResourceLocation location) {
+  public @NotNull FileModel existingModel(@NotNull Identifier location) {
     return new FileModelImpl(this.itemModelProvider.getExistingFile(location));
   }
 

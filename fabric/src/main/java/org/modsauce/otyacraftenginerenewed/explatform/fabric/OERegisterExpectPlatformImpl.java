@@ -1,13 +1,13 @@
 package org.modsauce.otyacraftenginerenewed.explatform.fabric;
 
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.world.item.ToolMaterial;
 import org.modsauce.otyacraftenginerenewed.blockentity.BlockEntityCreateSupplier;
 import org.modsauce.otyacraftenginerenewed.fabric.mixin.PoiTypesInvoker;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -24,10 +24,10 @@ public class OERegisterExpectPlatformImpl {
 
     public static void registerPoiTypeBlockStates(RegistrySupplier<PoiType> poiTypeRegistrySupplier) {
         var rk = BuiltInRegistries.POINT_OF_INTEREST_TYPE.getResourceKey(poiTypeRegistrySupplier.get()).orElseThrow();
-        PoiTypesInvoker.invokeRegisterBlockStates(BuiltInRegistries.POINT_OF_INTEREST_TYPE.getHolderOrThrow(rk), poiTypeRegistrySupplier.get().matchingStates());
+        PoiTypesInvoker.invokeRegisterBlockStates(BuiltInRegistries.POINT_OF_INTEREST_TYPE.getOrThrow(rk), poiTypeRegistrySupplier.get().matchingStates());
     }
 
-    public static Tier createTier(int level, int uses, float speed, float attackDamageBonus, int enchantmentValue, @NotNull TagKey<Block> tag, @NotNull Supplier<Ingredient> repairIngredient) {
+    public static ToolMaterial createTier(int level, int uses, float speed, float attackDamageBonus, int enchantmentValue, @NotNull TagKey<Block> tag, @NotNull Supplier<Ingredient> repairIngredient) {
         return null;
     }
 }

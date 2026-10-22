@@ -1,7 +1,7 @@
 package org.modsauce.otyacraftenginerenewed.data.model;
 
 import com.google.common.base.Preconditions;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.modsauce.otyacraftenginerenewed.data.model.impl.FileTextureImpl;
 
@@ -16,7 +16,7 @@ public interface FileTexture {
    * @return テクスチャ指定
    */
   @NotNull
-  static FileTexture of(@NotNull ResourceLocation textureLocation) {
+  static FileTexture of(@NotNull Identifier textureLocation) {
     Preconditions.checkNotNull(textureLocation, "TextureLocation is Null");
 
     return new FileTextureImpl(textureLocation, true);
@@ -30,7 +30,7 @@ public interface FileTexture {
    * @return テクスチャ指定
    */
   @NotNull
-  static FileTexture ofUncheck(@NotNull ResourceLocation textureLocation) {
+  static FileTexture ofUncheck(@NotNull Identifier textureLocation) {
     Preconditions.checkNotNull(textureLocation, "TextureLocation is Null");
 
     return new FileTextureImpl(textureLocation, false);
@@ -44,7 +44,7 @@ public interface FileTexture {
    * @return テクスチャ指定
    */
   @NotNull
-  static FileTexture of(@NotNull ResourceLocation textureLocation, boolean existingCheck) {
+  static FileTexture of(@NotNull Identifier textureLocation, boolean existingCheck) {
     Preconditions.checkNotNull(textureLocation, "TextureLocation is Null");
 
     return new FileTextureImpl(textureLocation, existingCheck);
@@ -55,8 +55,7 @@ public interface FileTexture {
    *
    * @return リソースロケーション
    */
-  @NotNull
-  ResourceLocation getLocation();
+  Identifier getLocation();
 
   /**
    * Forgeの存在の検証を実行するかどうか

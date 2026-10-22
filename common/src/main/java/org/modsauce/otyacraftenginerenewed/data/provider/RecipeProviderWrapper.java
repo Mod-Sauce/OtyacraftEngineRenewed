@@ -1,7 +1,7 @@
 package org.modsauce.otyacraftenginerenewed.data.provider;
 
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.MinMaxBounds;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.MinMaxBounds;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -12,7 +12,6 @@ import net.minecraft.world.level.ItemLike;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
 
 import java.util.concurrent.CompletableFuture;
-import java.util.function.Consumer;
 
 
 public abstract class RecipeProviderWrapper extends DataProviderWrapper<RecipeProvider> {

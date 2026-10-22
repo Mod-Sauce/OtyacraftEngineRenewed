@@ -4,7 +4,7 @@ import com.google.gson.JsonElement;
 import java.util.function.BiConsumer;
 import java.util.function.Supplier;
 import net.minecraft.data.models.model.*;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 import org.modsauce.otyacraftenginerenewed.data.model.FileModel;
@@ -14,10 +14,10 @@ import org.modsauce.otyacraftenginerenewed.data.model.MutableFileModel;
 
 public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
-  private final BiConsumer<ResourceLocation, Supplier<JsonElement>> output;
+  private final BiConsumer<Identifier, Supplier<JsonElement>> output;
 
   public ItemModelProviderAccessImpl(
-    BiConsumer<ResourceLocation, Supplier<JsonElement>> output
+    BiConsumer<Identifier, Supplier<JsonElement>> output
   ) {
     this.output = output;
   }
@@ -51,7 +51,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
   @Override
   public @NotNull MutableFileModel basicFlatItem(
-    @NotNull ResourceLocation itemLocation,
+    @NotNull Identifier itemLocation,
     @NotNull FileTexture itemTexture
   ) {
     return createModel(
@@ -79,7 +79,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
   @Override
   public @NotNull MutableFileModel parentedItem(
     @NotNull Item item,
-    @NotNull ResourceLocation parentLocation
+    @NotNull Identifier parentLocation
   ) {
     var ji = new JsonModelInjector(this.output);
     var loc = ModelLocationUtils.getModelLocation(item);
@@ -89,8 +89,8 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
 
   @Override
   public @NotNull MutableFileModel parentedItem(
-    @NotNull ResourceLocation itemLocation,
-    @NotNull ResourceLocation parentLocation
+    @NotNull Identifier itemLocation,
+    @NotNull Identifier parentLocation
   ) {
     var ji = new JsonModelInjector(this.output);
     var loc = decorateItemModelLocation(itemLocation);
@@ -99,13 +99,13 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
   }
 
   @Override
-  public @NotNull FileModel existingModel(@NotNull ResourceLocation location) {
+  public @NotNull FileModel existingModel(@NotNull Identifier location) {
     return new FileModelImpl(location);
   }
 
   private MutableFileModelImpl createLayer0Model(
     ModelTemplate modelTemplate,
-    ResourceLocation itemLocation
+    Identifier itemLocation
   ) {
     return createModel(
       modelTemplate,
@@ -124,7 +124,7 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
   private MutableFileModelImpl createModel(
     ModelTemplate modelTemplate,
     TextureMapping textureMapping,
-    ResourceLocation itemLocation
+    Identifier itemLocation
   ) {
     var ji = new JsonModelInjector(this.output);
     var loc = decorateItemModelLocation(itemLocation);
@@ -143,10 +143,10 @@ public class ItemModelProviderAccessImpl implements ItemModelProviderAccess {
     return new MutableFileModelImpl(loc, ji);
   }
 
-  private static ResourceLocation decorateItemModelLocation(
-    ResourceLocation location
+  private static Identifier decorateItemModelLocation(
+    Identifier location
   ) {
-    return ResourceLocation.fromNamespaceAndPath(
+    return Identifier.fromNamespaceAndPath(
       location.getNamespace(),
       "item/" + location.getPath()
     );

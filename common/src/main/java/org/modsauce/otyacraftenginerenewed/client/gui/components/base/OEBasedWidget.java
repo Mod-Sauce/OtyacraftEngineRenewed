@@ -3,6 +3,7 @@ package org.modsauce.otyacraftenginerenewed.client.gui.components.base;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.narration.NarratedElementType;
 import net.minecraft.client.gui.narration.NarrationElementOutput;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
@@ -55,11 +56,11 @@ public abstract class OEBasedWidget extends AbstractWidget implements OEBaseComp
   }
 
   @Override
-  public void onClick(double d, double e) {
+  public void onClick(final MouseButtonEvent event, final boolean doubleClick) {
     this.onFocusedClick();
   }
 
-  @Override
+
   public boolean keyPressed(int i, int j, int k) {
     if (this.active && this.visible) {
       if (i != 257 && i != 32 && i != 335) return false;

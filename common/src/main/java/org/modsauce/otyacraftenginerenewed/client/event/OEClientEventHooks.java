@@ -1,15 +1,17 @@
 package org.modsauce.otyacraftenginerenewed.client.event;
 
-import com.mojang.blaze3d.shaders.FogShape;
+import net.minecraft.client.renderer.fog.FogData;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Camera;
 import net.minecraft.client.model.EntityModel;
 import net.minecraft.client.model.HumanoidModel;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.player.LocalPlayer;
-import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.renderer.fog.FogRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
+import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.HumanoidArm;
 import net.minecraft.world.entity.LivingEntity;
@@ -28,7 +30,7 @@ public class OEClientEventHooks {
     return !MoreRenderEvent.RENDER_ITEM_IN_HAND.invoker().renderItemInHand(poseStack, multiBufferSource, hand, packedLight, partialTicks, interpolatedPitch, swingProgress, equipProgress, stack).isFalse();
   }
 
-  public static boolean onRenderArmWithItem(ItemInHandLayer<? extends LivingEntity, ? extends EntityModel<?>> layer, LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext displayContext, HumanoidArm humanoidArm, PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
+  public static boolean onRenderArmWithItem(ItemInHandLayer<? extends ArmedEntityRenderState, ? extends EntityModel<?>> layer, LivingEntity livingEntity, ItemStack itemStack, ItemDisplayContext displayContext, HumanoidArm humanoidArm, PoseStack poseStack, MultiBufferSource multiBufferSource, int i) {
     var event = MoreRenderEvent.RENDER_ARM_WITH_ITEM.invoker().renderArmWithItem(layer, livingEntity, itemStack, displayContext, humanoidArm, poseStack, multiBufferSource, i);
     return event.isEmpty() || event.isTrue();
   }
@@ -38,12 +40,12 @@ public class OEClientEventHooks {
     return event.isEmpty() || event.isTrue();
   }
 
-  public static boolean onPoseHumanoidArm(HumanoidArm arm, InteractionHand hand, HumanoidModel<? extends LivingEntity> model, LivingEntity livingEntity) {
-    var event = ClientEvent.POSE_HUMANOID_ARM.invoker().poseHumanoidArm(arm, hand, model, livingEntity);
+  public static boolean onPoseHumanoidArm(HumanoidArm arm, InteractionHand hand, HumanoidModel<? extends HumanoidRenderState> model, HumanoidRenderState state) {
+    var event = ClientEvent.POSE_HUMANOID_ARM.invoker().poseHumanoidArm(arm, hand, model, state);
     return event.isEmpty() || event.isTrue();
   }
 
-  public static void onPoseHumanoidArmPost(HumanoidArm arm, InteractionHand hand, HumanoidModel<? extends LivingEntity> model, LivingEntity livingEntity) {
+  public static void onPoseHumanoidArmPost(HumanoidArm arm, InteractionHand hand, HumanoidModel<? extends HumanoidRenderState> model, HumanoidRenderState livingEntity) {
     ClientEvent.POSE_HUMANOID_ARM_POST.invoker().poseHumanoidArm(arm, hand, model, livingEntity);
   }
 
@@ -83,8 +85,8 @@ public class OEClientEventHooks {
     return nurl[0];
   }
 
-  public static boolean onRenderFog(Camera camera, FogRenderer.FogMode fogMode, FogType fogType, float startDistance, float endDistance, FogShape fogShape, double delta, ClientCameraEvent.RenderFogSetter setter) {
-    var event = ClientCameraEvent.RENDER_FOG.invoker().onRenderFog(camera, fogMode, fogType, startDistance, endDistance, fogShape, delta, setter);
+  public static boolean onRenderFog(Camera camera, FogRenderer.FogMode fogMode, FogType fogType, float startDistance, float endDistance, FogData fogData, double delta, ClientCameraEvent.RenderFogSetter setter) {
+    var event = ClientCameraEvent.RENDER_FOG.invoker().onRenderFog(camera, fogMode, fogType, startDistance, endDistance, fogData, delta, setter);
     return event.isEmpty() || event.isTrue();
   }
 
@@ -92,7 +94,7 @@ public class OEClientEventHooks {
     ClientCameraEvent.COMPUTE_FOG_COLOR.invoker().onComputeFogColor(camera, red, green, blue, delta, fogColorSetter);
   }
 
-  public static void onSetupHumanoidAnimPost(HumanoidModel<? extends LivingEntity> model, LivingEntity livingEntity, float walkAnimationPosition, float walkAnimationSpeed, float deltaTick, float headYRot, float xRot) {
-    ClientEvent.SETUP_HUMANOID_ANIM_POST.invoker().setupHumanoidAnimPost(model, livingEntity, walkAnimationPosition, walkAnimationSpeed, deltaTick, headYRot, xRot);
+  public static void onSetupHumanoidAnimPost(HumanoidModel<? extends HumanoidRenderState> model, HumanoidRenderState state) {
+    ClientEvent.SETUP_HUMANOID_ANIM_POST.invoker().setupHumanoidAnimPost(model, state);
   }
 }

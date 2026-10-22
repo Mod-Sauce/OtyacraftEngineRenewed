@@ -1,18 +1,17 @@
 package org.modsauce.otyacraftenginerenewed.fabric.data.model;
 
 import org.modsauce.otyacraftenginerenewed.data.model.FileModel;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.resources.Identifier;
 
 public class FileModelImpl implements FileModel {
-    private final ResourceLocation location;
+    private final Identifier location;
 
-    public FileModelImpl(ResourceLocation location) {
+    public FileModelImpl(Identifier location) {
         this.location = location;
     }
 
     @Override
-    public @NotNull ResourceLocation getLocation() {
+    public Identifier getLocation() {
         return location;
     }
 }

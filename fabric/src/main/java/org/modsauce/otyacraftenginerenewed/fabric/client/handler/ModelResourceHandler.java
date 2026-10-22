@@ -3,7 +3,7 @@ package org.modsauce.otyacraftenginerenewed.fabric.client.handler;
 import java.util.ArrayList;
 import java.util.List;
 import net.fabricmc.fabric.api.client.model.loading.v1.ModelLoadingPlugin;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.modsauce.otyacraftenginerenewed.client.callpoint.ClientCallPointManager;
 
 public class ModelResourceHandler implements ModelLoadingPlugin {
@@ -13,8 +13,8 @@ public class ModelResourceHandler implements ModelLoadingPlugin {
   }
 
   @Override
-  public void onInitializeModelLoader(Context pluginContext) {
-    List<ResourceLocation> models = new ArrayList<>();
+  public void initialize(Context pluginContext) {
+    List<Identifier> models = new ArrayList<>();
     ClientCallPointManager.getInstance().call().onModelRegistry(models::add);
     pluginContext.addModels(models);
   }

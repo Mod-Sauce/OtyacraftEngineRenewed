@@ -1,9 +1,10 @@
 package org.modsauce.otyacraftenginerenewed.fabric.data.provider;
 
+import org.jspecify.annotations.NonNull;
 import org.modsauce.otyacraftenginerenewed.data.provider.BiomeTagsProviderWrapper;
 import org.modsauce.otyacraftenginerenewed.data.provider.TagProviderWrapper;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.tags.TagKey;
@@ -11,16 +12,16 @@ import net.minecraft.world.level.biome.Biome;
 
 import java.util.concurrent.CompletableFuture;
 
-public class WrappedFabricBiomeTagProvider extends FabricTagProvider<Biome> {
+public class WrappedFabricBiomeTagProvider extends FabricTagsProvider<Biome> {
     private final BiomeTagsProviderWrapper tagProviderWrapper;
 
-    public WrappedFabricBiomeTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture, BiomeTagsProviderWrapper tagProviderWrapper) {
+    public WrappedFabricBiomeTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture, BiomeTagsProviderWrapper tagProviderWrapper) {
         super(output, Registries.BIOME, registriesFuture);
         this.tagProviderWrapper = tagProviderWrapper;
     }
 
     @Override
-    protected void addTags(HolderLookup.Provider arg) {
+    protected void addTags(HolderLookup.@NonNull Provider arg) {
         this.tagProviderWrapper.generateTag(new BiomeTagProviderAccessImpl());
     }
 

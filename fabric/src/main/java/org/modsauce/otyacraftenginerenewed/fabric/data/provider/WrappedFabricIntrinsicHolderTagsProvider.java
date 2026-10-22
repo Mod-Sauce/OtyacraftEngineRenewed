@@ -1,7 +1,8 @@
 package org.modsauce.otyacraftenginerenewed.fabric.data.provider;
 
+import net.minecraft.data.tags.TagAppender;
 import org.modsauce.otyacraftenginerenewed.data.provider.IntrinsicHolderTagsProviderWrapper;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -12,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 public class WrappedFabricIntrinsicHolderTagsProvider<T> extends WrappedFabricTagProvider<T> {
     private final IntrinsicHolderTagsProviderWrapper<T, IntrinsicHolderTagsProviderWrapper.IntrinsicTagProviderAccess<T>> intrinsicHolderTagsProvider;
 
-    public WrappedFabricIntrinsicHolderTagsProvider(FabricDataOutput output, ResourceKey<? extends Registry<T>> registryKey, CompletableFuture<HolderLookup.Provider> registriesFuture, IntrinsicHolderTagsProviderWrapper<T, IntrinsicHolderTagsProviderWrapper.IntrinsicTagProviderAccess<T>> intrinsicHolderTagsProvider) {
+    public WrappedFabricIntrinsicHolderTagsProvider(FabricPackOutput output, ResourceKey<? extends Registry<T>> registryKey, CompletableFuture<HolderLookup.Provider> registriesFuture, IntrinsicHolderTagsProviderWrapper<T, IntrinsicHolderTagsProviderWrapper.IntrinsicTagProviderAccess<T>> intrinsicHolderTagsProvider) {
         super(output, registryKey, registriesFuture, null);
         this.intrinsicHolderTagsProvider = intrinsicHolderTagsProvider;
     }

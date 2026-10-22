@@ -11,7 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.PlayerInfo;
 import net.minecraft.client.resources.DefaultPlayerSkin;
 import net.minecraft.core.UUIDUtil;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.modsauce.otyacraftenginerenewed.util.OEPlayerUtils;
@@ -75,12 +75,12 @@ public class ClientPlayerInfoManager {
 
   private UUID getUUIDByNameClient(String name) {
     if (mc.player != null) {
-      if (mc.player.getGameProfile().getName().equals(name)) return mc.player
+      if (mc.player.getGameProfile().name().equals(name)) return mc.player
         .getGameProfile()
-        .getId();
+        .id();
 
       var pl = mc.player.connection.getPlayerInfo(name);
-      if (pl != null && pl.getProfile() != null) return pl.getProfile().getId();
+      if (pl != null && pl.getProfile() != null) return pl.getProfile().id();
     }
     return null;
   }
@@ -103,14 +103,14 @@ public class ClientPlayerInfoManager {
 
   private String getNameByUUIDClient(UUID uuid) {
     if (mc.player != null) {
-      if (mc.player.getGameProfile().getId().equals(uuid)) return mc.player
+      if (mc.player.getGameProfile().id().equals(uuid)) return mc.player
         .getGameProfile()
-        .getName();
+        .name();
 
       var pl = mc.player.connection.getPlayerInfo(uuid);
       if (pl != null && pl.getProfile() != null) return pl
         .getProfile()
-        .getName();
+        .name();
     }
     return null;
   }
@@ -156,7 +156,7 @@ public class ClientPlayerInfoManager {
   }
 
   @Nullable
-  public ResourceLocation getPlayerTexture(
+  public Identifier getPlayerTexture(
     @NotNull MinecraftProfileTexture.Type type,
     @NotNull String name
   ) {
@@ -168,12 +168,12 @@ public class ClientPlayerInfoManager {
     // For offline players or when profile resolution fails,
     // return default skin based on player name
     return type == MinecraftProfileTexture.Type.SKIN
-      ? DefaultPlayerSkin.get(UUIDUtil.createOfflinePlayerUUID(name)).texture()
+      ? DefaultPlayerSkin.get(UUIDUtil.createOfflinePlayerUUID(name)).body().id()
       : null;
   }
 
   @Nullable
-  public ResourceLocation getPlayerTexture(
+  public Identifier getPlayerTexture(
     @NotNull MinecraftProfileTexture.Type type,
     @NotNull UUID uuid
   ) {
@@ -184,18 +184,18 @@ public class ClientPlayerInfoManager {
     var name = getNameByUUIDTolerance(uuid).name();
     if (name != null) return getPlayerTexture(type, name);
     return type == MinecraftProfileTexture.Type.SKIN
-      ? DefaultPlayerSkin.get(uuid).texture()
+      ? DefaultPlayerSkin.get(uuid).body().id()
       : null;
   }
 
-  private ResourceLocation getTexture(
+  private Identifier getTexture(
     PlayerInfo playerInfo,
     MinecraftProfileTexture.Type type
   ) {
     return switch (type) {
-      case SKIN -> playerInfo.getSkin().texture();
-      case CAPE -> playerInfo.getSkin().capeTexture();
-      case ELYTRA -> playerInfo.getSkin().elytraTexture();
+      case SKIN -> playerInfo.getSkin().body().id();
+      case CAPE -> playerInfo.getSkin().cape().id();
+      case ELYTRA -> playerInfo.getSkin().elytra().id();
     };
   }
 }

@@ -3,24 +3,24 @@ package org.modsauce.otyacraftenginerenewed.item.location;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.modsauce.otyacraftenginerenewed.OtyacraftEngine;
 import org.modsauce.otyacraftenginerenewed.item.location.factory.HandItemLocationFactory;
 import org.modsauce.otyacraftenginerenewed.item.location.factory.PlayerItemLocationFactory;
 
 public class PlayerItemLocations {
-  private static final BiMap<ResourceLocation, PlayerItemLocationFactory<? extends PlayerItemLocation>> FACTORS = HashBiMap.create();
+  private static final BiMap<Identifier, PlayerItemLocationFactory<? extends PlayerItemLocation>> FACTORS = HashBiMap.create();
   public static final HandItemLocationFactory HAND_ITEM = new HandItemLocationFactory();
 
   public static void init() {
-    register(ResourceLocation.fromNamespaceAndPath(OtyacraftEngine.MODID, "hand"), HAND_ITEM);
+    register(Identifier.fromNamespaceAndPath(OtyacraftEngine.MODID, "hand"), HAND_ITEM);
   }
 
-  private static void register(ResourceLocation location, PlayerItemLocationFactory<? extends PlayerItemLocation> factory) {
+  private static void register(Identifier location, PlayerItemLocationFactory<? extends PlayerItemLocation> factory) {
     FACTORS.put(location, factory);
   }
 
-  public static ResourceLocation getResourceLocationByFactory(PlayerItemLocationFactory<? extends PlayerItemLocation> factory) {
+  public static Identifier getIdentifierByFactory(PlayerItemLocationFactory<? extends PlayerItemLocation> factory) {
     return FACTORS.inverse().get(factory);
   }
 
@@ -35,11 +35,11 @@ public class PlayerItemLocations {
   }
 
   public static PlayerItemLocation loadFromTag(CompoundTag tag) {
-    var rl = ResourceLocation.parse(tag.getString("id"));
+    var rl = Identifier.parse(tag.getString("id").get());
     var factory = FACTORS.get(rl);
     if (factory == null)
       throw new IllegalArgumentException("Unregistered player item location");
 
-    return factory.create(tag.getCompound("data"));
+    return factory.create(tag.getCompound("data").get());
   }
 }

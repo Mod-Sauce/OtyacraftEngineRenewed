@@ -1,8 +1,8 @@
 package org.modsauce.otyacraftenginerenewed.fabric.data.provider;
 
 import java.util.concurrent.CompletableFuture;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -10,12 +10,12 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import org.modsauce.otyacraftenginerenewed.data.provider.BlockLootTableProviderWrapper;
 
 public class WrappedFabricBlockLootTableProvider
-  extends FabricBlockLootTableProvider {
+  extends FabricBlockLootSubProvider {
 
   private final BlockLootTableProviderWrapper blockLootTableProviderWrapper;
 
   public WrappedFabricBlockLootTableProvider(
-    FabricDataOutput dataOutput,
+          FabricPackOutput dataOutput,
     CompletableFuture<HolderLookup.Provider> registryLookup,
     BlockLootTableProviderWrapper blockLootTableProviderWrapper
   ) {

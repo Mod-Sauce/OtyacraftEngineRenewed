@@ -1,7 +1,6 @@
 package org.modsauce.otyacraftenginerenewed.inventory;
 
-import com.mojang.datafixers.util.Pair;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
@@ -57,8 +56,8 @@ public abstract class OEBaseMenu extends AbstractContainerMenu {
       if (isActiveOffHandSlot())
         this.addSlot(new Slot(playerInventory, Inventory.SLOT_OFFHAND, x + 166, y + 58) {
           @Override
-          public @NotNull Pair<ResourceLocation, ResourceLocation> getNoItemIcon() {
-            return Pair.of(InventoryMenu.BLOCK_ATLAS, InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD);
+          public @NotNull Identifier getNoItemIcon() {
+            return InventoryMenu.EMPTY_ARMOR_SLOT_SHIELD;
           }
         });
     }

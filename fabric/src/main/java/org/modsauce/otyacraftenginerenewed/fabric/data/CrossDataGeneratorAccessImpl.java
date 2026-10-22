@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiFunction;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.RegistrySetBuilder;
@@ -88,8 +88,8 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
         RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY)
       );
     }
-    return new WrappedFabricRecipeProvider(
-      (FabricDataOutput) packOutput,
+    return new RecipeProvider(
+      (FabricPackOutput) packOutput,
       lookup,
       recipeProviderWrapper
     );
@@ -105,12 +105,12 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
     var blockTagsProvider = blockTagProviderWrapper.getProvider();
     if (
       !(blockTagsProvider instanceof
-          FabricTagProvider.BlockTagProvider blockTagProvider)
+          FabricTagsProvider.BlockTagsProvider blockTagProvider)
     ) throw new IllegalArgumentException(
       "Not FabricTagProvider.BlockTagProvider"
     );
     return new WrappedFabricItemTagProvider(
-      (FabricDataOutput) packOutput,
+      (FabricPackOutput) packOutput,
       lookup,
       blockTagProvider,
       itemTagProviderWrapper
@@ -124,7 +124,7 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
     FluidTagProviderWrapper fluidTagProviderWrapper
   ) {
     return new WrappedFabricFluidTagProvider(
-      (FabricDataOutput) packOutput,
+      (FabricPackOutput) packOutput,
       lookup,
       fluidTagProviderWrapper
     );
@@ -137,7 +137,7 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
     BlockTagProviderWrapper blockTagProviderWrapper
   ) {
     return new WrappedFabricBlockTagProvider(
-      (FabricDataOutput) packOutput,
+      (FabricPackOutput) packOutput,
       lookup,
       blockTagProviderWrapper
     );
@@ -150,7 +150,7 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
     PoiTypeTagProviderWrapper poiTypeTagProviderWrapper
   ) {
     return new WrappedFabricPoiTypeTagProvider(
-      (FabricDataOutput) packOutput,
+      (FabricPackOutput) packOutput,
       lookup,
       poiTypeTagProviderWrapper
     );
@@ -163,7 +163,7 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
     DamageTypeTagsProviderWrapper damageTypeTagsProviderWrapper
   ) {
     return new WrappedFabricDamageTypeTagProvider(
-      (FabricDataOutput) packOutput,
+      (FabricPackOutput) packOutput,
       lookup,
       damageTypeTagsProviderWrapper
     );
@@ -176,7 +176,7 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
     BiomeTagsProviderWrapper biomeTagsProviderWrapper
   ) {
     return new WrappedFabricBiomeTagProvider(
-      (FabricDataOutput) packOutput,
+      (FabricPackOutput) packOutput,
       lookup,
       biomeTagsProviderWrapper
     );
@@ -202,7 +202,7 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
       );
     }
     return new WrappedFabricBlockLootTableProvider(
-      (FabricDataOutput) packOutput,
+      (FabricPackOutput) packOutput,
       lookup,
       blockLootTableProviderWrapper
     );
@@ -222,7 +222,7 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
       );
     }
     return new WrappedFabricAdvancementProvider(
-      (FabricDataOutput) packOutput,
+      (FabricPackOutput) packOutput,
       lookup,
       advancementProviderWrapper,
       subProviderWrappers
@@ -235,7 +235,7 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
     ItemModelProviderWrapper itemModelProviderWrapper
   ) {
     return new WrappedFabricItemModelProvider(
-      (FabricDataOutput) packOutput,
+      (FabricPackOutput) packOutput,
       itemModelProviderWrapper
     );
   }
@@ -246,7 +246,7 @@ public class CrossDataGeneratorAccessImpl implements CrossDataGeneratorAccess {
     BlockStateAndModelProviderWrapper blockStateAndModelProviderWrapper
   ) {
     return new WrappedFabricBlockModelProvider(
-      (FabricDataOutput) packOutput,
+      (FabricPackOutput) packOutput,
       this,
       blockStateAndModelProviderWrapper
     );

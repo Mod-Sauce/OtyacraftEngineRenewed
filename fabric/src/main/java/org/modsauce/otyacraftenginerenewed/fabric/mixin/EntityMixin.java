@@ -19,7 +19,7 @@ public class EntityMixin {
     protected SynchedEntityData entityData;
 
     @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/Entity;defineSynchedData(Lnet/minecraft/network/syncher/SynchedEntityData$Builder;)V"))
-    private void init(EntityType<?> entityType, Level level, CallbackInfo ci) {
+    private void init(EntityType<?> type, Level level, CallbackInfo ci) {
         OECommonEventHooks.onEntityDefineSynchedData((Entity) (Object) this, entityData);
     }
 }

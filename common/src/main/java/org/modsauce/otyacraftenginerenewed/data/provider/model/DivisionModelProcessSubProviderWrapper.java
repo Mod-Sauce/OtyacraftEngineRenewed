@@ -6,7 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.data.CachedOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.apache.commons.lang3.tuple.Pair;
 import org.modsauce.otyacraftenginerenewed.data.CrossDataGeneratorAccess;
 import org.modsauce.otyacraftenginerenewed.data.provider.ModelProcessProviderWrapper;
@@ -28,7 +28,7 @@ public class DivisionModelProcessSubProviderWrapper extends ModelProcessSubProvi
       var p = modelData.location().getPath();
       var ps = p.split("/");
       ps[ps.length - 1] = n.getKey();
-      return new ModelProcessProviderWrapper.ModelData(ResourceLocation.fromNamespaceAndPath(modelData.location().getNamespace(), String.join("/", ps)), n.getValue());
+      return new ModelProcessProviderWrapper.ModelData(Identifier.fromNamespaceAndPath(modelData.location().getNamespace(), String.join("/", ps)), n.getValue());
     }).toList();
   }
 

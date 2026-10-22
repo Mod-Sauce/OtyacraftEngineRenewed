@@ -1,11 +1,11 @@
 package org.modsauce.otyacraftenginerenewed.client.event;
 
-import com.mojang.blaze3d.shaders.FogShape;
+import net.minecraft.client.renderer.fog.FogData;
 import dev.architectury.event.Event;
 import dev.architectury.event.EventFactory;
 import dev.architectury.event.EventResult;
 import net.minecraft.client.Camera;
-import net.minecraft.client.renderer.FogRenderer;
+import net.minecraft.client.renderer.fog.FogRenderer;
 import net.minecraft.world.level.material.FogType;
 
 /**
@@ -16,7 +16,7 @@ public interface ClientCameraEvent {
   Event<ComputeFogColor> COMPUTE_FOG_COLOR = EventFactory.createEventResult();
 
   interface RenderFog {
-    EventResult onRenderFog(Camera camera, FogRenderer.FogMode fogMode, FogType fogType, float startDistance, float endDistance, FogShape fogShape, double delta, RenderFogSetter setter);
+    EventResult onRenderFog(Camera camera, FogRenderer.FogMode fogMode, FogType fogType, float startDistance, float endDistance, FogData fogData, double delta, RenderFogSetter setter);
   }
 
   interface ComputeFogColor {
@@ -28,7 +28,7 @@ public interface ClientCameraEvent {
 
     void setEndDistance(float endDistance);
 
-    void setFogShape(FogShape fogShape);
+    void setFogShape(FogData fogData);
   }
 
   interface FogColorSetter {

@@ -3,10 +3,6 @@ package org.modsauce.otyacraftenginerenewed.block;
 import com.google.common.collect.ImmutableList;
 import java.util.List;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.NonNullList;
-import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.Container;
-import net.minecraft.world.Containers;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -40,7 +36,7 @@ public abstract class OEBaseEntityBlock extends BaseEntityBlock {
     ) {
       if (
         level.getBlockEntity(blockPos) instanceof
-          BaseContainerBlockEntity container
+          BaseContainerBlockEntity
       ) {
         var customName = itemStack.get(
           net.minecraft.core.component.DataComponents.CUSTOM_NAME
@@ -53,31 +49,31 @@ public abstract class OEBaseEntityBlock extends BaseEntityBlock {
     }
   }
 
-  @Override
-  public void onRemove(
-    BlockState blockState,
-    Level level,
-    BlockPos blockPos,
-    BlockState blockState2,
-    boolean bl
-  ) {
-    if (!blockState.is(blockState2.getBlock())) {
-      var be = level.getBlockEntity(blockPos);
-      if (!level.isClientSide() && level instanceof ServerLevel) {
-        if (be instanceof IDroppedBlockEntity droppedBlockEntity) {
-          if (!droppedBlockEntity.isRetainDrop()) {
-            var drops = droppedBlockEntity.getDroppedItems();
-            NonNullList<ItemStack> items = NonNullList.create();
-            items.addAll(drops);
-            Containers.dropContents(level, blockPos, items);
-          }
-        } else if (be instanceof Container container) {
-          Containers.dropContents(level, blockPos, container);
-        }
-      }
-    }
-    super.onRemove(blockState, level, blockPos, blockState2, bl);
-  }
+  // @Override
+  // public void onRemove(
+  //   BlockState blockState,
+  //   Level level,
+  //   BlockPos blockPos,
+  //   BlockState blockState2,
+  //   boolean bl
+  // ) {
+  //   if (!blockState.is(blockState2.getBlock())) {
+  //     var be = level.getBlockEntity(blockPos);
+  //     if (!level.isClientSide() && level instanceof ServerLevel) {
+  //       if (be instanceof IDroppedBlockEntity droppedBlockEntity) {
+  //         if (!droppedBlockEntity.isRetainDrop()) {
+  //           var drops = droppedBlockEntity.getDroppedItems();
+  //           NonNullList<ItemStack> items = NonNullList.create();
+  //           items.addAll(drops);
+  //           Containers.dropContents(level, blockPos, items);
+  //         }
+  //       } else if (be instanceof Container container) {
+  //         Containers.dropContents(level, blockPos, container);
+  //       }
+  //     }
+  //   }
+  //   super.onRemove(blockState, level, blockPos, blockState2, bl);
+  // }
 
   @Override
   public BlockState playerWillDestroy(
@@ -91,7 +87,7 @@ public abstract class OEBaseEntityBlock extends BaseEntityBlock {
       be instanceof IDroppedBlockEntity droppedBlockEntity &&
       droppedBlockEntity.isRetainDrop()
     ) {
-      if (!level.isClientSide && player.isCreative()) {
+      if (!level.isClientSide() && player.isCreative()) {
         var dropItem = droppedBlockEntity.createRetainDropItem();
         if (!dropItem.isEmpty()) {
           if (be instanceof BaseContainerBlockEntity named) {

@@ -1,12 +1,11 @@
 package org.modsauce.otyacraftenginerenewed.data.model.impl;
 
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
+import net.minecraft.resources.Identifier;
 import org.modsauce.otyacraftenginerenewed.data.model.FileTexture;
 
-public record FileTextureImpl(ResourceLocation location, boolean existingCheck) implements FileTexture {
+public record FileTextureImpl(Identifier location, boolean existingCheck) implements FileTexture {
   @Override
-  public @NotNull ResourceLocation getLocation() {
+  public Identifier getLocation() {
     return location;
   }
 

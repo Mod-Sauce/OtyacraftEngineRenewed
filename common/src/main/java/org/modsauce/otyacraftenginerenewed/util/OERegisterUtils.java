@@ -3,9 +3,6 @@ package org.modsauce.otyacraftenginerenewed.util;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.world.entity.ai.village.poi.PoiType;
 import net.minecraft.world.entity.ai.village.poi.PoiTypes;
-import net.minecraft.world.entity.npc.VillagerTrades;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -34,13 +31,13 @@ public final class OERegisterUtils {
     return OERegisterExpectPlatform.createBlockEntity(supplier, blocks);
   }
 
-  public static VillagerTrades.ItemListing createTradeEmeraldForItems(ItemLike item, int cost, int maxUses, int villagerXp) {
-    return new VillagerTrades.EmeraldForItems(item, cost, maxUses, villagerXp);
-  }
-
-  public static VillagerTrades.ItemListing createTradeItemsForEmeralds(ItemStack itemStack, int emeraldCost, int numberOfItems, int maxUses, int villagerXp) {
-    return new VillagerTrades.ItemsForEmeralds(itemStack, emeraldCost, numberOfItems, maxUses, villagerXp);
-  }
+//   public static MerchantOffer createTradeEmeraldForItems(ItemLike item, int cost, int maxUses, int villagerXp) {
+//     return new VillagerTrades.EmeraldForItems(item, cost, maxUses, villagerXp);
+//   }
+//
+//   public static MerchantOffer createTradeItemsForEmeralds(ItemStack itemStack, int emeraldCost, int numberOfItems, int maxUses, int villagerXp) {
+//     return new MerchantOffer.ItemsForEmeralds(itemStack, emeraldCost, numberOfItems, maxUses, villagerXp);
+//   }
 
   public static Set<BlockState> getPoiTypeBlockStates(Block block) {
     return PoiTypes.getBlockStates(block);
